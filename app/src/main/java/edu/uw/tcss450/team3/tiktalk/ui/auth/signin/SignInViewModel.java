@@ -1,4 +1,4 @@
-package edu.uw.tcss450.team3.tiktalk.signin;
+package edu.uw.tcss450.team3.tiktalk.ui.auth.signin;
 
 import android.app.Application;
 import android.util.Log;

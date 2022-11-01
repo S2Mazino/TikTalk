@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/auth_graph"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:startDestination="@id/signInFragment">
+
+    <fragment
+        android:id="@+id/signInFragment"
+        android:name="edu.uw.tcss450.team3.tiktalk.ui.auth.signin.SignInFragment"
+        android:label="fragment_sign_in"
+        tools:layout="@layout/fragment_sign_in">
+        <argument
+            android:name="email"
+            android:defaultValue="default"
+            app:argType="string" />
+        <argument
+            android:name="password"
+            android:defaultValue="default"
+            app:argType="string" />
+    </fragment>
+
+</navigation>
