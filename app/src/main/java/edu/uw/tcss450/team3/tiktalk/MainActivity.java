@@ -1,5 +1,5 @@
 package edu.uw.tcss450.team3.tiktalk;
-
+//comment
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
