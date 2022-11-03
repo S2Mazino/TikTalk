@@ -36,15 +36,17 @@ public class RegisterFragment extends Fragment {
 
     private PasswordValidator mEmailValidator = checkPwdLength(2)
             .and(checkExcludeWhiteSpace())
-            .and(checkPwdSpecialChar("@"));
+            .and(checkPwdSpecialChar("@"))
+            .and(checkPwdSpecialChar("."));
 
     private PasswordValidator mPassWordValidator =
             checkClientPredicate(pwd -> pwd.equals(binding.editPassword2.getText().toString()))
-                    .and(checkPwdLength(7))
+                    .and(checkPwdLength(3))
                     .and(checkPwdSpecialChar())
                     .and(checkExcludeWhiteSpace())
                     .and(checkPwdDigit())
-                    .and(checkPwdLowerCase().or(checkPwdUpperCase()));
+                    .and(checkPwdLowerCase())
+                    .and(checkPwdUpperCase());
 
     public RegisterFragment() {
         // Required empty public constructor
