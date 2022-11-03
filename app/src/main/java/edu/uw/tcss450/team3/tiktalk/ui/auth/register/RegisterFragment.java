@@ -94,8 +94,15 @@ public class RegisterFragment extends Fragment {
     private void validateEmail() {
         mEmailValidator.processResult(
                 mEmailValidator.apply(binding.editEmail.getText().toString().trim()),
-                this::validatePasswordsMatch,
+                this::validateNickname,
                 result -> binding.editEmail.setError("Please enter a valid Email address."));
+    }
+
+    private void validateNickname() {
+        mEmailValidator.processResult(
+                mNameValidator.apply(binding.editNickname.getText().toString().trim()),
+                this::validatePasswordsMatch,
+                result -> binding.editNickname.setError("Please enter a valid nickname."));
     }
 
     private void validatePasswordsMatch() {
@@ -121,6 +128,7 @@ public class RegisterFragment extends Fragment {
                 binding.editFirst.getText().toString(),
                 binding.editLast.getText().toString(),
                 binding.editEmail.getText().toString(),
+                binding.editNickname.getText().toString(),
                 binding.editPassword1.getText().toString());
         //This is an Asynchronous call. No statements after should rely on the
         //result of connect().
