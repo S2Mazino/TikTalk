@@ -108,9 +108,9 @@ public class SignInFragment extends Fragment {
      * @param jwt the JSON Web Token supplied by the server
      */
     private void navigateToSuccess(final String email, final String jwt) {
-//        Navigation.findNavController(getView())
-//                .navigate(SignInFragmentDirections
-//                        .actionSignInFragmentToMainActivity(email, jwt));
+        Navigation.findNavController(getView())
+                .navigate(SignInFragmentDirections
+                        .actionSignInFragmentToMainActivity(email, jwt));
     }
 
     /**
