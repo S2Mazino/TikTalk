@@ -12,4 +12,5 @@
     <string name="hint_nickname">Nickname</string>
     <string name="action_forgot_password">Forgot Password</string>
     <string name="check_remember">Remember Me</string>
+    <string name="shared_pref_jwt">Shared Preferences</string>
 </resources>
