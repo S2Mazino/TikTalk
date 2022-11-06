@@ -4,6 +4,7 @@ import static edu.uw.tcss450.team3.tiktalk.utils.PasswordValidator.checkExcludeW
 import static edu.uw.tcss450.team3.tiktalk.utils.PasswordValidator.checkPwdLength;
 import static edu.uw.tcss450.team3.tiktalk.utils.PasswordValidator.checkPwdSpecialChar;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -16,6 +17,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 
 import org.json.JSONException;
 import org.json.JSONObject;
