@@ -1,6 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/main_graph">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_graph"
+    app:startDestination="@id/homeFragment">
 
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="edu.uw.tcss450.team3.tiktalk.ui.home.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" />
+    <fragment
+        android:id="@+id/connectionFragment"
+        android:name="edu.uw.tcss450.team3.tiktalk.ui.connection.ConnectionFragment"
+        android:label="fragment_connection"
+        tools:layout="@layout/fragment_connection" />
+    <fragment
+        android:id="@+id/chatFragment"
+        android:name="edu.uw.tcss450.team3.tiktalk.ui.chat.ChatFragment"
+        android:label="fragment_chat"
+        tools:layout="@layout/fragment_chat" />
+    <fragment
+        android:id="@+id/weatherFirstFragment"
+        android:name="edu.uw.tcss450.team3.tiktalk.ui.weather.WeatherFirstFragment"
+        android:label="fragment_weather_first"
+        tools:layout="@layout/fragment_weather_first" >
+        <action
+            android:id="@+id/action_weatherFirstFragment_to_weatherSecondFragment"
+            app:destination="@id/weatherSecondFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/weatherSecondFragment"
+        android:name="edu.uw.tcss450.team3.tiktalk.ui.weather.WeatherSecondFragment"
+        android:label="fragment_weather_second"
+        tools:layout="@layout/fragment_weather_second" />
 </navigation>

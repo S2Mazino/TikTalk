@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="@string/home"
+        android:icon="@drawable/home"
+        android:id="@+id/homeIcon"
+        />
+    <item android:title="@string/connection"
+        android:icon="@drawable/connection"
+        android:id="@+id/connectionIcon"/>
+    <item android:title="@string/chat"
+        android:icon="@drawable/chat"
+        android:enabled="true"
+        android:id="@+id/chatIcon"/>
+    <item android:title="@string/weather"
+        android:icon="@drawable/weather"
+        android:enabled="true"
+        android:id="@+id/weatherIcon"/>
+</menu>
