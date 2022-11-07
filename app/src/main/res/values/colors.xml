@@ -10,4 +10,13 @@
     <color name="colorAccent">#03DAC5</color>
     <color name="peach_pink">#F98B88</color>
     <color name="pastel_red">#F67280</color>
+    <color name="gradient_bp">#b6b6dd</color>
+    <color name="pink_purple">#e8afcc</color>
+    <color name="rich_lilac">#B666D2</color>
+    <color name="white_smoke">#F5F5F5</color>
+    <color name="gray_cloud">#B6B6B4</color>
+    <color name="metallic_silver">#BCC6CC</color>
+    <color name="slate_blue_grey">#737CA1</color>
+    <color name="light_blue_purple">#728FCE</color>
+    <color name="rose_gold">#ECC5C0</color>
 </resources>

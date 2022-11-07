@@ -18,4 +18,5 @@
     <string name="weather">Weather</string>
     <string name="shared_pref_jwt" />
     <string name="nickname">Nickname</string>
+    <string name="type_a_message">Type a message</string>
 </resources>
