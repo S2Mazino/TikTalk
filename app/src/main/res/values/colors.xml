@@ -8,4 +8,6 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="colorAccent">#03DAC5</color>
+    <color name="peach_pink">#F98B88</color>
+    <color name="pastel_red">#F67280</color>
 </resources>
