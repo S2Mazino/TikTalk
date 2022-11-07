@@ -16,4 +16,5 @@
     <string name="home">Home</string>
     <string name="chat">Chat</string>
     <string name="weather">Weather</string>
+    <string name="shared_pref_jwt" />
 </resources>
