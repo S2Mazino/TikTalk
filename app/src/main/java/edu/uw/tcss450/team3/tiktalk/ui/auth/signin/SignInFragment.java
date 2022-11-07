@@ -4,6 +4,7 @@ import static edu.uw.tcss450.team3.tiktalk.utils.PasswordValidator.checkExcludeW
 import static edu.uw.tcss450.team3.tiktalk.utils.PasswordValidator.checkPwdLength;
 import static edu.uw.tcss450.team3.tiktalk.utils.PasswordValidator.checkPwdSpecialChar;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -110,6 +111,17 @@ public class SignInFragment extends Fragment {
      * @param jwt the JSON Web Token supplied by the server
      */
     private void navigateToSuccess(final String email, final String jwt) {
+        if(binding.checkBoxRememberMe.isChecked()) {
+            SharedPreferences prefs =
+                    getActivity().getSharedPreferences(
+                            getString(R.string.shared_pref_jwt),
+                            Context.MODE_PRIVATE);
+
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putString(getString(R.string.shared_pref_jwt), jwt);
+            editor.apply();
+        }
+
         Navigation.findNavController(getView())
                 .navigate(SignInFragmentDirections
                         .actionSignInFragmentToMainActivity(email, jwt));
