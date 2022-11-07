@@ -13,7 +13,7 @@ import edu.uw.tcss450.team3.tiktalk.R;
 import edu.uw.tcss450.team3.tiktalk.databinding.FragmentSignInBinding;
 import edu.uw.tcss450.team3.tiktalk.ui.auth.signin.SignInFragmentDirections;
 
-/**
+/*
  * A simple {@link Fragment} subclass.
  */
 public class HomeFragment extends Fragment {
