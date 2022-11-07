@@ -8,9 +8,6 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.material.tabs.TabLayout;
 
-import edu.uw.tcss450.team3.tiktalk.R;
-import edu.uw.tcss450.team3.tiktalk.adapter.Adapter;
-
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -18,7 +15,6 @@ public class ConnectionFragment extends Fragment {
 
     TabLayout tabLayout;
     ViewPager2 viewPager2;
-    Adapter adapter;
 
     public ConnectionFragment() {
         // Required empty public constructor
