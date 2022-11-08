@@ -19,4 +19,5 @@
     <color name="slate_blue_grey">#737CA1</color>
     <color name="light_blue_purple">#728FCE</color>
     <color name="rose_gold">#ECC5C0</color>
+    <color name="transparent">#5EFFFFFF</color>
 </resources>

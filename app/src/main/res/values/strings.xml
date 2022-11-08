@@ -19,4 +19,7 @@
     <string name="shared_pref_jwt" />
     <string name="nickname">Nickname</string>
     <string name="type_a_message">Type a message</string>
+    <string name="town">Town</string>
+    <string name="city">City</string>
+    <string name="localdatetime">LocalDateTime</string>
 </resources>

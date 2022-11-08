@@ -1,79 +1,136 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/CurrentWeather"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/weather_background_4"
     tools:context=".ui.weather.WeatherFirstFragment" >
 
-    <FrameLayout
-        android:id="@+id/currentWeather"
-        android:layout_width="413dp"
-        android:layout_height="188dp"
-        android:layout_marginStart="1dp"
-        android:layout_marginTop="1dp"
-        android:layout_marginEnd="1dp"
-        android:layout_marginBottom="542dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/realtimeWeather"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="15dp"
+        android:background="#95DDA3D0"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <EditText
-            android:id="@+id/editTextTextPersonName"
+        <TextView
+            android:id="@+id/City"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:minHeight="48dp"
-            android:text="                                  Current weather" />
-
-        <Button
-            android:id="@+id/button2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="mapview icon" />
-
-    </FrameLayout>
-
-    <FrameLayout
-        android:id="@+id/dayForecast"
-        android:layout_width="406dp"
-        android:layout_height="158dp"
-        android:layout_marginStart="1dp"
-        android:layout_marginTop="1dp"
-        android:layout_marginEnd="1dp"
-        android:layout_marginBottom="383dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/currentWeather">
+            android:gravity="center"
+            android:padding="5dp"
+            android:shadowColor="#FFFFFF"
+            android:text="@string/city"
+            android:textAlignment="center"
+            android:textSize="40sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/textView"
-            android:layout_width="202dp"
-            android:layout_height="35dp"
-            android:text="24 hours forecast" />
-    </FrameLayout>
+            android:id="@+id/LocalDateTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="144dp"
+            android:layout_marginEnd="144dp"
+            android:gravity="center"
+            android:padding="4sp"
+            android:text="@string/localdatetime"
+            android:textAlignment="center"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/City" />
 
-    <FrameLayout
+        <TextView
+            android:id="@+id/temperature"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Temp"
+            android:textSize="50dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/LocalDateTime" />
+
+        <TextView
+            android:id="@+id/condition"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5sp"
+            android:text="condition"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/temperature" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/rainny_icon"
+            app:layout_constraintStart_toEndOf="@+id/condition"
+            app:layout_constraintTop_toBottomOf="@+id/temperature" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/dayForecast"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:padding="15sp"
+        android:background="#95DDA3D0"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/realtimeWeather">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="24 Hours Forecast"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:textSize="40sp"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/weekForecast"
-        android:layout_width="409dp"
-        android:layout_height="381dp"
-        android:layout_marginStart="1dp"
-        android:layout_marginTop="1dp"
-        android:layout_marginEnd="1dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:padding="15sp"
+        android:background="#95DDA3D0"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/dayForecast">
 
         <TextView
-            android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="7 days forecast" />
-    </FrameLayout>
-</RelativeLayout>
+            android:text="7 Days Forecast"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:textSize="40sp"
+            android:paddingTop="150dp"
+            android:paddingBottom="150dp"
+            android:paddingLeft="30dp"
+            android:paddingRight="30dp"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
