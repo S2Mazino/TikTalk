@@ -32,7 +32,10 @@ public class RegisterFragment extends Fragment {
 
     private RegisterViewModel mRegisterModel;
 
-    private PasswordValidator mNameValidator = checkPwdLength(1);
+    private PasswordValidator mNameValidator = checkPwdLength(2)
+            .and(checkExcludeWhiteSpace())
+            .and(checkNoDigits())
+            .and(checkNoSpecialChar());
 
     private PasswordValidator mEmailValidator = checkPwdLength(2)
             .and(checkExcludeWhiteSpace())
@@ -41,7 +44,7 @@ public class RegisterFragment extends Fragment {
 
     private PasswordValidator mPassWordValidator =
             checkClientPredicate(pwd -> pwd.equals(binding.editPassword2.getText().toString()))
-                    .and(checkPwdLength(3))
+                    .and(checkPwdLength(4))
                     .and(checkPwdSpecialChar())
                     .and(checkExcludeWhiteSpace())
                     .and(checkPwdDigit())
@@ -83,28 +86,28 @@ public class RegisterFragment extends Fragment {
         mNameValidator.processResult(
                 mNameValidator.apply(binding.editFirst.getText().toString().trim()),
                 this::validateLast,
-                result -> binding.editFirst.setError("Please enter a first name."));
+                this::fNameError);
     }
 
     private void validateLast() {
         mNameValidator.processResult(
                 mNameValidator.apply(binding.editLast.getText().toString().trim()),
                 this::validateEmail,
-                result -> binding.editLast.setError("Please enter a last name."));
+                this::lNameError);
     }
 
     private void validateEmail() {
         mEmailValidator.processResult(
                 mEmailValidator.apply(binding.editEmail.getText().toString().trim()),
                 this::validateNickname,
-                result -> binding.editEmail.setError("Please enter a valid Email address."));
+                this::emailError);
     }
 
     private void validateNickname() {
-        mEmailValidator.processResult(
+        mNameValidator.processResult(
                 mNameValidator.apply(binding.editNickname.getText().toString().trim()),
                 this::validatePasswordsMatch,
-                result -> binding.editNickname.setError("Please enter a valid nickname."));
+                this::nicknameError);
     }
 
     private void validatePasswordsMatch() {
@@ -122,8 +125,11 @@ public class RegisterFragment extends Fragment {
         mPassWordValidator.processResult(
                 mPassWordValidator.apply(binding.editPassword1.getText().toString()),
                 this::verifyAuthWithServer,
-                result -> binding.editPassword1.setError("Please enter a valid Password."));
+                this::passwordError);
+                //result -> binding.editPassword1.setError("Please enter a valid Password."));
     }
+
+
 
     private void verifyAuthWithServer() {
         mRegisterModel.connect(
@@ -168,6 +174,99 @@ public class RegisterFragment extends Fragment {
             }
         } else {
             Log.d("JSON Response", "No Response");
+        }
+    }
+
+
+    private void fNameError(ValidationResult result) {
+
+        String error = result.toString();
+        Log.d("JSON Reponse - fName", error);
+
+        if(error == "PWD_INVALID_LENGTH") {
+            binding.editFirst.setError("Name must be at least 3 characters long.");
+        } else if(error == "PWD_INCLUDES_EXCLUDED") {
+            binding.editFirst.setError("Name cannot contain numbers or special characters.");
+        } else if(error == "PWD_INCLUDES_WHITESPACE") {
+            binding.editFirst.setError("Name cannot contain spaces.");
+        } else {
+            binding.editFirst.setError("Contact admin error.");
+            Log.d("fName Error", "Special edge case missing");
+        }
+    }
+
+    private void lNameError(ValidationResult result) {
+
+        String error = result.toString();
+        Log.d("JSON Reponse - lName", error);
+
+        if(error == "PWD_INVALID_LENGTH") {
+            binding.editLast.setError("Name must be at least 3 characters long.");
+        } else if(error == "PWD_INCLUDES_EXCLUDED") {
+            binding.editLast.setError("Name cannot contain numbers or special characters.");
+        } else if(error == "PWD_INCLUDES_WHITESPACE") {
+            binding.editLast.setError("Name cannot contain spaces.");
+        } else {
+            binding.editLast.setError("Contact admin error.");
+            Log.d("lName Error", "Special edge case missing");
+        }
+    }
+
+    private void nicknameError(ValidationResult result) {
+
+        String error = result.toString();
+        Log.d("JSON Reponse - nickname", error);
+
+        if(error == "PWD_INVALID_LENGTH") {
+            binding.editNickname.setError("Nickname must be at least 3 characters long.");
+        } else if(error == "PWD_INCLUDES_EXCLUDED") {
+            binding.editNickname.setError("Nickname cannot contain numbers or special characters.");
+        } else if(error == "PWD_INCLUDES_WHITESPACE") {
+            binding.editNickname.setError("Nickname cannot contain spaces.");
+        } else {
+            binding.editNickname.setError("Contact admin error.");
+            Log.d("Nickname Error", "Special edge case missing");
+        }
+    }
+
+
+    private void emailError(ValidationResult result) {
+
+        String error = result.toString();
+        Log.d("JSON Reponse - email", error);
+
+        if(error == "PWD_INVALID_LENGTH") {
+            binding.editEmail.setError("Email must be at least 5 characters long.");
+        } else if(error == "PWD_MISSING_SPECIAL") {
+            binding.editEmail.setError("Email must contain '@' and '.' character.");
+        } else if(error == "PWD_INCLUDES_WHITESPACE") {
+            binding.editEmail.setError("Email cannot contain spaces.");
+        } else {
+            binding.editEmail.setError("Contact admin error.");
+            Log.d("Email Error", "Special edge case missing");
+        }
+    }
+
+    private void passwordError(ValidationResult result) {
+
+        String error = result.toString();
+        Log.d("JSON Reponse - password", error);
+
+        if(error == "PWD_INVALID_LENGTH") {
+            binding.editPassword1.setError("Password must be at least 5 characters long.");
+        } else if(error == "PWD_MISSING_DIGIT") {
+            binding.editPassword1.setError("Password must contain a digit.");
+        } else if(error == "PWD_MISSING_UPPER") {
+            binding.editPassword1.setError("Password must contain a uppercase letter.");
+        } else if(error == "PWD_MISSING_LOWER") {
+            binding.editPassword1.setError("Password must contain a lowercase letter.");
+        } else if(error == "PWD_MISSING_SPECIAL") {
+            binding.editPassword1.setError("Password must contain a special character.");
+        } else if(error == "PWD_INCLUDES_WHITESPACE") {
+            binding.editPassword1.setError("Password cannot contain spaces.");
+        } else {
+            binding.editPassword1.setError("Contact admin error.");
+            Log.d("Password Error", "Special edge case missing");
         }
     }
 
