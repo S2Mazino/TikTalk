@@ -260,6 +260,33 @@ public interface PasswordValidator
     }
 
     /**
+     * Returns a validator that when applied will validate that the String do not contains at least
+     * one of these special characters: "~!@#$%^&*()_+`-=[]{}|;:'<>,.?/".
+     *
+     * When a String s is applied to the returning validator, it will evaluate to an Optional
+     * containing ValidationResult.SUCCESS when s contains at least one of these special
+     * characters: "~!@#$%^&*()_+`-=[]{}|;:'<>,.?/", otherwise ValidationResult.PWD_INCLUDES_EXCLUDED.
+     *
+     * @return a validator that validates that the String does not contains a special character
+     */
+    static PasswordValidator checkNoSpecialChar() {
+        return checkPwdDoNotInclude("~!@#$%^&*()_+`-=[]{}|;:'<>,.?/");
+    }
+
+    /**
+     * Returns a validator that when applied will validate that the String do not contains any digits.
+     *
+     * When a String s is applied to the returning validator, it will evaluate to an Optional
+     * containing ValidationResult.SUCCESS when s contains at least one of these special
+     * characters: "1234567890", otherwise ValidationResult.PWD_INCLUDES_EXCLUDED.
+     *
+     * @return a validator that validates that the String does not contain a digit.
+     */
+    static PasswordValidator checkNoDigits() {
+        return checkPwdDoNotInclude("1234567890");
+    }
+
+    /**
      *
      * @author Charles Bryan
      * @version Spring 2020
