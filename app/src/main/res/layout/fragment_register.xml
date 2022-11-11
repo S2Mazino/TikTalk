@@ -104,9 +104,32 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="8dp"
         android:text="@string/action_register_short"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_to_sign_in" />
+
+    <TextView
+        android:id="@+id/button_to_sign_in"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/action_sign_in_short"
+        android:textColor="@color/purple_700"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edit_password_2" />
+
+
+    <TextView
+        android:id="@+id/text_already_user"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/hint_already_user"
+        app:layout_constraintEnd_toStartOf="@+id/button_to_sign_in"
+        app:layout_constraintTop_toBottomOf="@+id/edit_password_2" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

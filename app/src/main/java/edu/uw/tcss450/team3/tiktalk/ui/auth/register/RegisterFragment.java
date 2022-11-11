@@ -20,6 +20,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import edu.uw.tcss450.team3.tiktalk.databinding.FragmentRegisterBinding;
+import edu.uw.tcss450.team3.tiktalk.ui.auth.signin.SignInFragmentDirections;
 import edu.uw.tcss450.team3.tiktalk.utils.PasswordValidator;
 
 
@@ -73,6 +74,10 @@ public class RegisterFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        binding.buttonToSignIn.setOnClickListener(button ->
+                Navigation.findNavController(getView()).navigate(
+                        RegisterFragmentDirections.actionRegisterFragmentToSignInFragment()
+                ));
         binding.buttonRegister.setOnClickListener(this::attemptRegister);
         mRegisterModel.addResponseObserver(getViewLifecycleOwner(),
                 this::observeResponse);
