@@ -7,6 +7,29 @@
     android:layout_height="match_parent"
     tools:context=".ui.auth.register.RegisterFragment">
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/app_icon_signin"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_marginTop="50dp"
+            android:src="@drawable/tiktalkicon2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            android:padding="5dp"
+            android:background="@drawable/blue_tran_bg"
+            app:layout_constraintTop_toBottomOf="@+id/app_icon_signin">
     <EditText
         android:id="@+id/edit_email"
         android:layout_width="0dp"
@@ -57,7 +80,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="96dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="8dp"
         android:autofillHints=""
         android:ems="10"
@@ -130,6 +153,6 @@
         android:text="@string/hint_already_user"
         app:layout_constraintEnd_toStartOf="@+id/button_to_sign_in"
         app:layout_constraintTop_toBottomOf="@+id/edit_password_2" />
-
-
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
