@@ -47,9 +47,7 @@ public class ConnectionFragment extends Fragment {
         viewPager = view.findViewById(R.id.viewPager);
         ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager());
         adapter.addFragment(new ContactFragment(), "Contact");
-        adapter.addFragment(new AddFriendFragment(), "Add");
-        adapter.addFragment(new RequestInFragment(), "Request");
-        adapter.addFragment(new RequestOutFragment(), "Sent");
+        adapter.addFragment(new AddFriendFragment(), "Friend Request");
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
     }
