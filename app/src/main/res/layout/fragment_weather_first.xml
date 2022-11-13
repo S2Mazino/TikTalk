@@ -6,7 +6,7 @@
     android:id="@+id/CurrentWeather"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/weather_background_4"
+    android:background="@drawable/greadient_bg"
     tools:context=".ui.weather.WeatherFirstFragment" >
 
     <androidx.constraintlayout.widget.ConstraintLayout
