@@ -10,14 +10,14 @@
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/greadient_bg"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
         
         <com.google.android.material.tabs.TabLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/connectionTabLayout"
-            android:background="@color/pastel_red"
-            app:tabIndicatorColor="@color/white"
+            android:background="@drawable/tab_layout_bg"
             app:tabIndicatorHeight="2dp"
             app:tabMode="fixed"
             app:tabGravity="fill"/>
