@@ -1,4 +1,4 @@
-package edu.uw.tcss450.team3.tiktalk.ui.chat;
+package edu.uw.tcss450.team3.tiktalk.ui.chat.chatList;
 
 import android.os.Bundle;
 

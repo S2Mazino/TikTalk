@@ -1,6 +1,5 @@
 package edu.uw.tcss450.team3.tiktalk;
 //comment
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -11,8 +10,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
 import edu.uw.tcss450.team3.tiktalk.model.UserInfoViewModel;
-import edu.uw.tcss450.team3.tiktalk.ui.chat.ChatFragment;
-import edu.uw.tcss450.team3.tiktalk.ui.chat.ChatListFragment;
+import edu.uw.tcss450.team3.tiktalk.ui.chat.chatRoom.ChatFragment;
+import edu.uw.tcss450.team3.tiktalk.ui.chat.chatList.ChatListFragment;
 import edu.uw.tcss450.team3.tiktalk.ui.connection.ConnectionFragment;
 import edu.uw.tcss450.team3.tiktalk.ui.connection.ContactFragment;
 import edu.uw.tcss450.team3.tiktalk.ui.home.HomeFragment;
@@ -53,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
                             getSupportFragmentManager().beginTransaction().replace(R.id.layout_container, connectionFragment).commit();
                             return true;
                         case R.id.chatIcon:
-                            getSupportFragmentManager().beginTransaction().replace(R.id.layout_container, chatFragment).commit();
+                            getSupportFragmentManager().beginTransaction().replace(R.id.layout_container, chatListFragment).commit();
                             return true;
                         case R.id.weatherIcon:
                             getSupportFragmentManager().beginTransaction().replace(R.id.layout_container, weatherFirstFragment).commit();
