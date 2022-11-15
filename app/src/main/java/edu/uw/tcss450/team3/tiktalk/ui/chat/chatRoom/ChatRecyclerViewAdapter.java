@@ -1,4 +1,4 @@
-package edu.uw.tcss450.team3.tiktalk.ui.chat;
+package edu.uw.tcss450.team3.tiktalk.ui.chat.chatRoom;
 
 import android.content.res.Resources;
 import android.view.Gravity;

@@ -17,7 +17,7 @@
         tools:layout="@layout/fragment_connection" />
     <fragment
         android:id="@+id/chatFragment"
-        android:name="edu.uw.tcss450.team3.tiktalk.ui.chat.ChatFragment"
+        android:name="edu.uw.tcss450.team3.tiktalk.ui.chat.chatRoom.ChatFragment"
         android:label="fragment_chat"
         tools:layout="@layout/fragment_chat" />
     <fragment

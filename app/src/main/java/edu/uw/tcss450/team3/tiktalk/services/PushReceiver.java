@@ -14,7 +14,7 @@ import org.json.JSONException;
 
 import edu.uw.tcss450.team3.tiktalk.AuthActivity;
 import edu.uw.tcss450.team3.tiktalk.R;
-import edu.uw.tcss450.team3.tiktalk.ui.chat.ChatMessage;
+import edu.uw.tcss450.team3.tiktalk.ui.chat.chatRoom.ChatMessage;
 import me.pushy.sdk.Pushy;
 
 import static android.app.ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND;

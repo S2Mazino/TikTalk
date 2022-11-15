@@ -1,4 +1,4 @@
-package edu.uw.tcss450.team3.tiktalk.ui.chat;
+package edu.uw.tcss450.team3.tiktalk.ui.chat.chatRoom;
 
 import android.app.Application;
 import android.util.Log;
@@ -27,6 +27,7 @@ import java.util.Objects;
 
 import edu.uw.tcss450.team3.tiktalk.R;
 import edu.uw.tcss450.team3.tiktalk.io.RequestQueueSingleton;
+import edu.uw.tcss450.team3.tiktalk.ui.chat.chatRoom.ChatMessage;
 
 public class ChatViewModel extends AndroidViewModel {
 
