@@ -19,6 +19,8 @@ import edu.uw.tcss450.team3.tiktalk.ui.weather.WeatherFirstFragment;
 
 public class MainActivity extends AppCompatActivity {
 
+    //all varibles
+
     BottomNavigationView bottomNavigationView;
     HomeFragment homeFragment = new HomeFragment();
     ConnectionFragment connectionFragment = new ConnectionFragment();
