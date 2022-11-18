@@ -5,6 +5,7 @@
     <string name="hint_email">Email</string>
     <string name="action_sign_in_short">Sign In</string>
     <string name="hint_password">Password</string>
+    <string name="forgot_password">Reset Password</string>
     <string name="action_register_short">Register</string>
     <string name="hint_first">First Name</string>
     <string name="hint_last">Last Name</string>
@@ -25,4 +26,5 @@
     <string name="localdatetime">LocalDateTime</string>
     <string name="base_url_service">https://tiktalk-app-web-service.herokuapp.com/</string>
     <string name="base_url_auth">https://tiktalk-app-web-service.herokuapp.com/</string>
+    <string name="back_to_signin">Sign In</string>
 </resources>

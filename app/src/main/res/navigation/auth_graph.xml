@@ -26,6 +26,9 @@
         <action
             android:id="@+id/action_SignInFragment_to_mainActivity"
             app:destination="@id/mainActivity" />
+        <action
+            android:id="@+id/action_signInFragment_to_forgotPassword"
+            app:destination="@id/forgotPassword" />
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
@@ -41,11 +44,27 @@
         android:name="edu.uw.tcss450.team3.tiktalk.MainActivity"
         android:label="MainActivity" >
         <argument
+            android:name="jwt"
+            app:argType="string" />
+        <argument
             android:name="email"
             app:argType="string" />
         <argument
-            android:name="jwt"
+            android:name="firstname"
             app:argType="string" />
+        <argument
+            android:name="lastname"
+            app:argType="string" />
+        <argument android:name="nickname" />
     </activity>
+    <fragment
+        android:id="@+id/forgotPassword"
+        android:name="edu.uw.tcss450.team3.tiktalk.ui.auth.forgotpassword.ForgotPasswordFragment"
+        android:label="ForgotPassword"
+        tools:layout="@layout/fragment_forgot_password">
+        <action
+            android:id="@+id/action_forgotPassword_to_signInFragment"
+            app:destination="@id/signInFragment" />
+    </fragment>
 
 </navigation>

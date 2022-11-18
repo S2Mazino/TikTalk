@@ -23,6 +23,8 @@ import android.widget.CheckBox;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Locale;
+
 import edu.uw.tcss450.team3.tiktalk.R;
 import edu.uw.tcss450.team3.tiktalk.databinding.FragmentSignInBinding;
 import edu.uw.tcss450.team3.tiktalk.utils.PasswordValidator;
@@ -70,6 +72,11 @@ public class SignInFragment extends Fragment {
                         SignInFragmentDirections.actionSignInFragmentToRegisterFragment()
                 ));
 
+        binding.buttonToResetPassword.setOnClickListener(button ->
+                Navigation.findNavController(getView()).navigate(
+                        SignInFragmentDirections.actionSignInFragmentToForgotPassword()
+                ));
+
         binding.buttonSignIn.setOnClickListener(this::attemptSignIn);
 
         mSignInModel.addResponseObserver(
@@ -110,7 +117,7 @@ public class SignInFragment extends Fragment {
      * @param email users email
      * @param jwt the JSON Web Token supplied by the server
      */
-    private void navigateToSuccess(final String email, final String jwt) {
+    private void navigateToSuccess(final String email, final String jwt, final String nickname, final String firstname, final String lastname) {
         if(binding.checkBoxRememberMe.isChecked()) {
             SharedPreferences prefs =
                     getActivity().getSharedPreferences(
@@ -124,7 +131,7 @@ public class SignInFragment extends Fragment {
 
         Navigation.findNavController(getView())
                 .navigate(SignInFragmentDirections
-                        .actionSignInFragmentToMainActivity(email, jwt));
+                        .actionSignInFragmentToMainActivity(email, jwt, nickname, firstname, lastname));
     }
 
     /**
@@ -147,7 +154,10 @@ public class SignInFragment extends Fragment {
                 try {
                     navigateToSuccess(
                             binding.editEmail.getText().toString(),
-                            response.getString("token")
+                            response.getString("token"),
+                            response.getString("lastname"),
+                            response.getString("nickname"),
+                            response.getString("firstname")
                     );
                 } catch (JSONException e) {
                     Log.e("JSON Parse Error", e.getMessage());

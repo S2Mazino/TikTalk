@@ -52,7 +52,7 @@ public class HomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         mUserModel = new ViewModelProvider(getActivity()).get(UserInfoViewModel.class);
-        binding.nickName.setText(mUserModel.getEmail());
+        binding.nickName.setText(mUserModel.getNickname());
 
     }
 

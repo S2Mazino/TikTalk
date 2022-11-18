@@ -4,14 +4,22 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
+
 public class UserInfoViewModel extends ViewModel {
+
 
     private final String mEmail;
     private final String mJwt;
+    private final String mNickname;
+    private final String mFirstname;
+    private final String mLastname;
 
-    private UserInfoViewModel(String email, String jwt) {
+    private UserInfoViewModel(String theJwt, String email, String firstname, String lastname, String nickname) {
+        mJwt = theJwt;
         mEmail = email;
-        mJwt = jwt;
+        mNickname = nickname;
+        mFirstname = firstname;
+        mLastname = lastname;
     }
 
     public String getEmail() {
@@ -22,21 +30,39 @@ public class UserInfoViewModel extends ViewModel {
         return mJwt;
     }
 
+    public String getNickname() {
+        return mNickname;
+    }
+
+    public String getFirstname() {
+        return mFirstname;
+    }
+
+    public String getLastname() {
+        return mLastname;
+    }
+
     public static class UserInfoViewModelFactory implements ViewModelProvider.Factory {
 
-        private final String email;
-        private final String jwt;
+        private final String mEmail;
+        private final String mJwt;
+        private final String mNickname;
+        private final String mFirstname;
+        private final String mLastname;
 
-        public UserInfoViewModelFactory(String email, String jwt) {
-            this.email = email;
-            this.jwt = jwt;
+        public UserInfoViewModelFactory(String mEmail, String mJwt, String mNickname, String mFirstname, String mLastname) {
+            this.mEmail = mEmail;
+            this.mJwt = mJwt;
+            this.mNickname = mNickname;
+            this.mFirstname = mFirstname;
+            this.mLastname = mLastname;
         }
 
         @NonNull
         @Override
         public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
             if (modelClass == UserInfoViewModel.class) {
-                return (T) new UserInfoViewModel(email, jwt);
+                return (T) new UserInfoViewModel(mEmail, mJwt, mNickname, mFirstname, mLastname);
             }
             throw new IllegalArgumentException(
                     "Argument must be: " + UserInfoViewModel.class);
