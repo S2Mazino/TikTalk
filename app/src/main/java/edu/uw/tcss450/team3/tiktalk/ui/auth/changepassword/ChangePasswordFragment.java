@@ -1,4 +1,4 @@
-package edu.uw.tcss450.team3.tiktalk.ui.auth.forgotpassword;
+package edu.uw.tcss450.team3.tiktalk.ui.auth.changepassword;
 
 import android.os.Bundle;
 
@@ -9,18 +9,17 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import edu.uw.tcss450.team3.tiktalk.R;
-import edu.uw.tcss450.team3.tiktalk.databinding.FragmentResetCodeBinding;
-
+import edu.uw.tcss450.team3.tiktalk.databinding.FragmentChangePasswordCodeBinding;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ResetCodeFragment extends Fragment {
+public class ChangePasswordFragment extends Fragment {
 
-    private FragmentResetCodeBinding binding;
+    private FragmentChangePasswordCodeBinding binding;
 
 
-    public ResetCodeFragment() {
+    public ChangePasswordFragment() {
         // Required empty public constructor
     }
 
@@ -34,6 +33,6 @@ public class ResetCodeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_reset_code, container, false);
+        return inflater.inflate(R.layout.fragment_change_password_code, container, false);
     }
 }

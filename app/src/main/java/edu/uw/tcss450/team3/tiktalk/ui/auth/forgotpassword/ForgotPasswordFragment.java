@@ -69,6 +69,12 @@ public class ForgotPasswordFragment extends Fragment {
                 this::observeResponse);
     }
 
+    private void navigateToSuccess() {
+        Navigation.findNavController(getView())
+                .navigate(ForgotPasswordFragmentDirections
+                        .actionForgotPasswordToSignInFragment());
+    }
+
     private void attemptEmail(final View button) {
         validateEmail();
     }
@@ -92,23 +98,15 @@ public class ForgotPasswordFragment extends Fragment {
         if (response.length() > 0) {
             if (response.has("code")) {
                 try {
-                    if(response.getJSONObject("data").getString("message").equals("Email exists")){
-                        binding.editEmail.setError("Email already exists.");
-                    }else {
-                        binding.editEmail.setError(
-                                "Error Authenticating: " +
-                                        response.getJSONObject("data").getString("message"));
-
-                    }
+                    binding.editEmail.setError("Error Authenticating: " + response.getJSONObject("data").getString("message"));
                 } catch (JSONException e) {
                     Log.e("JSON Parse Error", e.getMessage());
                 }
             } else {
-                Log.d("Test", "TEST");
+                Log.d("test", "test");
             }
-        } else {
+        }   else {
             Log.d("JSON Response", "No Response");
         }
     }
-
 }

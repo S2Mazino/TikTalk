@@ -62,7 +62,33 @@ public class ForgotPasswordViewModel extends AndroidViewModel {
         Request request = new JsonObjectRequest(
                 Request.Method.POST,
                 url,
-                null, //no body for this get request
+                body, //no body for this get request
+                mResponse::setValue,
+                this::handleError) {
+        };
+
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                10_000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        //Instantiate the RequestQueue and add the request to the queue
+        RequestQueueSingleton.getInstance(getApplication().getApplicationContext())
+                .addToRequestQueue(request);
+    }
+
+    public void connectVerify(final String code) {
+        String url = "https://tiktalk-app-web-service.herokuapp.com/resetpassword";
+        JSONObject body = new JSONObject();
+        try {
+            body.put("code", code);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        Request request = new JsonObjectRequest(
+                Request.Method.PUT,
+                url,
+                body, //no body for this get request
                 mResponse::setValue,
                 this::handleError) {
         };
