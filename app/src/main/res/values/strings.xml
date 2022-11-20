@@ -20,11 +20,16 @@
     <string name="weather">Weather</string>
     <string name="shared_pref_jwt" />
     <string name="nickname">Nickname</string>
+    <string name="full_name">Full name</string>
     <string name="type_a_message">Type a message</string>
     <string name="town">Town</string>
     <string name="city">City</string>
     <string name="localdatetime">LocalDateTime</string>
     <string name="base_url_service">https://tiktalk-app-web-service.herokuapp.com/</string>
     <string name="base_url_auth">https://tiktalk-app-web-service.herokuapp.com/</string>
+<<<<<<< Updated upstream
     <string name="back_to_signin">Sign In</string>
+=======
+
+>>>>>>> Stashed changes
 </resources>

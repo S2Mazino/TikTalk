@@ -19,7 +19,10 @@
         android:id="@+id/chatFragment"
         android:name="edu.uw.tcss450.team3.tiktalk.ui.chat.chatRoom.ChatFragment"
         android:label="fragment_chat"
-        tools:layout="@layout/fragment_chat" />
+        tools:layout="@layout/fragment_chat" >
+        <argument android:name="Chat"
+            app:argType="edu.uw.tcss450.team3.tiktalk.ui.chat.chatRoom.ChatRoom" />
+    </fragment>
     <fragment
         android:id="@+id/weatherFirstFragment"
         android:name="edu.uw.tcss450.team3.tiktalk.ui.weather.WeatherFirstFragment"
@@ -34,4 +37,12 @@
         android:name="edu.uw.tcss450.team3.tiktalk.ui.weather.WeatherSecondFragment"
         android:label="fragment_weather_second"
         tools:layout="@layout/fragment_weather_second" />
+    <fragment
+        android:id="@+id/chatListFragment"
+        android:name="edu.uw.tcss450.team3.tiktalk.ui.chat.chatList.ChatListFragment"
+        android:label="ChatListFragment">
+        <action
+            android:id="@+id/action_chatListFragment_to_chatFragment"
+            app:destination="@id/chatFragment" />
+    </fragment>
 </navigation>
