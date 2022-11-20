@@ -27,9 +27,5 @@
     <string name="localdatetime">LocalDateTime</string>
     <string name="base_url_service">https://tiktalk-app-web-service.herokuapp.com/</string>
     <string name="base_url_auth">https://tiktalk-app-web-service.herokuapp.com/</string>
-<<<<<<< Updated upstream
     <string name="back_to_signin">Sign In</string>
-=======
-
->>>>>>> Stashed changes
 </resources>
