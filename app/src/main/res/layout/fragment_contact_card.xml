@@ -27,7 +27,7 @@
             app:srcCompat="@drawable/ic_contact_person_black_24dp" />
 
         <TextView
-            android:id="@+id/text_name"
+            android:id="@+id/text_full_name"
             android:layout_width="162dp"
             android:layout_height="32dp"
             android:text="@string/full_name"

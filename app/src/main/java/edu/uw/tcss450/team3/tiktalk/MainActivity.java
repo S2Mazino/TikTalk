@@ -3,6 +3,7 @@ package edu.uw.tcss450.team3.tiktalk;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -66,4 +67,5 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
 }
