@@ -46,6 +46,7 @@ public class ChatListFragment extends Fragment {
 
         mChatListViewModel.addChatListObserver(getViewLifecycleOwner(), chatList -> {
             binding.listRoot.setAdapter(new ChatListRecyclerViewAdapter(ChatRoomGenerator.getChatList()));
+
         });
     }
 }
