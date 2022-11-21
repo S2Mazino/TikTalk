@@ -68,9 +68,9 @@ public class ForgotPasswordFragment extends Fragment {
                         ForgotPasswordFragmentDirections.actionForgotPasswordToSignInFragment()
                 ));
         binding.buttonForgotPassword.setOnClickListener(this::attemptEmail);
-
-
         binding.buttonToChangePassword.setOnClickListener(this::attemptCodeVerify);
+        mForgotModel.addResponseObserver(getViewLifecycleOwner(),
+                this::observeVerifyResponse);
     }
 
 
