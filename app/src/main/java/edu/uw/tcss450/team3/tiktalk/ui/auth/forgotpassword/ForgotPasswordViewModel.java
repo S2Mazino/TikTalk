@@ -76,17 +76,18 @@ public class ForgotPasswordViewModel extends AndroidViewModel {
                 .addToRequestQueue(request);
     }
 
-    public void connectVerify(final String code) {
-        String url = "https://tiktalk-app-web-service.herokuapp.com/resetpassword";
+    public void connectVerify(final String email, final String code) {
+        String url = "https://tiktalk-app-web-service.herokuapp.com/resetpassword/verify";
         JSONObject body = new JSONObject();
         try {
+            body.put("email", email);
             body.put("code", code);
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
         Request request = new JsonObjectRequest(
-                Request.Method.PUT,
+                Request.Method.GET,
                 url,
                 body, //no body for this get request
                 mResponse::setValue,

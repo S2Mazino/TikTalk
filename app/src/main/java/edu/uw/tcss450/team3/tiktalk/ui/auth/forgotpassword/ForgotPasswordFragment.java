@@ -1,5 +1,6 @@
 package edu.uw.tcss450.team3.tiktalk.ui.auth.forgotpassword;
 
+import static edu.uw.tcss450.team3.tiktalk.utils.PasswordValidator.checkCodeLength;
 import static edu.uw.tcss450.team3.tiktalk.utils.PasswordValidator.checkExcludeWhiteSpace;
 import static edu.uw.tcss450.team3.tiktalk.utils.PasswordValidator.checkPwdLength;
 import static edu.uw.tcss450.team3.tiktalk.utils.PasswordValidator.checkPwdSpecialChar;
@@ -36,6 +37,8 @@ public class ForgotPasswordFragment extends Fragment {
             .and(checkExcludeWhiteSpace())
             .and(checkPwdSpecialChar("@"));
 
+    private PasswordValidator mVerifyCode = checkCodeLength(6);
+
     public ForgotPasswordFragment() {
         // Required empty public constructor
     }
@@ -65,14 +68,17 @@ public class ForgotPasswordFragment extends Fragment {
                         ForgotPasswordFragmentDirections.actionForgotPasswordToSignInFragment()
                 ));
         binding.buttonForgotPassword.setOnClickListener(this::attemptEmail);
-        mForgotModel.addResponseObserver(getViewLifecycleOwner(),
-                this::observeResponse);
+
+
+        binding.buttonToChangePassword.setOnClickListener(this::attemptCodeVerify);
     }
+
+
 
     private void navigateToSuccess() {
         Navigation.findNavController(getView())
                 .navigate(ForgotPasswordFragmentDirections
-                        .actionForgotPasswordToSignInFragment());
+                        .actionForgotPasswordToChangePasswordFragment());
     }
 
     private void attemptEmail(final View button) {
@@ -94,16 +100,46 @@ public class ForgotPasswordFragment extends Fragment {
         //result of connect().
     }
 
-    private void observeResponse(final JSONObject response) {
+    private void attemptCodeVerify(final View button) {
+        validateVerificationCode();
+    }
+
+    private void validateVerificationCode() {
+        mVerifyCode.processResult(
+                mVerifyCode.apply(binding.editCode.getText().toString().trim()),
+                this::verifyCode,
+                validationResult -> binding.editCode.setError("Ensure you have entered the correct code"));
+    }
+
+    private void verifyCode() {
+        mForgotModel.connectVerify(binding.editEmail.getText().toString(),
+                binding.editCode.getText().toString());
+    }
+
+//    private void observeResponse(final JSONObject response) {
+//        if (response.length() > 0) {
+//            if (response.has("code")) {
+//                try {
+//                    binding.editEmail.setError("Error Authenticating: " + response.getJSONObject("data").getString("message"));
+//                } catch (JSONException e) {
+//                    Log.e("JSON Parse Error", e.getMessage());
+//                }
+//            }
+//        }   else {
+//            Log.d("JSON Response", "No Response");
+//        }
+//    }
+
+    private void observeVerifyResponse(final JSONObject response) {
         if (response.length() > 0) {
             if (response.has("code")) {
                 try {
-                    binding.editEmail.setError("Error Authenticating: " + response.getJSONObject("data").getString("message"));
+                    binding.editCode.setError("Error Authenticating: " + response.getJSONObject("data").getString("message"));
                 } catch (JSONException e) {
                     Log.e("JSON Parse Error", e.getMessage());
                 }
             } else {
-                Log.d("test", "test");
+                Log.e("code", "success");
             }
         }   else {
             Log.d("JSON Response", "No Response");

@@ -45,6 +45,12 @@ public interface PasswordValidator
                         ValidationResult.SUCCESS : ValidationResult.PWD_INVALID_LENGTH);
     }
 
+    static PasswordValidator checkCodeLength(int length) {
+        return password ->
+                Optional.of(password.length() == length ?
+                        ValidationResult.SUCCESS : ValidationResult.PWD_INVALID_LENGTH);
+    }
+
     /**
      * Returns a validator that when applied will validate that the String contains at least
      * one digit.
