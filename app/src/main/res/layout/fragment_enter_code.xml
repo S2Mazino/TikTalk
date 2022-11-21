@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/layout_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#DBF4BF"
-    android:backgroundTint="#009688"
-    tools:context=".ui.auth.forgotpassword.ForgotPasswordFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.auth.forgotpassword.EnterCodeFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -16,51 +13,46 @@
         tools:layout_editor_absoluteX="16dp"
         tools:layout_editor_absoluteY="-38dp">
 
+
         <EditText
             android:id="@+id/edit_email"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
             android:autofillHints=""
             android:ems="10"
             android:hint="@string/hint_email"
             android:inputType="textEmailAddress"
             android:minHeight="48dp"
-            app:layout_constraintBottom_toTopOf="@+id/guideline_fifty"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            tools:layout_editor_absoluteY="108dp" />
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline_fifty"
+        <EditText
+            android:id="@+id/edit_code"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.3" />
-
-        <Button
-            android:id="@+id/button_forgot_password"
-            android:layout_width="327dp"
-            android:layout_height="64dp"
-            android:layout_marginTop="44dp"
-            android:contentDescription="@string/forgot_password"
-            android:text="@string/forgot_password"
+            android:layout_marginTop="272dp"
+            android:ems="10"
+            android:hint="@string/hint_reset_code"
+            android:inputType="textPersonName"
+            android:minHeight="48dp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/edit_email" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/button_back_to_signin"
-            style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_width="47dp"
-            android:layout_height="41dp"
-            android:textColor="#00838F"
-            app:icon="@drawable/ic_back"
+            android:id="@+id/button_to_change_password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="@string/verify_code"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="SpeakableTextPresentCheck" />
-
+            app:layout_constraintTop_toBottomOf="@+id/edit_code" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
