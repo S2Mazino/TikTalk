@@ -18,8 +18,8 @@
 
         <ImageView
             android:id="@+id/image_profile"
-            android:layout_width="61dp"
-            android:layout_height="66dp"
+            android:layout_width="40dp"
+            android:layout_height="35dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -28,18 +28,15 @@
 
         <TextView
             android:id="@+id/text_full_name"
-            android:layout_width="162dp"
-            android:layout_height="32dp"
+            android:layout_width="74dp"
+            android:layout_height="31dp"
             android:text="@string/full_name"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/button_contact_message"
-            app:layout_constraintHorizontal_bias="0.464"
-            app:layout_constraintStart_toEndOf="@+id/image_profile"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/image_profile" />
 
         <ImageButton
             android:id="@+id/button_contact_remove"
-            android:layout_width="83dp"
+            android:layout_width="72dp"
             android:layout_height="66dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:srcCompat="@drawable/ic_contact_remove_24dp"

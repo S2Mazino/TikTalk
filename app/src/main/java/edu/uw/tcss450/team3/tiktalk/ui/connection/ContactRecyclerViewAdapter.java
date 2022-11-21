@@ -48,8 +48,11 @@ public class ContactRecyclerViewAdapter extends RecyclerView.Adapter<ContactRecy
 
     @Override
     public void onBindViewHolder(@NonNull ContactRecyclerViewAdapter.ContactViewHolder holder, int position) {
-        String fullName = mContactList.get(position).getFName() + mContactList.get(position).getLName();
-        holder.name.setText(fullName);
+        String fullName = mContactList.get(position).getFName() + " " + mContactList.get(position).getLName();
+        holder.fullName.setText(fullName);
+//        holder.nickname.setText(mContactList.get(position).getNickname());
+//        holder.email.setText(mContactList.get(position).getEmail());
+
 
     }
 
@@ -61,15 +64,17 @@ public class ContactRecyclerViewAdapter extends RecyclerView.Adapter<ContactRecy
     class ContactViewHolder extends RecyclerView.ViewHolder {
         private final View mView;
         ImageView profileImage;
-        TextView name;
+        TextView fullName;
+        TextView nickname;
+        TextView email;
         ImageButton message, remove;
-
-
 
         public ContactViewHolder(@NonNull View view) {
             super(view);
             profileImage = view.findViewById(R.id.image_profile);
-            name = view.findViewById(R.id.text_full_name);
+            fullName = view.findViewById(R.id.text_full_name);
+//            nickname = view.findViewById(R.id.text_nickname);
+//            email = view.findViewById(R.id.text_email);
             message = view.findViewById(R.id.button_contact_message);
             remove = view.findViewById(R.id.button_contact_remove);
             mView = view.getRootView();
