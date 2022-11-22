@@ -5,10 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
-import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.material.tabs.TabLayout;
 
@@ -47,7 +45,7 @@ public class ConnectionFragment extends Fragment {
         viewPager = view.findViewById(R.id.viewPager);
         ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager());
         adapter.addFragment(new ContactFragment(), "Contact");
-        adapter.addFragment(new AddFriendFragment(), "Friend Request");
+        adapter.addFragment(new ContactRequestFragment(), "Request");
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
     }

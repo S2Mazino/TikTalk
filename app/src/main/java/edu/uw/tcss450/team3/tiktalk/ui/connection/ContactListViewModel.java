@@ -23,9 +23,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.IntFunction;
-
-import edu.uw.tcss450.team3.tiktalk.ui.chat.chatRoom.ChatMessage;
 
 public class ContactListViewModel extends AndroidViewModel {
     private MutableLiveData<List<Contact>> mContactList;
@@ -42,9 +39,9 @@ public class ContactListViewModel extends AndroidViewModel {
         mContactList.observe(owner, observer);
     }
 
-    public void connectGet(final int memberID, final String jwt) {
+    public void connectGet(final String jwt) {
         String url =
-                "https://tiktalk-app-web-service.herokuapp.com/" + "contacts/" + memberID ;
+                "https://tiktalk-app-web-service.herokuapp.com/contacts";
         Request request = new JsonObjectRequest(
                 Request.Method.GET,
                 url,
@@ -68,9 +65,36 @@ public class ContactListViewModel extends AndroidViewModel {
                 .add(request);
     }
 
+    public void removeFriend(final String jwt, int friendID) {
+        String url =
+                "https://tiktalk-app-web-service.herokuapp.com/contacts/" + friendID;
+        Request request = new JsonObjectRequest(
+                Request.Method.DELETE,
+                url,
+                null, //no body for this get request
+                null, //do nothing with the response
+                this::handleError) {
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> headers = new HashMap<>();
+                // add headers <key,value>
+                headers.put("Authorization", jwt);
+                return headers;
+            }
+        };
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                10_000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        //Instantiate the RequestQueue and add the request to the queue
+        Volley.newRequestQueue(getApplication().getApplicationContext())
+                .add(request);
+    }
+
+
     private void handleResult(final JSONObject response) {
         List<Contact> list;
-        if (!response.has("memberId")) {
+        if (!response.has("rowCount")) {
             throw new IllegalStateException("Unexpected response in ContactListViewModel: " + response);
         }
         try {
@@ -91,7 +115,7 @@ public class ContactListViewModel extends AndroidViewModel {
                 } else {
                     // this shouldn't happen but could with the asynchronous
                     // nature of the application
-                    Log.wtf("Chat message already received",
+                    Log.wtf("Contact already received",
                             "Or duplicate id:" + cContact.getMemberID());
                 }
 
@@ -112,6 +136,7 @@ public class ContactListViewModel extends AndroidViewModel {
         Log.e("CONNECTION ERROR", error.getLocalizedMessage());
         //throw new IllegalStateException(error.getMessage());
     }
+
 
 
 

@@ -8,21 +8,12 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.HashMap;
-import java.util.List;
-
-import edu.uw.tcss450.team3.tiktalk.R;
-import edu.uw.tcss450.team3.tiktalk.databinding.FragmentChatBinding;
 import edu.uw.tcss450.team3.tiktalk.databinding.FragmentContactBinding;
 import edu.uw.tcss450.team3.tiktalk.model.UserInfoViewModel;
-import edu.uw.tcss450.team3.tiktalk.ui.chat.chatRoom.ChatRecyclerViewAdapter;
-import edu.uw.tcss450.team3.tiktalk.ui.chat.chatRoom.ChatSendViewModel;
-import edu.uw.tcss450.team3.tiktalk.ui.chat.chatRoom.ChatViewModel;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -58,12 +49,12 @@ public class ContactFragment extends Fragment {
 
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mContactListModel.connectGet(HARD_CODED_MEMBER_ID, mUserModel.getmJwt());
+        mContactListModel.connectGet(mUserModel.getmJwt());
 
         RecyclerView rv = mBinding.listRoot;
 
         mContactListModel.addContactListObserver(getViewLifecycleOwner(), contacts -> {
-            rv.setAdapter(new ContactRecyclerViewAdapter(getActivity(), contacts));
+            rv.setAdapter(new ContactRecyclerViewAdapter(getActivity(), contacts, mUserModel.getmJwt()));
         });
     }
 
