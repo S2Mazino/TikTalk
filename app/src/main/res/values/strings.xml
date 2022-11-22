@@ -32,4 +32,7 @@
     <string name="hint_reset_code">Reset Code</string>
     <string name="verify_code">Verify</string>
     <string name="reset_password">Reset</string>
+    <string name="hint_sent_request">Sent Request</string>
+    <string name="hint_received_request">Pending Request</string>
+    <string name="hint_search">Enter Email</string>
 </resources>

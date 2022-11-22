@@ -1,37 +1,38 @@
 package edu.uw.tcss450.team3.tiktalk.ui.connection;
 
 import android.content.Context;
-import android.content.res.Resources;
-import android.view.Gravity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.core.graphics.ColorUtils;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.google.android.material.card.MaterialCardView;
-import com.google.android.material.shape.CornerFamily;
 
 
 import java.util.List;
 
+import edu.uw.tcss450.team3.tiktalk.MainActivity;
 import edu.uw.tcss450.team3.tiktalk.R;
-import edu.uw.tcss450.team3.tiktalk.databinding.FragmentContactBinding;
 
 
 public class ContactRecyclerViewAdapter extends RecyclerView.Adapter<ContactRecyclerViewAdapter.ContactViewHolder> {
 
     private final List<Contact> mContactList;
     private final Context mContext;
-    public ContactRecyclerViewAdapter(Context context, List<Contact> contacts) {
+    private ContactListViewModel mContactListViewModel;
+    private final String mJWT;
+
+    public ContactRecyclerViewAdapter(Context context, List<Contact> contacts, String jwt) {
         this.mContext = context;
         this.mContactList = contacts;
+        mContactListViewModel = new ViewModelProvider((ViewModelStoreOwner) mContext).get(ContactListViewModel.class);
+        this.mJWT = jwt;
     }
 
 
@@ -40,6 +41,7 @@ public class ContactRecyclerViewAdapter extends RecyclerView.Adapter<ContactRecy
     public ContactRecyclerViewAdapter.ContactViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(mContext);
         View view = inflater.inflate(R.layout.fragment_contact_card, parent, false);
+
         return new ContactRecyclerViewAdapter.ContactViewHolder(view);
 //        return new ContactRecyclerViewAdapter.ContactViewHolder(LayoutInflater
 //                .from(parent.getContext())
@@ -50,10 +52,15 @@ public class ContactRecyclerViewAdapter extends RecyclerView.Adapter<ContactRecy
     public void onBindViewHolder(@NonNull ContactRecyclerViewAdapter.ContactViewHolder holder, int position) {
         String fullName = mContactList.get(position).getFName() + " " + mContactList.get(position).getLName();
         holder.fullName.setText(fullName);
-//        holder.nickname.setText(mContactList.get(position).getNickname());
-//        holder.email.setText(mContactList.get(position).getEmail());
+        holder.nickname.setText(mContactList.get(position).getNickname());
+        holder.email.setText(mContactList.get(position).getEmail());
 
-
+        holder.remove.setOnClickListener(button -> {
+            Log.d("JSON onclick",  "Your ID: " + mContactList.get(position).getMemberID());
+            mContactListViewModel.removeFriend(mJWT, mContactList.get(position).getMemberID());
+            mContactList.remove(mContactList.get(position));
+            notifyDataSetChanged();
+        });
     }
 
     @Override
@@ -73,8 +80,8 @@ public class ContactRecyclerViewAdapter extends RecyclerView.Adapter<ContactRecy
             super(view);
             profileImage = view.findViewById(R.id.image_profile);
             fullName = view.findViewById(R.id.text_full_name);
-//            nickname = view.findViewById(R.id.text_nickname);
-//            email = view.findViewById(R.id.text_email);
+            nickname = view.findViewById(R.id.text_nickname);
+            email = view.findViewById(R.id.text_email);
             message = view.findViewById(R.id.button_contact_message);
             remove = view.findViewById(R.id.button_contact_remove);
             mView = view.getRootView();

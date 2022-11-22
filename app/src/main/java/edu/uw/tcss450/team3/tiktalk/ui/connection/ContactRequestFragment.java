@@ -13,24 +13,21 @@ import edu.uw.tcss450.team3.tiktalk.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class AddFriendFragment extends Fragment {
+public class ContactRequestFragment extends Fragment {
 
-    public AddFriendFragment() {
+    public ContactRequestFragment() {
         // Required empty public constructor
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_add_friend, container, false);
+        return inflater.inflate(R.layout.fragment_contact_request, container, false);
     }
 }
