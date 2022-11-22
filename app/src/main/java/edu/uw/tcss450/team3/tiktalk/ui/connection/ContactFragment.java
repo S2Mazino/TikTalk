@@ -54,7 +54,9 @@ public class ContactFragment extends Fragment {
         RecyclerView rv = mBinding.listRoot;
 
         mContactListModel.addContactListObserver(getViewLifecycleOwner(), contacts -> {
-            rv.setAdapter(new ContactRecyclerViewAdapter(getActivity(), contacts, mUserModel.getmJwt()));
+            if(!contacts.isEmpty()) {
+                rv.setAdapter(new ContactRecyclerViewAdapter(getActivity(), contacts, mUserModel.getmJwt()));
+            }
         });
     }
 
