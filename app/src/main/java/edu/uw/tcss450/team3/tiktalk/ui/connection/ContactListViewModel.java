@@ -19,6 +19,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -133,7 +134,9 @@ public class ContactListViewModel extends AndroidViewModel {
     private void handleError(final VolleyError error) {
         //you should add much better error handling in a production release.
         //i.e. YOUR PROJECT
-        Log.e("CONNECTION ERROR", error.getLocalizedMessage());
+        String data = new String(error.networkResponse.data, Charset.defaultCharset())
+                .replace('\"', '\'');
+        Log.d("CONNECTION", data);
         //throw new IllegalStateException(error.getMessage());
     }
 

@@ -20,9 +20,6 @@ import edu.uw.tcss450.team3.tiktalk.model.UserInfoViewModel;
  */
 public class ContactFragment extends Fragment {
 
-    //The member ID for seeing contact used for testing
-    private static final int HARD_CODED_MEMBER_ID = 73;
-
     private UserInfoViewModel mUserModel;
     private ContactListViewModel mContactListModel;
     private FragmentContactBinding mBinding;
