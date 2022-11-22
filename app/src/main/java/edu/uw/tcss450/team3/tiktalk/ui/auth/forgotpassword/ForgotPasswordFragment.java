@@ -72,8 +72,9 @@ public class ForgotPasswordFragment extends Fragment {
     }
 
     private void navigateToSuccess() {
+        
         ForgotPasswordFragmentDirections.ActionForgotPasswordToEnterCodeFragment directions =
-                ForgotPasswordFragmentDirections.actionForgotPasswordToEnterCodeFragment(binding.editEmail.getText().toString());
+                ForgotPasswordFragmentDirections.actionForgotPasswordToEnterCodeFragment();
 
         directions.setEmail(binding.editEmail.getText().toString());
 

@@ -20,6 +20,7 @@ import org.json.JSONObject;
 
 import edu.uw.tcss450.team3.tiktalk.R;
 import edu.uw.tcss450.team3.tiktalk.databinding.FragmentEnterCodeBinding;
+import edu.uw.tcss450.team3.tiktalk.ui.auth.signin.SignInFragmentArgs;
 import edu.uw.tcss450.team3.tiktalk.ui.auth.signin.SignInFragmentDirections;
 import edu.uw.tcss450.team3.tiktalk.utils.PasswordValidator;
 
@@ -61,6 +62,9 @@ public class EnterCodeFragment extends Fragment {
         binding.buttonToChangePassword.setOnClickListener(this::attemptCodeVerify);
         mEnterCodeModel.addResponseObserver(getViewLifecycleOwner(),
                 this::observeVerifyResponse);
+
+        EnterCodeFragmentArgs args = EnterCodeFragmentArgs.fromBundle(getArguments());
+        binding.editEmail.setText(args.getEmail().equals("default") ? "bronnyo@uw.edu" : args.getEmail());
     }
 
     private void attemptCodeVerify(final View button) {
@@ -80,11 +84,9 @@ public class EnterCodeFragment extends Fragment {
     }
 
     private void navigateToSuccess() {
-//        directions.setEmail(binding.editEmail.getText().toString());
-
-        Navigation.findNavController(getView())
-                .navigate(EnterCodeFragmentDirections
-                        .actionEnterCodeFragmentToChangePasswordFragment());
+//        Navigation.findNavController(getView())
+//                .navigate(EnterCodeFragmentDirections
+//                        .actionEnterCodeFragmentToChangePasswordFragment());
     }
 
     private void observeVerifyResponse(final JSONObject response) {

@@ -48,7 +48,7 @@ public class EnterCodeViewModel extends AndroidViewModel {
         }
 
         Request request = new JsonObjectRequest(
-                Request.Method.GET,
+                Request.Method.POST,
                 url,
                 body, //no body for this get request
                 mResponse::setValue,
