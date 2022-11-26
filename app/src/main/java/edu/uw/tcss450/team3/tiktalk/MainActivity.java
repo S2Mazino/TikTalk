@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
+import edu.uw.tcss450.team3.tiktalk.model.PushyTokenViewModel;
 import edu.uw.tcss450.team3.tiktalk.model.UserInfoViewModel;
 import edu.uw.tcss450.team3.tiktalk.ui.chat.chatRoom.ChatFragment;
 import edu.uw.tcss450.team3.tiktalk.ui.chat.chatList.ChatListFragment;
@@ -100,7 +101,16 @@ public class MainActivity extends AppCompatActivity {
                         Context.MODE_PRIVATE);
         prefs.edit().remove(getString(R.string.keys_prefs_jwt)).apply();
         //End the app completely
-        finishAndRemoveTask();
+        // finishAndRemoveTask();
+        PushyTokenViewModel model = new ViewModelProvider(this)
+                .get(PushyTokenViewModel.class);
+        //when we hear back from the web service quit
+        model.addResponseObserver(this, result -> finishAndRemoveTask());
+        model.deleteTokenFromWebservice(
+                new ViewModelProvider(this)
+                        .get(UserInfoViewModel.class)
+                        .getmJwt()
+        );
     }
 
 }
