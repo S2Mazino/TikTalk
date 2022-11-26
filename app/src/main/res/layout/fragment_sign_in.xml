@@ -116,6 +116,7 @@
                 android:layout_width="174dp"
                 android:layout_height="48dp"
                 android:layout_marginTop="12dp"
+                android:checked="true"
                 android:text="@string/check_remember"
                 android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="parent"
