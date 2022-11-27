@@ -119,6 +119,7 @@ public class SignInFragment extends Fragment {
      * @param email users email
      * @param jwt the JSON Web Token supplied by the server
      */
+
     private void navigateToSuccess(final String email, final String jwt, final String nickname, final String firstname, final String lastname) {
         if (binding.checkBoxRememberMe.isChecked()) {
             SharedPreferences prefs =
@@ -128,18 +129,6 @@ public class SignInFragment extends Fragment {
             //Store the credentials in SharedPrefs
             prefs.edit().putString(getString(R.string.keys_prefs_jwt), jwt).apply();
         }
-
-        //        if(binding.checkBoxRememberMe.isChecked()) {
-//            SharedPreferences prefs =
-//                    getActivity().getSharedPreferences(
-//                            getString(R.string.shared_pref_jwt),
-//                            Context.MODE_PRIVATE);
-//
-//            SharedPreferences.Editor editor = prefs.edit();
-//            editor.putString(getString(R.string.shared_pref_jwt), jwt);
-//            editor.apply();
-//        }
-
         Navigation.findNavController(getView())
                 .navigate(SignInFragmentDirections
                         .actionSignInFragmentToMainActivity(email, jwt, nickname, firstname, lastname));
@@ -163,7 +152,10 @@ public class SignInFragment extends Fragment {
             // created on the web service.
             if(!jwt.isExpired(0)) {
                 String email = jwt.getClaim("email").asString();
-                navigateToSuccess(email, token, "", "", "");
+
+                // get the JSONObject for the firstname/lastname/nickname
+
+                navigateToSuccess(email, token, "nickName", "nickName", "lastName");
                 return;
             }
         }
@@ -175,6 +167,7 @@ public class SignInFragment extends Fragment {
      *
      * @param response the Response from the server
      */
+
     private void observeResponse(final JSONObject response) {
         if (response.length() > 0) {
             if (response.has("code")) {
