@@ -2,6 +2,10 @@ package edu.uw.tcss450.team3.tiktalk;
 //comment
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.AppBarConfiguration;
+import androidx.navigation.ui.NavigationUI;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -30,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
     WeatherFirstFragment weatherFirstFragment = new WeatherFirstFragment();
     ChatFragment chatFragment = new ChatFragment();
 
+    AppBarConfiguration mAppBarConfiguration;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +46,16 @@ public class MainActivity extends AppCompatActivity {
         ).get(UserInfoViewModel.class);
 
         setContentView(R.layout.activity_main);
+
+//        BottomNavigationView navigationView = findViewById((R.id.bottom_navigation));
+//
+//        mAppBarConfiguration = new AppBarConfiguration.Builder(
+//                R.id.homeIcon, R.id.connectionIcon, R.id.chatIcon, R.id.weatherIcon)
+//                .build();
+//        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+//        NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
+//        NavigationUI.setupWithNavController(navigationView, navController);
+
 
         bottomNavigationView = findViewById(R.id.bottom_navigation);
         getSupportFragmentManager().beginTransaction().replace(R.id.layout_container, homeFragment).commit();
