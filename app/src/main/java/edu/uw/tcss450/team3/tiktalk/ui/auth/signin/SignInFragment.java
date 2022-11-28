@@ -20,6 +20,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 
+import com.auth0.android.jwt.JWT;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -117,21 +119,46 @@ public class SignInFragment extends Fragment {
      * @param email users email
      * @param jwt the JSON Web Token supplied by the server
      */
+
     private void navigateToSuccess(final String email, final String jwt, final String nickname, final String firstname, final String lastname) {
-        if(binding.checkBoxRememberMe.isChecked()) {
+        if (binding.checkBoxRememberMe.isChecked()) {
             SharedPreferences prefs =
                     getActivity().getSharedPreferences(
-                            getString(R.string.shared_pref_jwt),
+                            getString(R.string.keys_shared_prefs),
                             Context.MODE_PRIVATE);
-
-            SharedPreferences.Editor editor = prefs.edit();
-            editor.putString(getString(R.string.shared_pref_jwt), jwt);
-            editor.apply();
+            //Store the credentials in SharedPrefs
+            prefs.edit().putString(getString(R.string.keys_prefs_jwt), jwt).apply();
         }
-
         Navigation.findNavController(getView())
                 .navigate(SignInFragmentDirections
                         .actionSignInFragmentToMainActivity(email, jwt, nickname, firstname, lastname));
+
+        //Remove THIS activity from the Task list. Pops off the backstack
+        getActivity().finish();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        SharedPreferences prefs =
+                getActivity().getSharedPreferences(
+                        getString(R.string.keys_shared_prefs),
+                        Context.MODE_PRIVATE);
+        if (prefs.contains(getString(R.string.keys_prefs_jwt))) {
+            String token = prefs.getString(getString(R.string.keys_prefs_jwt), "");
+            JWT jwt = new JWT(token);
+            // Check to see if the web token is still valid or not. To make a JWT expire after a
+            // longer or shorter time period, change the expiration time when the JWT is
+            // created on the web service.
+            if(!jwt.isExpired(0)) {
+                String email = jwt.getClaim("email").asString();
+
+                // get the JSONObject for the firstname/lastname/nickname
+
+                navigateToSuccess(email, token, "nickName", "nickName", "lastName");
+                return;
+            }
+        }
     }
 
     /**
@@ -140,6 +167,7 @@ public class SignInFragment extends Fragment {
      *
      * @param response the Response from the server
      */
+
     private void observeResponse(final JSONObject response) {
         if (response.length() > 0) {
             if (response.has("code")) {

@@ -12,11 +12,14 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import edu.uw.tcss450.team3.tiktalk.databinding.FragmentWeatherFirstBinding;
+import edu.uw.tcss450.team3.tiktalk.model.LocationViewModel;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class WeatherFirstFragment extends Fragment {
+
+    private LocationViewModel mModel;
 
     private String coorWeatherURL = "https://tiktalk-app-web-service.herokuapp.com/weather/lat-lon";
     private String zipcodeWeatherURL= "https://tiktalk-app-web-service.herokuapp.com/weather/zipcode";
@@ -29,9 +32,6 @@ public class WeatherFirstFragment extends Fragment {
     private WeatherViewModel mWeatherViewModel;
     private FragmentWeatherFirstBinding mBinding;
     private WeatherFirstFragment weatherFirstFragment;
-
-    TextView city, temp, condition;
-
 
 
     public WeatherFirstFragment(){
@@ -53,14 +53,23 @@ public class WeatherFirstFragment extends Fragment {
         return mBinding.getRoot();
     }
 
-
-
+    @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        mWeatherViewModel.addResponseObserver(getViewLifecycleOwner(), result ->
-            mBinding.textResponseOutput.setText(result.toString()));
-        mBinding.textResponseOutput.setOnClickListener(weatherFirstFragment -> mWeatherViewModel.connectGet());
-//        mBinding.textResponseOutput.setOnClickListener(WeatherFirstFragment -> mWeatherViewModel.connectPost());
+        FragmentWeatherFirstBinding binding = FragmentWeatherFirstBinding.bind(getView());
+        mModel = new ViewModelProvider(getActivity())
+                .get(LocationViewModel.class);
+        mModel.addLocationObserver(getViewLifecycleOwner(), location ->
+                binding.idTVCityName.setText(location.toString()));
     }
+
+
+//    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+//        super.onViewCreated(view, savedInstanceState);
+//
+//        mWeatherViewModel.addResponseObserver(getViewLifecycleOwner(), result ->
+//            mBinding.textResponseOutput.setText(result.toString()));
+//        mBinding.textResponseOutput.setOnClickListener(weatherFirstFragment -> mWeatherViewModel.connectGet());
+//        mBinding.textResponseOutput.setOnClickListener(WeatherFirstFragment -> mWeatherViewModel.connectPost());
+//    }
 }

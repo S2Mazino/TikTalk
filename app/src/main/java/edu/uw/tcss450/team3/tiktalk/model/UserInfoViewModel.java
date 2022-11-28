@@ -71,4 +71,3 @@ public class UserInfoViewModel extends ViewModel {
 
 
 }
-
