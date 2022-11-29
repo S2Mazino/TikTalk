@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="5dp"
+    android:layout_marginEnd="5dp"
+    android:background="@drawable/background_weather"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <TextView
+        android:id="@+id/dailyForecastDay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="41dp"
+        android:layout_marginBottom="5dp"
+        android:padding="5dp"
+        android:text="TextView"
+        />
+
+    <ImageView
+        android:id="@+id/dailyForecastIcon"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="45dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="45dp"
+        app:srcCompat="@drawable/rainny_icon" />
+
+    <TextView
+        android:id="@+id/dailyForecastTemp"
+        android:layout_width="74dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="41dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="5dp"
+        android:padding="5dp"
+        android:text="TextView" />
+
+
+</LinearLayout>
