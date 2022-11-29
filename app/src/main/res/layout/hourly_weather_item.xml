@@ -21,14 +21,16 @@
             android:id="@+id/idTVTime"
             android:gravity="center"
             android:padding="4dp"
+            android:layout_marginTop="5dp"
             android:text="time"
             android:textColor="@color/black"
-            android:textAlignment="center"/>
+            android:textAlignment="center"
+            android:textSize="18sp"/>
 
         <ImageView
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:id="@+id/idIVIcon"
+            android:id="@+id/idIVCondition"
             android:layout_below="@+id/idTVTime"
             android:layout_centerHorizontal="true"
             android:layout_margin="5dp"
@@ -39,10 +41,11 @@
             android:layout_height="wrap_content"
             android:id="@+id/idTVTemperature"
             android:gravity="center"
+            android:layout_marginBottom="5dp"
             android:text="47"
             android:textAlignment="center"
             android:textSize="20sp"
-            android:layout_below="@id/idIVIcon"
+            android:layout_below="@id/idIVCondition"
             android:textColor="@color/black"/>
 
 

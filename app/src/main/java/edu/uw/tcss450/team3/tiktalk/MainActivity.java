@@ -1,11 +1,7 @@
 package edu.uw.tcss450.team3.tiktalk;
 //comment
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.lifecycle.ViewModelProvider;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -15,29 +11,30 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.lifecycle.ViewModelProvider;
+
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
-
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
 import edu.uw.tcss450.team3.tiktalk.model.LocationViewModel;
 import edu.uw.tcss450.team3.tiktalk.model.PushyTokenViewModel;
 import edu.uw.tcss450.team3.tiktalk.model.UserInfoViewModel;
-import edu.uw.tcss450.team3.tiktalk.ui.chat.chatRoom.ChatFragment;
 import edu.uw.tcss450.team3.tiktalk.ui.chat.chatList.ChatListFragment;
+import edu.uw.tcss450.team3.tiktalk.ui.chat.chatRoom.ChatFragment;
 import edu.uw.tcss450.team3.tiktalk.ui.connection.ConnectionFragment;
 import edu.uw.tcss450.team3.tiktalk.ui.connection.ContactFragment;
 import edu.uw.tcss450.team3.tiktalk.ui.home.HomeFragment;
 import edu.uw.tcss450.team3.tiktalk.ui.weather.WeatherFirstFragment;
-import edu.uw.tcss450.team3.tiktalk.ui.weather.WeatherSecondFragment;
 
 public class MainActivity extends AppCompatActivity {
-
     // Variable for the location permission
 
     /**
@@ -70,7 +67,6 @@ public class MainActivity extends AppCompatActivity {
     ChatListFragment chatListFragment = new ChatListFragment();
     WeatherFirstFragment weatherFirstFragment = new WeatherFirstFragment();
     ChatFragment chatFragment = new ChatFragment();
-    WeatherSecondFragment weatherSecondFragment = new WeatherSecondFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +76,6 @@ public class MainActivity extends AppCompatActivity {
         new ViewModelProvider(this,
                 new UserInfoViewModel.UserInfoViewModelFactory(args.getEmail(), args.getJwt(), args.getNickname(), args.getFirstname(), args.getLastname())
         ).get(UserInfoViewModel.class);
-
 
         setContentView(R.layout.activity_main);
 
@@ -92,27 +87,23 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.homeIcon:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.layout_container, homeFragment).commit();
-                        return true;
-                    case R.id.connectionIcon:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.layout_container, connectionFragment).commit();
-                        return true;
-                    case R.id.chatIcon:
-                        // getSupportFragmentManager().beginTransaction().replace(R.id.layout_container, chatFragment).commit();
-                        getSupportFragmentManager().beginTransaction().replace(R.id.layout_container, chatListFragment).commit();
-                        return true;
-                    case R.id.weatherIcon:
-                        // uncomment when working on the first weather fragement
-                        // getSupportFragmentManager().beginTransaction().replace(R.id.layout_container, weatherFirstFragment).commit();
-                        getSupportFragmentManager().beginTransaction().replace(R.id.layout_container, weatherSecondFragment).commit();
-                        return true;
-                    default:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.layout_container, homeFragment).commit();
-                        return true;
+                            getSupportFragmentManager().beginTransaction().replace(R.id.layout_container, homeFragment).commit();
+                            return true;
+                        case R.id.connectionIcon:
+                            getSupportFragmentManager().beginTransaction().replace(R.id.layout_container, connectionFragment).commit();
+                            return true;
+                        case R.id.chatIcon:
+                            getSupportFragmentManager().beginTransaction().replace(R.id.layout_container, chatListFragment).commit();
+                            return true;
+                        case R.id.weatherIcon:
+                            getSupportFragmentManager().beginTransaction().replace(R.id.layout_container, weatherFirstFragment).commit();
+                            return true;
+                        default:
+                            getSupportFragmentManager().beginTransaction().replace(R.id.layout_container, homeFragment).commit();
+                            return true;
                 }
             }
         });
-
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED
@@ -147,7 +138,6 @@ public class MainActivity extends AppCompatActivity {
         };
         createLocationRequest();
     }
-
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            String permissions[], int[] grantResults) {
@@ -223,12 +213,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        startLocationUpdates();
+        //startLocationUpdates();
     }
     @Override
     protected void onPause() {
         super.onPause();
-        stopLocationUpdates();
+        //stopLocationUpdates();
     }
 
     /**
@@ -253,7 +243,6 @@ public class MainActivity extends AppCompatActivity {
         // recommended in applications that request frequent location updates.
         mFusedLocationClient.removeLocationUpdates(mLocationCallback);
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -289,5 +278,7 @@ public class MainActivity extends AppCompatActivity {
                         .getmJwt()
         );
     }
+
+
 
 }
