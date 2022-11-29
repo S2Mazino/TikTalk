@@ -120,7 +120,7 @@ public class SignInFragment extends Fragment {
      * @param jwt the JSON Web Token supplied by the server
      */
 
-    private void navigateToSuccess(final String email, final String jwt, final String nickname, final String firstname, final String lastname) {
+    private void navigateToSuccess(final String email, final String jwt, final String firstname, final String lastname, final String nickname) {
         if (binding.checkBoxRememberMe.isChecked()) {
             SharedPreferences prefs =
                     getActivity().getSharedPreferences(
@@ -131,7 +131,7 @@ public class SignInFragment extends Fragment {
         }
         Navigation.findNavController(getView())
                 .navigate(SignInFragmentDirections
-                        .actionSignInFragmentToMainActivity(email, jwt, nickname, firstname, lastname));
+                        .actionSignInFragmentToMainActivity(email, jwt, firstname, lastname, nickname));
 
         //Remove THIS activity from the Task list. Pops off the backstack
         getActivity().finish();
@@ -155,7 +155,7 @@ public class SignInFragment extends Fragment {
 
                 // get the JSONObject for the firstname/lastname/nickname
 
-                navigateToSuccess(email, token, "nickName", "nickName", "lastName");
+                navigateToSuccess(email, token, "firstname", "lastname", "nickname");
                 return;
             }
         }
@@ -183,9 +183,9 @@ public class SignInFragment extends Fragment {
                     navigateToSuccess(
                             binding.editEmail.getText().toString(),
                             response.getString("token"),
+                            response.getString("firstname"),
                             response.getString("lastname"),
-                            response.getString("nickname"),
-                            response.getString("firstname")
+                            response.getString("nickname")
                     );
                 } catch (JSONException e) {
                     Log.e("JSON Parse Error", e.getMessage());

@@ -50,7 +50,7 @@ public class UserInfoViewModel extends ViewModel {
         private final String mFirstname;
         private final String mLastname;
 
-        public UserInfoViewModelFactory(String mEmail, String mJwt, String mNickname, String mFirstname, String mLastname) {
+        public UserInfoViewModelFactory(String mEmail, String mJwt, String mFirstname, String mLastname, String mNickname) {
             this.mEmail = mEmail;
             this.mJwt = mJwt;
             this.mNickname = mNickname;
@@ -62,7 +62,7 @@ public class UserInfoViewModel extends ViewModel {
         @Override
         public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
             if (modelClass == UserInfoViewModel.class) {
-                return (T) new UserInfoViewModel(mEmail, mJwt, mNickname, mFirstname, mLastname);
+                return (T) new UserInfoViewModel(mEmail, mJwt, mFirstname, mLastname, mNickname);
             }
             throw new IllegalArgumentException(
                     "Argument must be: " + UserInfoViewModel.class);
