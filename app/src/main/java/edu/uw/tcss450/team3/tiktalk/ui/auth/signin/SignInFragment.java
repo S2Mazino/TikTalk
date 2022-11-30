@@ -29,6 +29,7 @@ import java.util.Locale;
 
 import edu.uw.tcss450.team3.tiktalk.R;
 import edu.uw.tcss450.team3.tiktalk.databinding.FragmentSignInBinding;
+import edu.uw.tcss450.team3.tiktalk.model.UserInfoViewModel;
 import edu.uw.tcss450.team3.tiktalk.utils.PasswordValidator;
 
 /**
@@ -38,6 +39,7 @@ public class SignInFragment extends Fragment {
 
     private FragmentSignInBinding binding;
     private SignInViewModel mSignInModel;
+    private UserInfoViewModel mUserInfoModel;
 
     private PasswordValidator mEmailValidator = checkPwdLength(2)
             .and(checkExcludeWhiteSpace())
@@ -116,11 +118,10 @@ public class SignInFragment extends Fragment {
 
     /**
      * Helper to abstract the navigation to the Activity past Authentication.
-     * @param email users email
      * @param jwt the JSON Web Token supplied by the server
      */
 
-    private void navigateToSuccess(final String email, final String jwt, final String firstname, final String lastname, final String nickname) {
+    private void navigateToSuccess(final String jwt) {
         if (binding.checkBoxRememberMe.isChecked()) {
             SharedPreferences prefs =
                     getActivity().getSharedPreferences(
@@ -131,7 +132,7 @@ public class SignInFragment extends Fragment {
         }
         Navigation.findNavController(getView())
                 .navigate(SignInFragmentDirections
-                        .actionSignInFragmentToMainActivity(email, jwt, firstname, lastname, nickname));
+                        .actionSignInFragmentToMainActivity(jwt));
 
         //Remove THIS activity from the Task list. Pops off the backstack
         getActivity().finish();
@@ -151,11 +152,10 @@ public class SignInFragment extends Fragment {
             // longer or shorter time period, change the expiration time when the JWT is
             // created on the web service.
             if(!jwt.isExpired(0)) {
-                String email = jwt.getClaim("email").asString();
 
                 // get the JSONObject for the firstname/lastname/nickname
 
-                navigateToSuccess(email, token, "firstname", "lastname", "nickname");
+                navigateToSuccess(token);
                 return;
             }
         }
@@ -180,13 +180,7 @@ public class SignInFragment extends Fragment {
                 }
             } else {
                 try {
-                    navigateToSuccess(
-                            binding.editEmail.getText().toString(),
-                            response.getString("token"),
-                            response.getString("firstname"),
-                            response.getString("lastname"),
-                            response.getString("nickname")
-                    );
+                    navigateToSuccess(response.getString("token"));
                 } catch (JSONException e) {
                     Log.e("JSON Parse Error", e.getMessage());
                 }

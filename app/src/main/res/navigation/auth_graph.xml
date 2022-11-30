@@ -49,17 +49,6 @@
         <argument
             android:name="jwt"
             app:argType="string" />
-        <argument
-            android:name="email"
-            app:argType="string" />
-        <argument
-            android:name="firstname"
-            app:argType="string" />
-        <argument
-            android:name="lastname"
-            app:argType="string" />
-        <argument android:name="nickname"
-            app:argType="string" />
     </activity>
     <fragment
         android:id="@+id/forgotPassword"
