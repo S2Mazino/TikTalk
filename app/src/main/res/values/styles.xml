@@ -1,7 +1,7 @@
 <resources>
 
     <!-- This is a MaterialDesignTheme. Required when using Material Components -->
-    <style name="Theme.MyApp" parent="Theme.MaterialComponents.Light.NoActionBar">
+    <style name="MyApp" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>

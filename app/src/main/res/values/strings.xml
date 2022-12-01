@@ -41,5 +41,6 @@
     <string name="keys_prefs_jwt">Sharded Prefs JWT</string>
     <string name="action_sign_out">Sign Out</string>
     <string name="change_theme">Change Theme</string>
+    <string name="change_password">Change Password</string>
 
 </resources>

@@ -73,7 +73,8 @@
             app:destination="@id/signInFragment" />
         <argument
             android:name="memberID"
-            app:argType="integer" />
+            app:argType="integer"
+            android:defaultValue="0" />
     </fragment>
     <fragment
         android:id="@+id/enterCodeFragment"

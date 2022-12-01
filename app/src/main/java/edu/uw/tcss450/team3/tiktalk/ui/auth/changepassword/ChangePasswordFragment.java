@@ -26,6 +26,7 @@ import org.json.JSONObject;
 
 import edu.uw.tcss450.team3.tiktalk.R;
 import edu.uw.tcss450.team3.tiktalk.databinding.FragmentChangePasswordCodeBinding;
+import edu.uw.tcss450.team3.tiktalk.model.UserInfoViewModel;
 import edu.uw.tcss450.team3.tiktalk.utils.PasswordValidator;
 
 /**
@@ -35,6 +36,8 @@ public class ChangePasswordFragment extends Fragment {
 
     private FragmentChangePasswordCodeBinding binding;
     private ChangePasswordViewModel mChangeModel;
+    private UserInfoViewModel mUserInfoModel;
+
 
     private PasswordValidator mPasswordValidator =
             checkClientPredicate(pwd -> pwd.equals(binding.editTextTextPassword3.getText().toString()))
@@ -106,9 +109,9 @@ public class ChangePasswordFragment extends Fragment {
     }
 
     private void verifyPasswordChange() {
-        mChangeModel.connectPasswordChange(
-                binding.editTextTextPassword2.getText().toString()
-        );
+        ChangePasswordFragmentArgs args = ChangePasswordFragmentArgs.fromBundle(getArguments());
+//        Log.d("memberID", String.valueOf(args.getMemberID()));
+        mChangeModel.connectPasswordChange(args.getMemberID(), binding.editTextTextPassword2.getText().toString());
     }
 
     private void passwordError(PasswordValidator.ValidationResult result) {
