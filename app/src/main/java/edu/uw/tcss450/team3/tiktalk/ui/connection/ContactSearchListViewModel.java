@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+import edu.uw.tcss450.team3.tiktalk.R;
 import edu.uw.tcss450.team3.tiktalk.databinding.FragmentContactSearchBinding;
 
 public class ContactSearchListViewModel extends AndroidViewModel {
@@ -51,8 +52,7 @@ public class ContactSearchListViewModel extends AndroidViewModel {
     }
 
     public void connectGet(final String jwt) {
-        String url =
-                "https://tiktalk-app-web-service.herokuapp.com/contacts/search";
+        String url =getApplication().getResources().getString(R.string.base_url) + "contacts/" + "search";
         Request request = new JsonObjectRequest(
                 Request.Method.GET,
                 url,
@@ -77,8 +77,7 @@ public class ContactSearchListViewModel extends AndroidViewModel {
     }
 
     public void addSearch(final String jwt, final String friendEmail) {
-        String url =
-                "https://tiktalk-app-web-service.herokuapp.com/contacts/";
+        String url = getApplication().getResources().getString(R.string.base_url) + "contacts/";
         JSONObject body = new JSONObject();
         try {
             body.put("email", friendEmail);
@@ -109,8 +108,7 @@ public class ContactSearchListViewModel extends AndroidViewModel {
     }
 
     public void removeSearch(final String jwt, int friendID) {
-        String url =
-                "https://tiktalk-app-web-service.herokuapp.com/contacts/" + friendID;
+        String url = getApplication().getResources().getString(R.string.base_url) + "contacts/" + friendID;
         Request request = new JsonObjectRequest(
                 Request.Method.DELETE,
                 url,

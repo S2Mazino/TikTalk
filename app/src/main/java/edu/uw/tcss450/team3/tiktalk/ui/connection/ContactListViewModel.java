@@ -25,6 +25,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import edu.uw.tcss450.team3.tiktalk.R;
+
 public class ContactListViewModel extends AndroidViewModel {
     private MutableLiveData<List<Contact>> mContactList;
 
@@ -41,8 +43,7 @@ public class ContactListViewModel extends AndroidViewModel {
     }
 
     public void connectGet(final String jwt) {
-        String url =
-                "https://tiktalk-app-web-service.herokuapp.com/contacts";
+        String url = getApplication().getResources().getString(R.string.base_url) + "contacts/";
         Request request = new JsonObjectRequest(
                 Request.Method.GET,
                 url,
@@ -67,8 +68,7 @@ public class ContactListViewModel extends AndroidViewModel {
     }
 
     public void removeFriend(final String jwt, int friendID) {
-        String url =
-                "https://tiktalk-app-web-service.herokuapp.com/contacts/" + friendID;
+        String url = getApplication().getResources().getString(R.string.base_url) + "contacts/" + friendID;
         Request request = new JsonObjectRequest(
                 Request.Method.DELETE,
                 url,
