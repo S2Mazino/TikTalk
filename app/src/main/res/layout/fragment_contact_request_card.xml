@@ -58,6 +58,17 @@
             app:layout_constraintStart_toEndOf="@+id/image_profile"
             app:layout_constraintTop_toBottomOf="@+id/text_full_name" />
 
+        <ImageButton
+            android:id="@+id/button_contact_approve"
+            android:layout_width="66dp"
+            android:layout_height="66dp"
+            android:background="@null"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/button_contact_remove"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_contact_approve_24dp"
+            app:tint="#00FF00" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.cardview.widget.CardView>

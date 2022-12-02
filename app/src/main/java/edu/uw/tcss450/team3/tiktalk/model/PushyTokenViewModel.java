@@ -109,7 +109,7 @@ public class PushyTokenViewModel extends AndroidViewModel{
             throw new IllegalStateException("No pushy token. Do NOT call until token is retrieved");
         }
 
-        String url = getApplication().getResources().getString(R.string.base_url_service) +
+        String url = getApplication().getResources().getString(R.string.base_url) +
                 "auth";
 
         JSONObject body = new JSONObject();
@@ -168,7 +168,7 @@ public class PushyTokenViewModel extends AndroidViewModel{
     }
 
     public void deleteTokenFromWebservice(final String jwt) {
-        String url = getApplication().getResources().getString(R.string.base_url_service) +
+        String url = getApplication().getResources().getString(R.string.base_url) +
                 "auth";
         Request request = new JsonObjectRequest(
                 Request.Method.DELETE,

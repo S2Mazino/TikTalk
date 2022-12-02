@@ -25,7 +25,7 @@
     <string name="town">Town</string>
     <string name="city">City</string>
     <string name="localdatetime">LocalDateTime</string>
-    <string name="base_url_service">https://tiktalk-app-web-service.herokuapp.com/</string>
+    <string name="base_url">https://tcss450-2022au-group3.herokuapp.com//</string>
     <string name="base_url_auth">https://tiktalk-app-web-service.herokuapp.com/</string>
     <string name="back_to_signin">Sign In</string>
     <string name="action_link" />
@@ -42,5 +42,6 @@
     <string name="action_sign_out">Sign Out</string>
     <string name="change_theme">Change Theme</string>
     <string name="change_password">Change Password</string>
+    <string name="send">Send</string>
 
 </resources>
