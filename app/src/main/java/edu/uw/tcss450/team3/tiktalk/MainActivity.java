@@ -37,6 +37,7 @@ import edu.uw.tcss450.team3.tiktalk.ui.chat.chatList.ChatListFragment;
 import edu.uw.tcss450.team3.tiktalk.ui.connection.ConnectionFragment;
 import edu.uw.tcss450.team3.tiktalk.ui.connection.ContactFragment;
 import edu.uw.tcss450.team3.tiktalk.ui.home.HomeFragment;
+import edu.uw.tcss450.team3.tiktalk.ui.home.HomeFragmentDirections;
 import edu.uw.tcss450.team3.tiktalk.ui.weather.WeatherFirstFragment;
 import edu.uw.tcss450.team3.tiktalk.ui.weather.WeatherSecondFragment;
 
@@ -64,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
     //The ViewModel that will store the current location
     private LocationViewModel mLocationModel;
 
+    private UserInfoViewModel mUserInfoModel;
 
     //all varibles
 
@@ -83,22 +85,20 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         MainActivityArgs args = MainActivityArgs.fromBundle(getIntent().getExtras());
-        new ViewModelProvider(this,
+        mUserInfoModel = new ViewModelProvider(this,
                 new UserInfoViewModel.UserInfoViewModelFactory(args.getJwt()))
                 .get(UserInfoViewModel.class);
 
 
         setContentView(R.layout.activity_main);
 
-//        BottomNavigationView navigationView = findViewById((R.id.bottom_navigation));
-//
+//        BottomNavigationView navView = findViewById(R.id.bottom_navigation);
 //        mAppBarConfiguration = new AppBarConfiguration.Builder(
-//                R.id.homeIcon, R.id.connectionIcon, R.id.chatIcon, R.id.weatherIcon)
-//                .build();
+//                R.id.homeIcon, R.id.connectionIcon).build();
+//
 //        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
 //        NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
-//        NavigationUI.setupWithNavController(navigationView, navController);
-
+//        NavigationUI.setupWithNavController(navView, navController);
 
         bottomNavigationView = findViewById(R.id.bottom_navigation);
         getSupportFragmentManager().beginTransaction().replace(R.id.layout_container, homeFragment).commit();
@@ -163,7 +163,7 @@ public class MainActivity extends AppCompatActivity {
         };
         createLocationRequest();
     }
-
+    
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            String permissions[], int[] grantResults) {
@@ -282,6 +282,11 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
         if (id == R.id.action_sign_out) {
             signOut();
+            return true;
+        }
+        if (id == R.id.action_change_password) {
+            HomeFragmentDirections.ActionHomeFragmentToChangePasswordFragment directions =
+                    HomeFragmentDirections.actionHomeFragmentToChangePasswordFragment(mUserInfoModel.getmMemberId());
             return true;
         }
         return super.onOptionsItemSelected(item);

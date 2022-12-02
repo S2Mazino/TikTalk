@@ -27,25 +27,23 @@ import java.util.Map;
 
 import edu.uw.tcss450.team3.tiktalk.R;
 
-public class ContactListViewModel extends AndroidViewModel {
-    private MutableLiveData<List<Contact>> mContactList;
+public class ContactRequestListViewModel extends AndroidViewModel {
 
+    private MutableLiveData<List<Contact>> mContactRequestList;
 
-    public ContactListViewModel(@NonNull Application application) {
+    public ContactRequestListViewModel(@NonNull Application application) {
         super(application);
-        mContactList = new MutableLiveData<>();
-        mContactList.setValue(new ArrayList<>());
+        mContactRequestList = new MutableLiveData<>();
+        mContactRequestList.setValue(new ArrayList<>());
     }
 
     public void addContactListObserver(@NonNull LifecycleOwner owner,
-                                    @NonNull Observer<? super List<Contact>> observer) {
-        mContactList.observe(owner, observer);
+                                       @NonNull Observer<? super List<Contact>> observer) {
+        mContactRequestList.observe(owner, observer);
     }
 
     public void connectGet(final String jwt) {
-
-        String url = getApplication().getResources().getString(R.string.base_url) + "contacts/";
-
+        String url = getApplication().getResources().getString(R.string.base_url) + "contacts/" + "request";
         Request request = new JsonObjectRequest(
                 Request.Method.GET,
                 url,
@@ -69,14 +67,43 @@ public class ContactListViewModel extends AndroidViewModel {
                 .add(request);
     }
 
-    public void removeFriend(final String jwt, int friendID) {
-
+    public void removeRequest(final String jwt, int friendID) {
         String url = getApplication().getResources().getString(R.string.base_url) + "contacts/" + friendID;
-
         Request request = new JsonObjectRequest(
                 Request.Method.DELETE,
                 url,
                 null, //no body for this get request
+                null, //do nothing with the response
+                this::handleError) {
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> headers = new HashMap<>();
+                // add headers <key,value>
+                headers.put("Authorization", jwt);
+                return headers;
+            }
+        };
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                10_000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        //Instantiate the RequestQueue and add the request to the queue
+        Volley.newRequestQueue(getApplication().getApplicationContext())
+                .add(request);
+    }
+
+    public void addRequest(final String jwt, final int friendID) {
+        String url = getApplication().getResources().getString(R.string.base_url) + "contacts/" + "accept/";
+        JSONObject body = new JSONObject();
+        try {
+            body.put("memberid", friendID);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Request request = new JsonObjectRequest(
+                Request.Method.POST,
+                url,
+                body, //no body for this get request
                 null, //do nothing with the response
                 this::handleError) {
             @Override
@@ -127,7 +154,7 @@ public class ContactListViewModel extends AndroidViewModel {
             }
             //inform observers of the change (setValue)
             //getOrCreateMapEntry(response.getInt("chatId")).setValue(list);
-            mContactList.setValue(list);
+            mContactRequestList.setValue(list);
         }catch (JSONException e) {
             Log.e("JSON PARSE ERROR", "Found in handle Success ChatViewModel");
             Log.e("JSON PARSE ERROR", "Error: " + e.getMessage());
@@ -143,8 +170,4 @@ public class ContactListViewModel extends AndroidViewModel {
         Log.d("CONNECTION", data);
         //throw new IllegalStateException(error.getMessage());
     }
-
-
-
-
 }

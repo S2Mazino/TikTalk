@@ -9,7 +9,20 @@
         android:id="@+id/homeFragment"
         android:name="edu.uw.tcss450.team3.tiktalk.ui.home.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_changePasswordFragment"
+            app:destination="@id/changePasswordFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/changePasswordFragment"
+        android:name="edu.uw.tcss450.team3.tiktalk.ui.auth.changepassword.ChangePasswordFragment"
+        android:label="fragment_change_password_code"
+        tools:layout="@layout/fragment_change_password_code" >
+        <argument
+            android:name="memberID"
+            app:argType="integer" />
+    </fragment>
     <fragment
         android:id="@+id/connectionFragment"
         android:name="edu.uw.tcss450.team3.tiktalk.ui.connection.ConnectionFragment"

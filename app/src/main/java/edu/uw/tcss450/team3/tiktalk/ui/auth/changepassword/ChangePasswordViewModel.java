@@ -64,10 +64,11 @@ public class ChangePasswordViewModel extends AndroidViewModel {
         }
     }
 
-    public void connectPasswordChange(final String password) {
-        String url = "https://tcss450-2022au-group3.herokuapp.com/resetpassword";
+    public void connectPasswordChange(final Integer memberID, final String password) {
+            String url = "https://tcss450-2022au-group3.herokuapp.com/resetpassword";
         JSONObject body = new JSONObject();
         try {
+            body.put("memberid", memberID);
             body.put("password", password);
         } catch (JSONException e) {
             e.printStackTrace();

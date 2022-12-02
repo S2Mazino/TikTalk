@@ -21,6 +21,8 @@ import org.json.JSONObject;
 import java.nio.charset.Charset;
 import java.util.Objects;
 
+import edu.uw.tcss450.team3.tiktalk.R;
+
 
 public class RegisterViewModel extends AndroidViewModel {
 
@@ -67,7 +69,8 @@ public class RegisterViewModel extends AndroidViewModel {
                         final String nickname,
                         final String password) {
 
-        String url = "https://tcss450-2022au-group3.herokuapp.com/auth";
+        String url = getApplication().getResources().getString(R.string.base_url) + "auth";
+
         JSONObject body = new JSONObject();
         try {
             body.put("first", first);

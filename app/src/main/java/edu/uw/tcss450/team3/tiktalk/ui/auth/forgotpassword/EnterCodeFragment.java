@@ -51,6 +51,7 @@ public class EnterCodeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentEnterCodeBinding.inflate(inflater);
+        binding.editEmail.setVisibility(View.GONE);
         // Inflate the layout for this fragment
         return binding.getRoot();
     }
@@ -83,10 +84,13 @@ public class EnterCodeFragment extends Fragment {
                 binding.editCode.getText().toString());
     }
 
-    private void navigateToSuccess() {
-//        Navigation.findNavController(getView())
-//                .navigate(EnterCodeFragmentDirections
-//                        .actionEnterCodeFragmentToChangePasswordFragment());
+    private void navigateToSuccess(int memberid) {
+        EnterCodeFragmentDirections.ActionEnterCodeFragmentToChangePasswordFragment directions =
+                EnterCodeFragmentDirections.actionEnterCodeFragmentToChangePasswordFragment();
+
+        directions.setMemberID(memberid);
+
+        Navigation.findNavController(getView()).navigate(directions);
     }
 
     private void observeVerifyResponse(final JSONObject response) {
@@ -98,7 +102,14 @@ public class EnterCodeFragment extends Fragment {
                     Log.e("JSON Parse Error", e.getMessage());
                 }
             } else {
-                navigateToSuccess();
+                try {
+                    navigateToSuccess(response.getInt("memberid"));
+                    Log.d("MemberID", response.getString("memberid"));
+                    Log.d("Verify", "Verification successful");
+                } catch (JSONException e) {
+                    Log.e("JSON Parse Error", e.getMessage());
+                }
+
             }
         }   else {
             Log.d("JSON Response", "No Response");

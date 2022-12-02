@@ -5,13 +5,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/layout_root"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".ui.connection.ContactSearchFragment">
+
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/list_received_request"
-        android:name="edu.uw.tcss450.team3.tiktalk.ui.connection.ConnnectionFragment"
+        android:id="@+id/list_sent_request"
+        android:name="edu.uw.tcss450.team3.tiktalk.ui.connection.ContactSearchFragment"
         android:layout_width="372dp"
-        android:layout_height="687dp"
+        android:layout_height="664dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:orientation="vertical"
@@ -20,8 +22,8 @@
         app:layout_constraintHorizontal_bias="0.478"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_sent_request"
-        tools:context="edu.uw.tcss450.team3.tiktalk.ui.connection.ConnnectionFragment"
-        tools:listitem="@layout/fragment_contact_request_card">
+        tools:context="edu.uw.tcss450.team3.tiktalk.ui.connection.ContactSearchFragment"
+        tools:listitem="@layout/fragment_contact_card">
 
     </androidx.recyclerview.widget.RecyclerView>
 
@@ -30,15 +32,34 @@
         android:layout_width="372dp"
         android:layout_height="36dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:text="@string/hint_received_request"
+        android:text="@string/hint_sent_request"
         android:textAlignment="center"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.478"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/edit_search" />
+
+    <EditText
+        android:id="@+id/edit_search"
+        android:layout_width="270dp"
+        android:layout_height="49dp"
+        android:layout_marginStart="19dp"
+        android:ems="10"
+        android:hint="@string/hint_search"
+        android:inputType="textPersonName"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/button_contact_send"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="19dp"
+        android:text="@string/send"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/edit_search" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

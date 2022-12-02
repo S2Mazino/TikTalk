@@ -24,28 +24,35 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import edu.uw.tcss450.team3.tiktalk.R;
+import edu.uw.tcss450.team3.tiktalk.databinding.FragmentContactSearchBinding;
 
-public class ContactListViewModel extends AndroidViewModel {
-    private MutableLiveData<List<Contact>> mContactList;
+public class ContactSearchListViewModel extends AndroidViewModel {
+    private MutableLiveData<List<Contact>> mContactSearchList;
+    private MutableLiveData<JSONObject> mResponse;
 
-
-    public ContactListViewModel(@NonNull Application application) {
+    public ContactSearchListViewModel(@NonNull Application application) {
         super(application);
-        mContactList = new MutableLiveData<>();
-        mContactList.setValue(new ArrayList<>());
+        mContactSearchList = new MutableLiveData<>();
+        mContactSearchList.setValue(new ArrayList<>());
+        mResponse = new MutableLiveData<>();
+        mResponse.setValue(new JSONObject());
     }
 
-    public void addContactListObserver(@NonNull LifecycleOwner owner,
-                                    @NonNull Observer<? super List<Contact>> observer) {
-        mContactList.observe(owner, observer);
+    public void addContactSearchListObserver(@NonNull LifecycleOwner owner,
+                                             @NonNull Observer<? super List<Contact>> observer) {
+        mContactSearchList.observe(owner, observer);
+    }
+
+    public void addResponseObserver(@NonNull LifecycleOwner owner,
+                                             @NonNull Observer<? super JSONObject> observer) {
+        mResponse.observe(owner, observer);
     }
 
     public void connectGet(final String jwt) {
-
-        String url = getApplication().getResources().getString(R.string.base_url) + "contacts/";
-
+        String url =getApplication().getResources().getString(R.string.base_url) + "contacts/" + "search";
         Request request = new JsonObjectRequest(
                 Request.Method.GET,
                 url,
@@ -69,10 +76,39 @@ public class ContactListViewModel extends AndroidViewModel {
                 .add(request);
     }
 
-    public void removeFriend(final String jwt, int friendID) {
+    public void addSearch(final String jwt, final String friendEmail) {
+        String url = getApplication().getResources().getString(R.string.base_url) + "contacts/";
+        JSONObject body = new JSONObject();
+        try {
+            body.put("email", friendEmail);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Request request = new JsonObjectRequest(
+                Request.Method.POST,
+                url,
+                body, //no body for this get request
+                null, //do nothing with the response
+                this::handleError) {
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> headers = new HashMap<>();
+                // add headers <key,value>
+                headers.put("Authorization", jwt);
+                return headers;
+            }
+        };
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                10_000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        //Instantiate the RequestQueue and add the request to the queue
+        Volley.newRequestQueue(getApplication().getApplicationContext())
+                .add(request);
+    }
 
+    public void removeSearch(final String jwt, int friendID) {
         String url = getApplication().getResources().getString(R.string.base_url) + "contacts/" + friendID;
-
         Request request = new JsonObjectRequest(
                 Request.Method.DELETE,
                 url,
@@ -105,7 +141,7 @@ public class ContactListViewModel extends AndroidViewModel {
         try {
             list = new ArrayList<>();
             JSONArray contacts = response.getJSONArray("rows");
-            for(int i = 0; i < contacts.length(); i++) {
+            for (int i = 0; i < contacts.length(); i++) {
                 JSONObject contact = contacts.getJSONObject(i);
                 Contact cContact = new Contact(
                         contact.getString("firstname"),
@@ -127,23 +163,42 @@ public class ContactListViewModel extends AndroidViewModel {
             }
             //inform observers of the change (setValue)
             //getOrCreateMapEntry(response.getInt("chatId")).setValue(list);
-            mContactList.setValue(list);
-        }catch (JSONException e) {
+            mContactSearchList.setValue(list);
+        } catch (JSONException e) {
             Log.e("JSON PARSE ERROR", "Found in handle Success ChatViewModel");
             Log.e("JSON PARSE ERROR", "Error: " + e.getMessage());
         }
 
     }
 
+
     private void handleError(final VolleyError error) {
         //you should add much better error handling in a production release.
         //i.e. YOUR PROJECT
-        String data = new String(error.networkResponse.data, Charset.defaultCharset())
-                .replace('\"', '\'');
-        Log.d("CONNECTION", data);
+
+        if (Objects.isNull(error.networkResponse)) {
+            try {
+                mResponse.setValue(new JSONObject("{" +
+                        "error:\"" + error.getMessage() +
+                        "\"}"));
+            } catch (JSONException e) {
+                Log.e("JSON PARSE", "JSON Parse Error in handleError");
+            }
+        }
+        else {
+            String data = new String(error.networkResponse.data, Charset.defaultCharset())
+                    .replace('\"', '\'');
+            try {
+                JSONObject response = new JSONObject();
+                response.put("code", error.networkResponse.statusCode);
+                response.put("data", new JSONObject(data));
+                mResponse.setValue(response);
+            } catch (JSONException e) {
+                Log.e("JSON PARSE", "JSON Parse Error in handleError");
+            }
+        }
         //throw new IllegalStateException(error.getMessage());
     }
-
 
 
 

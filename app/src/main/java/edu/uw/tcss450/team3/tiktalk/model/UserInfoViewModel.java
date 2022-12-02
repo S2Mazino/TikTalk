@@ -6,6 +6,8 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.auth0.android.jwt.JWT;
 
+import java.util.Objects;
+
 
 public class UserInfoViewModel extends ViewModel {
 
@@ -15,15 +17,17 @@ public class UserInfoViewModel extends ViewModel {
     private final String mNickname;
     private final String mFirstname;
     private final String mLastname;
+    private final int memberId;
 
     private UserInfoViewModel(String theJwt) {
         mJwt = theJwt;
 
         final JWT jwt = new JWT(theJwt);
         mEmail = jwt.getClaim("email").asString();
-        mNickname = jwt.getClaim("nickname").asString();;
-        mFirstname = jwt.getClaim("firstname").asString();;
-        mLastname = jwt.getClaim("lastname").asString();;
+        mNickname = jwt.getClaim("nickname").asString();
+        mFirstname = jwt.getClaim("firstname").asString();
+        mLastname = jwt.getClaim("lastname").asString();
+        memberId = Integer.parseInt(Objects.requireNonNull(jwt.getClaim("memberid").asString()));
     }
 
     public String getEmail() {
@@ -44,6 +48,10 @@ public class UserInfoViewModel extends ViewModel {
 
     public String getLastname() {
         return mLastname;
+    }
+
+    public Integer getmMemberId() {
+        return memberId;
     }
 
     public static class UserInfoViewModelFactory implements ViewModelProvider.Factory {
