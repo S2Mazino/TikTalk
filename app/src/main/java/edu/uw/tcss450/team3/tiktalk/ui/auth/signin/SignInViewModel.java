@@ -24,6 +24,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+import edu.uw.tcss450.team3.tiktalk.R;
 import edu.uw.tcss450.team3.tiktalk.io.RequestQueueSingleton;
 
 public class SignInViewModel extends AndroidViewModel {
@@ -42,7 +43,8 @@ public class SignInViewModel extends AndroidViewModel {
     }
 
     public void connect(final String email, final String password) {
-        String url = "https://tiktalk-app-web-service.herokuapp.com/auth";
+        String url = "https://tcss450-2022au-group3.herokuapp.com/auth";
+        //String url = "https://tiktalk-app-web-service.herokuapp.com/" + "auth";
         Request request = new JsonObjectRequest(
                 Request.Method.GET,
                 url,
