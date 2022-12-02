@@ -38,7 +38,7 @@ public class EnterCodeViewModel extends AndroidViewModel {
     }
 
     public void connectVerify(final String email, final String code) {
-        String url = "https://tiktalk-app-web-service.herokuapp.com/resetpassword/verify";
+        String url = "https://tcss450-2022au-group3.herokuapp.com/resetpassword/verify";
         JSONObject body = new JSONObject();
         try {
             body.put("email", email);

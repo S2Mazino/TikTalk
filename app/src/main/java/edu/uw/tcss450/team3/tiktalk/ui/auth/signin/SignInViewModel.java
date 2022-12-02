@@ -42,7 +42,7 @@ public class SignInViewModel extends AndroidViewModel {
     }
 
     public void connect(final String email, final String password) {
-        String url = "https://tiktalk-app-web-service.herokuapp.com/auth";
+        String url = "https://tcss450-2022au-group3.herokuapp.com/auth";
         Request request = new JsonObjectRequest(
                 Request.Method.GET,
                 url,

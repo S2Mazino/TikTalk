@@ -67,7 +67,7 @@ public class RegisterViewModel extends AndroidViewModel {
                         final String nickname,
                         final String password) {
 
-        String url = "https://tiktalk-app-web-service.herokuapp.com/auth";
+        String url = "https://tcss450-2022au-group3.herokuapp.com/auth";
         JSONObject body = new JSONObject();
         try {
             body.put("first", first);

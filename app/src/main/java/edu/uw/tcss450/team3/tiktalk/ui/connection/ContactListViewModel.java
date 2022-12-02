@@ -42,7 +42,7 @@ public class ContactListViewModel extends AndroidViewModel {
 
     public void connectGet(final String jwt) {
         String url =
-                "https://tiktalk-app-web-service.herokuapp.com/contacts";
+                "https://tcss450-2022au-group3.herokuapp.com/contacts";
         Request request = new JsonObjectRequest(
                 Request.Method.GET,
                 url,
@@ -68,7 +68,7 @@ public class ContactListViewModel extends AndroidViewModel {
 
     public void removeFriend(final String jwt, int friendID) {
         String url =
-                "https://tiktalk-app-web-service.herokuapp.com/contacts/" + friendID;
+                "https://tcss450-2022au-group3.herokuapp.com/contacts/" + friendID;
         Request request = new JsonObjectRequest(
                 Request.Method.DELETE,
                 url,

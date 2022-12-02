@@ -115,12 +115,12 @@ public class MainActivity extends AppCompatActivity {
                         return true;
                     case R.id.chatIcon:
                         // getSupportFragmentManager().beginTransaction().replace(R.id.layout_container, chatFragment).commit();
-                        getSupportFragmentManager().beginTransaction().replace(R.id.layout_container, chatListFragment).commit();
+                        getSupportFragmentManager().beginTransaction().replace(R.id.layout_container, chatFragment).commit();
                         return true;
                     case R.id.weatherIcon:
                         // uncomment when working on the first weather fragement
-                        // getSupportFragmentManager().beginTransaction().replace(R.id.layout_container, weatherFirstFragment).commit();
-                        getSupportFragmentManager().beginTransaction().replace(R.id.layout_container, weatherSecondFragment).commit();
+                        getSupportFragmentManager().beginTransaction().replace(R.id.layout_container, weatherFirstFragment).commit();
+                        //getSupportFragmentManager().beginTransaction().replace(R.id.layout_container, weatherSecondFragment).commit();
                         return true;
                     default:
                         getSupportFragmentManager().beginTransaction().replace(R.id.layout_container, homeFragment).commit();

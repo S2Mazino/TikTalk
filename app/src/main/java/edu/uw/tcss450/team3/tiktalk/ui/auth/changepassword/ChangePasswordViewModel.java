@@ -65,7 +65,7 @@ public class ChangePasswordViewModel extends AndroidViewModel {
     }
 
     public void connectPasswordChange(final String password) {
-        String url = "https://tiktalk-app-web-service.herokuapp.com/resetpassword";
+        String url = "https://tcss450-2022au-group3.herokuapp.com/resetpassword";
         JSONObject body = new JSONObject();
         try {
             body.put("password", password);

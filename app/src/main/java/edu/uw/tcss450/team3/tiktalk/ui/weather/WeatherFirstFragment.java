@@ -144,19 +144,21 @@ public class WeatherFirstFragment extends Fragment {
 //            binding.idTVCityName.setText("Latitude: " + latitude + "\n"
 //                            + "Longitude: " + longitude);
 
+            searchIV.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String zipcode = cityEdt.getText().toString();
+                    if (zipcode.isEmpty()) {
+                        Toast.makeText(getActivity(), "Please enter the zipcode", Toast.LENGTH_SHORT).show();
+                    } else {
+                        getZipcodeWeatherData(zipcode);
+                    }
+                }
+            });
+
         });
 
-        searchIV.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String zipcode = cityEdt.getText().toString();
-                if (zipcode.isEmpty()) {
-                    Toast.makeText(getActivity(), "Please enter the zipcode", Toast.LENGTH_SHORT).show();
-                } else {
-                    getZipcodeWeatherData(zipcode);
-                }
-            }
-        });
+
     }
 
     private void getZipcodeWeatherData(String zipcode) {
@@ -165,10 +167,10 @@ public class WeatherFirstFragment extends Fragment {
 
     private void getWeatherData(Location location) {
 
-        latitude = HARD_CODED_LATITUDE;
-        longitude = HARD_CODED_LONGITUDE;
-//        latitude = String.valueOf(location.getLatitude());
-//        longitude = String.valueOf(location.getLongitude());
+//        latitude = HARD_CODED_LATITUDE;
+//        longitude = HARD_CODED_LONGITUDE;
+        latitude = String.valueOf(location.getLatitude());
+        longitude = String.valueOf(location.getLongitude());
         String weatherURL = coorWeatherURL + latitude + "/" + longitude;
 
         mRequestDailyQueue = Volley.newRequestQueue(getActivity());
@@ -194,13 +196,18 @@ public class WeatherFirstFragment extends Fragment {
                             String currCondition = jsonCurrentObject.getString("condition");
                             conditionTV.setText(currCondition);
                             String currIconURL = jsonCurrentObject.getString("icon");
-                            Picasso.get().load(currIconURL).into(iconIV);
+                            Picasso.get().load(currIconURL).fit().centerInside().into(iconIV);
 
                             JSONArray jsonHourlyArray = response.getJSONArray("hourly");
                             for(int i = 0; i < jsonHourlyArray.length(); i++) {
                                 JSONObject hourlyData = jsonHourlyArray.getJSONObject(i);
                                 String time = hourlyData.getString("hours");
+
+                                System.out.println(hourlyData);
+
                                 String iconURL = hourlyData.getString("icon");
+
+                                System.out.println(iconURL);
                                 String temperature = String.valueOf(hourlyData.getInt("tempF"));
                                 hourlyForecastArrayList.add(new WeatherRVModal(time, iconURL, temperature));
                             }
