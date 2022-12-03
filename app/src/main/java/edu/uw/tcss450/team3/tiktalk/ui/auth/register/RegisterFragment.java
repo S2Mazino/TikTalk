@@ -37,12 +37,16 @@ public class RegisterFragment extends Fragment {
             .and(checkNoDigits())
             .and(checkNoSpecialChar());
 
-    private PasswordValidator mEmailValidator = checkPwdLength(2)
+    final private PasswordValidator mNicknameValidator = checkPwdLength(2)
+            .and(checkExcludeWhiteSpace())
+            .and(checkNoSpecialChar());
+
+    final private PasswordValidator mEmailValidator = checkPwdLength(2)
             .and(checkExcludeWhiteSpace())
             .and(checkPwdSpecialChar("@"))
             .and(checkPwdSpecialChar("."));
 
-    private PasswordValidator mPassWordValidator =
+    final private PasswordValidator mPassWordValidator =
             checkClientPredicate(pwd -> pwd.equals(binding.editPassword2.getText().toString()))
                     .and(checkPwdLength(4))
                     .and(checkPwdSpecialChar())
@@ -108,8 +112,8 @@ public class RegisterFragment extends Fragment {
     }
 
     private void validateNickname() {
-        mNameValidator.processResult(
-                mNameValidator.apply(binding.editNickname.getText().toString().trim()),
+        mNicknameValidator.processResult(
+                mNicknameValidator.apply(binding.editNickname.getText().toString().trim()),
                 this::validatePasswordsMatch,
                 this::nicknameError);
     }

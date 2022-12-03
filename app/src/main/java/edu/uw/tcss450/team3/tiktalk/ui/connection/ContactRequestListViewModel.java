@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import edu.uw.tcss450.team3.tiktalk.R;
 
@@ -37,7 +38,7 @@ public class ContactRequestListViewModel extends AndroidViewModel {
         mContactRequestList.setValue(new ArrayList<>());
     }
 
-    public void addContactListObserver(@NonNull LifecycleOwner owner,
+    public void addContactRequestListObserver(@NonNull LifecycleOwner owner,
                                        @NonNull Observer<? super List<Contact>> observer) {
         mContactRequestList.observe(owner, observer);
     }
@@ -103,7 +104,7 @@ public class ContactRequestListViewModel extends AndroidViewModel {
         Request request = new JsonObjectRequest(
                 Request.Method.POST,
                 url,
-                body, //no body for this get request
+                body,
                 null, //do nothing with the response
                 this::handleError) {
             @Override
@@ -123,7 +124,6 @@ public class ContactRequestListViewModel extends AndroidViewModel {
                 .add(request);
     }
 
-
     private void handleResult(final JSONObject response) {
         List<Contact> list;
         if (!response.has("rowCount")) {
@@ -139,7 +139,7 @@ public class ContactRequestListViewModel extends AndroidViewModel {
                         contact.getString("lastname"),
                         contact.getString("nickname"),
                         contact.getString("email"),
-                        contact.getInt("memberid_b")
+                        contact.getInt("memberid_a")
                 );
                 if (!list.contains(cContact)) {
                     // don't add a duplicate
@@ -165,9 +165,13 @@ public class ContactRequestListViewModel extends AndroidViewModel {
     private void handleError(final VolleyError error) {
         //you should add much better error handling in a production release.
         //i.e. YOUR PROJECT
-        String data = new String(error.networkResponse.data, Charset.defaultCharset())
-                .replace('\"', '\'');
-        Log.d("CONNECTION", data);
-        //throw new IllegalStateException(error.getMessage());
+        if (Objects.isNull(error.networkResponse)) {
+            Log.e("NETWORK ERROR", error.getMessage());
+        }else {
+            String data = new String(error.networkResponse.data, Charset.defaultCharset())
+                    .replace('\"', '\'');
+            Log.d("CONNECTION", data);
+            //throw new IllegalStateException(error.getMessage());
+        }
     }
 }

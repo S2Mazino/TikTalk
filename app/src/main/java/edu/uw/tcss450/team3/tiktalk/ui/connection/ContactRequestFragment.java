@@ -12,6 +12,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.json.JSONObject;
+
 import edu.uw.tcss450.team3.tiktalk.R;
 import edu.uw.tcss450.team3.tiktalk.databinding.FragmentContactBinding;
 import edu.uw.tcss450.team3.tiktalk.databinding.FragmentContactRequestBinding;
@@ -56,10 +58,12 @@ public class ContactRequestFragment extends Fragment {
 //        mBinding.contactAdd.setOnClickListener(button ->
 //                Navigation.findNavController(getView()).navigate(ContactFragmentDirections.actionContactFragmentToContactSearchFragment()));
 
-        mContactRequestListModel.addContactListObserver(getViewLifecycleOwner(), contacts -> {
+        mContactRequestListModel.addContactRequestListObserver(getViewLifecycleOwner(), contacts -> {
             if (!contacts.isEmpty()) {
                 rv.setAdapter(new ContactRequestRecyclerViewAdapter(getActivity(), contacts, mUserModel.getmJwt()));
             }
         });
+
+
     }
 }
