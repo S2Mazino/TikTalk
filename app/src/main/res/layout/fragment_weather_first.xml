@@ -6,6 +6,7 @@
     android:id="@+id/CurrentWeather"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_above="@+id/bottom_navigation"
     android:background="@drawable/greadient_bg"
     tools:context=".ui.weather.WeatherFirstFragment" >
 
@@ -14,15 +15,14 @@
             android:layout_height="wrap_content"
             android:id="@+id/idPBLoading"
             android:layout_centerInParent="true"
-            android:visibility="gone"
-            android:background="@drawable/greadient_bg"
+            android:visibility="visible"
             />
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/idRLHome"
-            android:visibility="visible"
+            android:visibility="gone"
             >
 
                 <ImageView
@@ -87,24 +87,26 @@
                     android:textAlignment="center"
                     android:gravity="center"
                     android:textColor="@color/white"
-                    android:padding="20dp"
-                    android:textSize="20sp"
+                    android:padding="5dp"
+                    android:textSize="30sp"
                     android:textStyle="bold"
                     android:layout_below="@+id/idLLEdt"
                     />
 
                 <TextView
+                    android:id="@+id/idTVTemperature"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/idTVTemperature"
                     android:layout_below="@id/idTVCityName"
-                    android:layout_margin="5dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginBottom="5dp"
                     android:gravity="center_horizontal"
                     android:padding="5dp"
                     android:text="43"
                     android:textColor="@color/white"
-                    android:textSize="65dp"
-                    />
+                    android:textSize="50dp" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/idTVConditionIcon"
@@ -118,21 +120,24 @@
                             android:id="@+id/idTVCondition"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:padding="5sp"
                             android:gravity="center"
+                            android:padding="5sp"
                             android:text="Condition"
                             android:textAlignment="center"
                             android:textColor="@color/white"
                             android:textSize="20sp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.396"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            app:layout_constraintTop_toTopOf="parent"
+                            android:textStyle="bold"
+                            app:layout_constraintVertical_bias="0.538" />
 
                         <ImageView
                             android:id="@+id/idIVIcon"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
                             android:layout_centerHorizontal="true"
                             android:src="@drawable/rainny_icon"
                             app:layout_constraintStart_toEndOf="@+id/idTVCondition"
@@ -140,29 +145,39 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <TextView
-                    android:id="@+id/idRVHourlyWeatherHeader"
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:layout_marginBottom="5dp"
-                    android:text="24-HOUR FORECAST"
-                    android:layout_below="@id/idTVConditionIcon"
-                    android:textColor="@color/white"
-                    android:textStyle="bold"
-                    />
+                    android:layout_height="match_parent"
+                    android:id="@+id/forecast_section"
+                    android:layout_below="@+id/idTVConditionIcon"
+                        >
+
+                        <TextView
+                            android:id="@+id/idRVHourlyWeatherHeader"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="10dp"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginEnd="4dp"
+                            android:text="24-HOUR FORECAST"
+                            android:textColor="@color/white"
+                            android:textStyle="bold"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/idRVHourlyWeather"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/idRVHourlyWeather"
+                    app:layout_constraintTop_toBottomOf="@+id/idRVHourlyWeatherHeader"
                     android:layout_alignParentBottom="false"
-                    android:layout_margin="10dp"
-                    android:layout_below="@id/idRVHourlyWeatherHeader"
-                    android:orientation="horizontal"
-                    android:layout_marginBottom="40dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    tools:listitem="@layout/hourly_weather_item"/>
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:orientation="horizontal" />
                 <!--                    tools:listitem="@layout/hourly_weather_item"-->
 
 
@@ -173,22 +188,25 @@
                     android:layout_margin="10dp"
                     android:layout_marginBottom="5dp"
                     android:text="8-DAY FORECAST"
-                    android:layout_below="@id/idRVHourlyWeather"
+                    app:layout_constraintTop_toBottomOf="@+id/idRVHourlyWeather"
                     android:textColor="@color/white"
                     android:textStyle="bold"
                     />
 
                 <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/idRVDailyWeather"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/idRVDailyWeather"
+                    app:layout_constraintTop_toBottomOf="@+id/idRVDailyWeatherHeader"
                     android:layout_alignParentBottom="false"
-                    android:layout_below="@id/idRVDailyWeatherHeader"
-                    android:orientation="vertical"
-                    android:layout_margin="10dp"
-                    tools:listitem="@layout/daily_weather_item"/>
-<!--                    tools:listitem="@layout/daily_weather_item"-->
-
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+                <!--                    tools:listitem="@layout/daily_weather_item"-->
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
         </RelativeLayout>
 

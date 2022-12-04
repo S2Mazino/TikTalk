@@ -2,6 +2,7 @@ package edu.uw.tcss450.team3.tiktalk.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,7 +32,7 @@ public class WeatherHourlyAdapter extends RecyclerView.Adapter<WeatherHourlyAdap
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.hourly_weather_item, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.weather_item, parent, false);
         return new ViewHolder(view);
     }
 
@@ -41,7 +42,69 @@ public class WeatherHourlyAdapter extends RecyclerView.Adapter<WeatherHourlyAdap
 
         WeatherRVModal modal = weatherRVModalArrayList.get(position);
         holder.timeTV.setText(modal.getTime());
-        Picasso.get().load(modal.getConditionIcon()).fit().centerInside().into(holder.conditionIV);
+
+        String icon = modal.getConditionIcon();
+        switch (icon) {
+            case "01d":
+                holder.conditionIV.setImageResource(R.drawable._01d);
+                break;
+            case "02d":
+                holder.conditionIV.setImageResource(R.drawable._02d);
+                break;
+            case "03d":
+                holder.conditionIV.setImageResource(R.drawable._03d);
+                break;
+            case "04d":
+                holder.conditionIV.setImageResource(R.drawable._04d);
+                break;
+            case "09d":
+                holder.conditionIV.setImageResource(R.drawable._09d);
+                break;
+            case "10d":
+                holder.conditionIV.setImageResource(R.drawable._10d);
+                break;
+            case "11d":
+                holder.conditionIV.setImageResource(R.drawable._11d);
+                break;
+            case "13d":
+                holder.conditionIV.setImageResource(R.drawable._13d);
+                break;
+            case "50d":
+                holder.conditionIV.setImageResource(R.drawable._50d);
+                break;
+            case "01n":
+                holder.conditionIV.setImageResource(R.drawable._01n);
+                break;
+            case "02n":
+                holder.conditionIV.setImageResource(R.drawable._02n);
+                break;
+            case "03n":
+                holder.conditionIV.setImageResource(R.drawable._03n);
+                break;
+            case "04n":
+                holder.conditionIV.setImageResource(R.drawable._04n);
+                break;
+            case "09n":
+                holder.conditionIV.setImageResource(R.drawable._09n);
+                break;
+            case "10n":
+                holder.conditionIV.setImageResource(R.drawable._10n);
+                break;
+            case "11n":
+                holder.conditionIV.setImageResource(R.drawable._11n);
+                break;
+            case "13n":
+                holder.conditionIV.setImageResource(R.drawable._13n);
+                break;
+            case "50n":
+                holder.conditionIV.setImageResource(R.drawable._50n);
+                break;
+        }
+
+
+        //Picasso.get().load(weatherRVModalArrayList.get(position).getConditionIcon()).into(holder.conditionIV);
+
+
         holder.temperatureTV.setText(modal.getTemperature() + "°");
     }
 
@@ -59,7 +122,7 @@ public class WeatherHourlyAdapter extends RecyclerView.Adapter<WeatherHourlyAdap
 
             timeTV = itemView.findViewById(R.id.idTVTime);
             temperatureTV = itemView.findViewById(R.id.idTVTemperature);
-            conditionIV = itemView.findViewById(R.id.idTVCondition);
+            conditionIV = itemView.findViewById(R.id.idIVCondition);
         }
     }
 }

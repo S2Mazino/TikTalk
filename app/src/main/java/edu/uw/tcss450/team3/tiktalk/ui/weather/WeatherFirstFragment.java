@@ -3,6 +3,7 @@ package edu.uw.tcss450.team3.tiktalk.ui.weather;
 import android.annotation.SuppressLint;
 import android.location.Location;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,6 +36,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import edu.uw.tcss450.team3.tiktalk.R;
 import edu.uw.tcss450.team3.tiktalk.adapter.WeatherDailyAdapter;
@@ -78,9 +80,6 @@ public class WeatherFirstFragment extends Fragment {
     private ArrayList<WeatherRVModal> hourlyForecastArrayList;
     private RequestQueue mRequestDailyQueue;
     private RequestQueue mRequestHourlyQueue;
-    private ArrayList<String> mCurrentWeather;
-
-    private LocationManager locationManager;
     private int PERMISSION_CODE = 1;
 
 
@@ -110,9 +109,7 @@ public class WeatherFirstFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         FragmentWeatherFirstBinding binding = FragmentWeatherFirstBinding.bind(getView());
-
         getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
-
 
         homeRL = view.findViewById(R.id.idRLHome);
         loadingPB = view.findViewById(R.id.idPBLoading);
@@ -124,25 +121,22 @@ public class WeatherFirstFragment extends Fragment {
         iconIV = view.findViewById(R.id.idIVIcon);
         searchIV = view.findViewById(R.id.idIVSearch);
 
-        mDailyWeatherForecast = view.findViewById(R.id.idRVDailyWeather);
-//        mDailyWeatherForecast.setHasFixedSize(true);
-//        mDailyWeatherForecast.setLayoutManager(new LinearLayoutManager(getActivity()));
-        dailyForecastArrayList = new ArrayList<>();
-        mWeatherDailyAdapter = new WeatherDailyAdapter(getActivity(), dailyForecastArrayList);
-
         mHourlyWeatherForecast = view.findViewById(R.id.idRVHourlyWeather);
-//        mHourlyWeatherForecast.setHasFixedSize(true);
-//        mHourlyWeatherForecast.setLayoutManager((new LinearLayoutManager(getActivity())));
         hourlyForecastArrayList = new ArrayList<>();
         mWeatherHourlyAdapter = new WeatherHourlyAdapter(getActivity(), hourlyForecastArrayList);
+        mHourlyWeatherForecast.setAdapter(mWeatherHourlyAdapter);
+
+        mDailyWeatherForecast = view.findViewById(R.id.idRVDailyWeather);
+        dailyForecastArrayList = new ArrayList<>();
+        mWeatherDailyAdapter = new WeatherDailyAdapter(getActivity(), dailyForecastArrayList);
+        mDailyWeatherForecast.setAdapter(mWeatherDailyAdapter);
+
 
         // Get the lat/lon from the device access permission
         mModel = new ViewModelProvider(getActivity())
                 .get(LocationViewModel.class);
         mModel.addLocationObserver(getViewLifecycleOwner(), location -> {
             getWeatherData(location);
-//            binding.idTVCityName.setText("Latitude: " + latitude + "\n"
-//                            + "Longitude: " + longitude);
 
             searchIV.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -165,6 +159,7 @@ public class WeatherFirstFragment extends Fragment {
 
     }
 
+
     private void getWeatherData(Location location) {
 
 //        latitude = HARD_CODED_LATITUDE;
@@ -181,7 +176,7 @@ public class WeatherFirstFragment extends Fragment {
                     @SuppressLint("NotifyDataSetChanged")
                     @Override
                     public void onResponse(JSONObject response) {
-//                        loadingPB.setVisibility(View.GONE);
+                        loadingPB.setVisibility(View.GONE);
                         homeRL.setVisibility(View.VISIBLE);
                         hourlyForecastArrayList.clear();
                         dailyForecastArrayList.clear();
@@ -196,35 +191,29 @@ public class WeatherFirstFragment extends Fragment {
                             String currCondition = jsonCurrentObject.getString("condition");
                             conditionTV.setText(currCondition);
                             String currIconURL = jsonCurrentObject.getString("icon");
-                            Picasso.get().load(currIconURL).fit().centerInside().into(iconIV);
+                            Picasso.get().load(currIconURL).into(iconIV);
 
                             JSONArray jsonHourlyArray = response.getJSONArray("hourly");
                             for(int i = 0; i < jsonHourlyArray.length(); i++) {
                                 JSONObject hourlyData = jsonHourlyArray.getJSONObject(i);
                                 String time = hourlyData.getString("hours");
-
-                                System.out.println(hourlyData);
-
-                                String iconURL = hourlyData.getString("icon");
-
-                                System.out.println(iconURL);
+                                String iconValue = hourlyData.getString("iconValue");
                                 String temperature = String.valueOf(hourlyData.getInt("tempF"));
-                                hourlyForecastArrayList.add(new WeatherRVModal(time, iconURL, temperature));
+                                hourlyForecastArrayList.add(new WeatherRVModal(time, iconValue, temperature));
                             }
-                            mWeatherHourlyAdapter.notifyDataSetChanged();
 
                             JSONArray jsonDailyArray = response.getJSONArray("daily");
                             for(int i = 0; i < jsonDailyArray.length(); i++) {
                                 JSONObject dailyData = jsonDailyArray.getJSONObject(i);
                                 String day = dailyData.getString("day");
-                                String iconURL = dailyData.getString("icon");
+                                String iconValue = dailyData.getString("iconValue");
                                 String maxTemp = dailyData.getString("maxTempF");
                                 String minTemp = dailyData.getString("minTempF");
                                 String temp = maxTemp + "°" + " / " + minTemp + "°";
-                                dailyForecastArrayList.add(new WeatherDailyForecastItem(day, iconURL, temp));
+                                dailyForecastArrayList.add(new WeatherDailyForecastItem(day, iconValue, temp));
                             }
+                            mWeatherHourlyAdapter.notifyDataSetChanged();
                             mWeatherDailyAdapter.notifyDataSetChanged();
-
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -239,5 +228,4 @@ public class WeatherFirstFragment extends Fragment {
         mRequestHourlyQueue.add(request);
         mRequestDailyQueue.add(request);
     }
-
 }

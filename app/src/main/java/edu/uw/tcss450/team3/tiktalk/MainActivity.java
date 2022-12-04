@@ -3,13 +3,9 @@ package edu.uw.tcss450.team3.tiktalk;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -119,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
                         return true;
                     case R.id.weatherIcon:
                         // uncomment when working on the first weather fragement
-                        getSupportFragmentManager().beginTransaction().replace(R.id.layout_container, weatherFirstFragment).commit();
+                         getSupportFragmentManager().beginTransaction().replace(R.id.layout_container, weatherFirstFragment).commit();
                         //getSupportFragmentManager().beginTransaction().replace(R.id.layout_container, weatherSecondFragment).commit();
                         return true;
                     default:
@@ -239,12 +235,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        startLocationUpdates();
+        //startLocationUpdates();
     }
     @Override
     protected void onPause() {
         super.onPause();
-        stopLocationUpdates();
+        //stopLocationUpdates();
     }
 
     /**

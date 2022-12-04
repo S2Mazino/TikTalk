@@ -17,23 +17,14 @@ public class WeatherRVModal {
         return time;
     }
 
-    public void setTime(String time) {
-        this.time = time;
-    }
 
     public String getConditionIcon() {
         return conditionIcon;
     }
 
-    public void setConditionIcon(String conditionIcon) {
-        this.conditionIcon = conditionIcon;
-    }
 
     public String getTemperature() {
         return temperature;
     }
 
-    public void setTemperature(String temperature) {
-        this.temperature = temperature;
-    }
 }
