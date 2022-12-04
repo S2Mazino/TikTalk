@@ -190,8 +190,64 @@ public class WeatherFirstFragment extends Fragment {
                             temperatureTV.setText(currTemp + "°");
                             String currCondition = jsonCurrentObject.getString("condition");
                             conditionTV.setText(currCondition);
-                            String currIconURL = jsonCurrentObject.getString("icon");
-                            Picasso.get().load(currIconURL).into(iconIV);
+                            String currIconValue = jsonCurrentObject.getString("iconValue");
+
+                            switch (currIconValue) {
+                                case "01d":
+                                    iconIV.setImageResource(R.drawable._01d);
+                                    break;
+                                case "02d":
+                                    iconIV.setImageResource(R.drawable._02d);
+                                    break;
+                                case "03d":
+                                    iconIV.setImageResource(R.drawable._03d);
+                                    break;
+                                case "04d":
+                                    iconIV.setImageResource(R.drawable._04d);
+                                    break;
+                                case "09d":
+                                    iconIV.setImageResource(R.drawable._09d);
+                                    break;
+                                case "10d":
+                                    iconIV.setImageResource(R.drawable._10d);
+                                    break;
+                                case "11d":
+                                    iconIV.setImageResource(R.drawable._11d);
+                                    break;
+                                case "13d":
+                                    iconIV.setImageResource(R.drawable._13d);
+                                    break;
+                                case "50d":
+                                    iconIV.setImageResource(R.drawable._50d);
+                                    break;
+                                case "01n":
+                                    iconIV.setImageResource(R.drawable._01n);
+                                    break;
+                                case "02n":
+                                    iconIV.setImageResource(R.drawable._02n);
+                                    break;
+                                case "03n":
+                                    iconIV.setImageResource(R.drawable._03n);
+                                    break;
+                                case "04n":
+                                    iconIV.setImageResource(R.drawable._04n);
+                                    break;
+                                case "09n":
+                                    iconIV.setImageResource(R.drawable._09n);
+                                    break;
+                                case "10n":
+                                    iconIV.setImageResource(R.drawable._10n);
+                                    break;
+                                case "11n":
+                                    iconIV.setImageResource(R.drawable._11n);
+                                    break;
+                                case "13n":
+                                    iconIV.setImageResource(R.drawable._13n);
+                                    break;
+                                case "50n":
+                                    iconIV.setImageResource(R.drawable._50n);
+                                    break;
+                            }
 
                             JSONArray jsonHourlyArray = response.getJSONArray("hourly");
                             for(int i = 0; i < jsonHourlyArray.length(); i++) {
