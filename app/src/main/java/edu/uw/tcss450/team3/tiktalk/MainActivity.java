@@ -1,6 +1,7 @@
 package edu.uw.tcss450.team3.tiktalk;
 //comment
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -14,6 +15,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -76,9 +79,35 @@ public class MainActivity extends AppCompatActivity {
 
     AppBarConfiguration mAppBarConfiguration;
 
+    // Saving state of our app
+    // using SharedPreferences
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
+    boolean isDarkModeOn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+        // setting default theme based on user's phone settings
+        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
+            setTheme(R.style.TikTalkDark);
+        } else {
+            setTheme(R.style.TikTalkLight);
+        }
+
+        // Saving state of our app
+        // using SharedPreferences
+        sharedPreferences = getSharedPreferences(
+                "sharedPrefs", MODE_PRIVATE);
+        editor
+                = sharedPreferences.edit();
+        boolean isDarkModeOn
+                = sharedPreferences
+                .getBoolean(
+                        "isDarkModeOn", false);
+
 
         MainActivityArgs args = MainActivityArgs.fromBundle(getIntent().getExtras());
         mUserInfoModel = new ViewModelProvider(this,
@@ -276,6 +305,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
+
         if (id == R.id.action_sign_out) {
             signOut();
             return true;
@@ -285,15 +315,45 @@ public class MainActivity extends AppCompatActivity {
                     HomeFragmentDirections.actionHomeFragmentToChangePasswordFragment(mUserInfoModel.getmMemberId());
             return true;
         }
+        if (id == R.id.action_change_theme) {
+            if (isDarkModeOn) {
+                // if dark mode is on it
+                // will turn it off
+                AppCompatDelegate
+                        .setDefaultNightMode(
+                                AppCompatDelegate
+                                        .MODE_NIGHT_NO);
+                setTheme(R.style.TikTalkLight);
+                // it will set isDarkModeOn
+                // boolean to false
+                editor.putBoolean(
+                        "isDarkModeOn", false);
+            } if (!isDarkModeOn) {
+                // if dark mode is off
+                // it will turn it on
+                AppCompatDelegate
+                        .setDefaultNightMode(
+                                AppCompatDelegate
+                                        .MODE_NIGHT_YES);
+                setTheme(R.style.TikTalkDark);
+                // it will set isDarkModeOn
+                // boolean to true
+                editor.putBoolean(
+                        "isDarkModeOn", true);
+
+            }
+            editor.apply();
+            return true;
+        }
         return super.onOptionsItemSelected(item);
     }
 
     private void signOut() {
-        SharedPreferences prefs =
-                getSharedPreferences(
-                        getString(R.string.keys_shared_prefs),
-                        Context.MODE_PRIVATE);
-        prefs.edit().remove(getString(R.string.keys_prefs_jwt)).apply();
+//        SharedPreferences prefs =
+//                getSharedPreferences(
+//                        getString(R.string.keys_shared_prefs),
+//                        Context.MODE_PRIVATE);
+        sharedPreferences.edit().remove(getString(R.string.keys_prefs_jwt)).apply();
         //End the app completely
         // finishAndRemoveTask();
         PushyTokenViewModel model = new ViewModelProvider(this)

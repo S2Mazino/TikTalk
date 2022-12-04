@@ -61,7 +61,7 @@ public class ContactRequestRecyclerViewAdapter extends RecyclerView.Adapter<Cont
         holder.add.setOnClickListener(button -> {
             //Log.d("JSON onclick",  "Your ID: " + mContactList.get(position).getMemberID());
             mContactRequestListViewModel.addRequest(mJWT, mContactRequestList.get(position).getMemberID());
-            mContactRequestListViewModel.connectGet(mJWT);
+            mContactRequestList.remove(mContactRequestList.get(position));
             notifyDataSetChanged();
         });
     }
@@ -86,7 +86,7 @@ public class ContactRequestRecyclerViewAdapter extends RecyclerView.Adapter<Cont
             nickname = view.findViewById(R.id.text_nickname);
             email = view.findViewById(R.id.text_email);
             remove = view.findViewById(R.id.button_contact_remove);
-            add = view.findViewById(R.id.button_contact_send);
+            add = view.findViewById(R.id.button_contact_approve);
             mView = view.getRootView();
         }
     }

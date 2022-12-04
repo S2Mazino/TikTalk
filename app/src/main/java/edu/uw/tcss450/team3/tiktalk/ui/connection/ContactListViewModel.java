@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import edu.uw.tcss450.team3.tiktalk.R;
 
@@ -138,10 +139,15 @@ public class ContactListViewModel extends AndroidViewModel {
     private void handleError(final VolleyError error) {
         //you should add much better error handling in a production release.
         //i.e. YOUR PROJECT
-        String data = new String(error.networkResponse.data, Charset.defaultCharset())
-                .replace('\"', '\'');
-        Log.d("CONNECTION", data);
-        //throw new IllegalStateException(error.getMessage());
+        if (Objects.isNull(error.networkResponse)) {
+            Log.e("NETWORK ERROR", error.getMessage());
+        }else {
+            String data = new String(error.networkResponse.data, Charset.defaultCharset())
+                    .replace('\"', '\'');
+            Log.d("CONNECTION", data);
+            //throw new IllegalStateException(error.getMessage());
+        }
+
     }
 
 
