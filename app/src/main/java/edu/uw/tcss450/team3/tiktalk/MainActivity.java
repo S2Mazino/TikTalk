@@ -103,10 +103,13 @@ public class MainActivity extends AppCompatActivity {
                 "sharedPrefs", MODE_PRIVATE);
         editor
                 = sharedPreferences.edit();
-        boolean isDarkModeOn
+
+        editor.putBoolean("isDarkModeOn", true);
+        editor.commit();
+        isDarkModeOn
                 = sharedPreferences
                 .getBoolean(
-                        "isDarkModeOn", false);
+                        "isDarkModeOn", true);
 
 
         MainActivityArgs args = MainActivityArgs.fromBundle(getIntent().getExtras());
@@ -324,11 +327,13 @@ public class MainActivity extends AppCompatActivity {
                                 AppCompatDelegate
                                         .MODE_NIGHT_NO);
                 setTheme(R.style.TikTalkLight);
+                //recreate();
                 // it will set isDarkModeOn
                 // boolean to false
+                isDarkModeOn = false;
                 editor.putBoolean(
                         "isDarkModeOn", false);
-            } if (!isDarkModeOn) {
+            } else if (!isDarkModeOn) {
                 // if dark mode is off
                 // it will turn it on
                 AppCompatDelegate
@@ -336,24 +341,27 @@ public class MainActivity extends AppCompatActivity {
                                 AppCompatDelegate
                                         .MODE_NIGHT_YES);
                 setTheme(R.style.TikTalkDark);
+                //recreate();
                 // it will set isDarkModeOn
                 // boolean to true
+                isDarkModeOn = true;
                 editor.putBoolean(
                         "isDarkModeOn", true);
 
             }
-            editor.apply();
+            editor.commit();
             return true;
+
         }
         return super.onOptionsItemSelected(item);
     }
 
     private void signOut() {
-//        SharedPreferences prefs =
-//                getSharedPreferences(
-//                        getString(R.string.keys_shared_prefs),
-//                        Context.MODE_PRIVATE);
-        sharedPreferences.edit().remove(getString(R.string.keys_prefs_jwt)).apply();
+        SharedPreferences prefs =
+                getSharedPreferences(
+                        getString(R.string.keys_shared_prefs),
+                        Context.MODE_PRIVATE);
+        prefs.edit().remove(getString(R.string.keys_prefs_jwt)).apply();
         //End the app completely
         // finishAndRemoveTask();
         PushyTokenViewModel model = new ViewModelProvider(this)
