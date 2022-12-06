@@ -1,14 +1,19 @@
 package edu.uw.tcss450.team3.tiktalk.ui.weather;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.pm.PackageManager;
+import android.graphics.Camera;
 import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -17,7 +22,9 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -28,8 +35,24 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
 import com.google.android.material.textfield.TextInputEditText;
 import com.squareup.picasso.Picasso;
+
+import edu.uw.tcss450.team3.tiktalk.R;
+import edu.uw.tcss450.team3.tiktalk.databinding.FragmentWeatherSecondBinding;
+import edu.uw.tcss450.team3.tiktalk.model.LocationViewModel;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -47,17 +70,16 @@ import edu.uw.tcss450.team3.tiktalk.model.WeatherRVModal;
 
 /**
  * A simple {@link Fragment} subclass.
+ * public class WeatherSecondFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnMapClickListener
  */
-public class WeatherSecondFragment extends Fragment {
-
-    private LocationViewModel mModel;
+public class WeatherSecondFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnMapClickListener {
 
     private String coorWeatherURL = "https://tcss450-2022au-group3.herokuapp.com/weather/lat-lon/";
     private String zipcodeWeatherURL= "https://tcss450-2022au-group3.herokuapp.com/weather/zipcode/";
 
     // Hard coded for the location --> UWT
-    private static final String HARD_CODED_LATITUDE = "47.2454";
-    private static final String HARD_CODED_LONGITUDE = "-122.4385";
+    private static final double HARD_CODED_LATITUDE = 47.2454;
+    private static final double HARD_CODED_LONGITUDE = -122.4385;
     private static final String HARD_CODED_ZIPCODE = "98402";
 
     private WeatherViewModel mWeatherViewModel;
@@ -65,6 +87,9 @@ public class WeatherSecondFragment extends Fragment {
 
     private String latitude;
     private String longitude;
+    private LocationViewModel mModel;
+    private GoogleMap mMap;
+
 
     private RelativeLayout homeRL;
     private ProgressBar loadingPB;
@@ -82,9 +107,6 @@ public class WeatherSecondFragment extends Fragment {
     private RequestQueue mRequestHourlyQueue;
     private int PERMISSION_CODE = 1;
 
-
-
-
     public WeatherSecondFragment(){
         // Required empty public constructor
     }
@@ -92,8 +114,7 @@ public class WeatherSecondFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ViewModelProvider provider = new ViewModelProvider(getActivity());
-        mWeatherViewModel = provider.get(WeatherViewModel.class);
+
     }
 
     @Override
@@ -102,67 +123,69 @@ public class WeatherSecondFragment extends Fragment {
 //        mBinding = FragmentWeatherFirstBinding.inflate(inflater);
 //        // Inflate the layout for this fragment
 //        return mBinding.getRoot();
-        return inflater.inflate(R.layout.fragment_weather_first, container, false);
+        return inflater.inflate(R.layout.fragment_weather_second, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        FragmentWeatherFirstBinding binding = FragmentWeatherFirstBinding.bind(getView());
-        getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+        FragmentWeatherSecondBinding binding = FragmentWeatherSecondBinding.bind(getView());
+        //getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
 
-        homeRL = view.findViewById(R.id.idRLHome);
-        loadingPB = view.findViewById(R.id.idPBLoading);
-        cityNameTV = view.findViewById(R.id.idTVCityName);
-        temperatureTV = view.findViewById(R.id.idTVTemperature);
-        conditionTV = view.findViewById(R.id.idTVCondition);
-        cityEdt = view.findViewById(R.id.idEdtCity);
-        backIV = view.findViewById(R.id.idIVBack);
-        iconIV = view.findViewById(R.id.idIVIcon);
-        searchIV = view.findViewById(R.id.idIVSearch);
+        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+        SupportMapFragment mapFragment =
+                (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
+        //add this fragment as the OnMapReadyCallback -> See onMapReady()
+        mapFragment.getMapAsync(this);
 
-        mHourlyWeatherForecast = view.findViewById(R.id.idRVHourlyWeather);
-        hourlyForecastArrayList = new ArrayList<>();
-        mWeatherHourlyAdapter = new WeatherHourlyAdapter(getActivity(), hourlyForecastArrayList);
-        mHourlyWeatherForecast.setAdapter(mWeatherHourlyAdapter);
+    }
 
-        mDailyWeatherForecast = view.findViewById(R.id.idRVDailyWeather);
-        dailyForecastArrayList = new ArrayList<>();
-        mWeatherDailyAdapter = new WeatherDailyAdapter(getActivity(), dailyForecastArrayList);
-        mDailyWeatherForecast.setAdapter(mWeatherDailyAdapter);
-
-        // Get the lat/lon from the device access permission
-        mModel = new ViewModelProvider(getActivity())
+    @Override
+    public void onMapReady(@NonNull GoogleMap googleMap) {
+        mMap = googleMap;
+        LocationViewModel model = new ViewModelProvider(getActivity())
                 .get(LocationViewModel.class);
-        mModel.addLocationObserver(getViewLifecycleOwner(), location -> {
-            getWeatherData(location);
-
-            searchIV.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    String zipcode = cityEdt.getText().toString();
-                    if (zipcode.isEmpty()) {
-                        Toast.makeText(getActivity(), "Please enter the zipcode", Toast.LENGTH_SHORT).show();
-                    } else {
-                        getZipcodeWeatherData(zipcode);
-                    }
+        model.addLocationObserver(getViewLifecycleOwner(), location -> {
+            if (location != null) {
+                googleMap.getUiSettings().setZoomControlsEnabled(true);
+                if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    // TODO: Consider calling
+                    //    ActivityCompat#requestPermissions
+                    // here to request the missing permissions, and then overriding
+                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                    //                                          int[] grantResults)
+                    // to handle the case where the user grants the permission. See the documentation
+                    // for ActivityCompat#requestPermissions for more details.
+                    return;
                 }
-            });
+                googleMap.setMyLocationEnabled(true);
+                final LatLng c = new LatLng(location.getLatitude(), location.getLongitude());
 
+                latitude = String.valueOf(location.getLatitude());
+                longitude = String.valueOf(location.getLongitude());
+
+                //Zoom levels are from 2.0f (zoomed out) to 21.f (zoomed in)
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(c, 15.0f));
+            }
         });
-
-
-    }
-
-    private void getZipcodeWeatherData(String zipcode) {
+        mMap.setOnMapClickListener(this);
 
     }
 
+    @Override
+    public void onMapClick(@NonNull LatLng latLng) {
+        Log.d("LAT/LONG", latLng.toString());
+        Marker marker = mMap.addMarker(new MarkerOptions()
+                .position(latLng)
+                .title("New Marker"));
+        mMap.animateCamera(
+                CameraUpdateFactory.newLatLngZoom(
+                        latLng, mMap.getCameraPosition().zoom));
+
+    }
 
     private void getWeatherData(Location location) {
 
-//        latitude = HARD_CODED_LATITUDE;
-//        longitude = HARD_CODED_LONGITUDE;
         latitude = String.valueOf(location.getLatitude());
         longitude = String.valueOf(location.getLongitude());
         String weatherURL = coorWeatherURL + latitude + "/" + longitude;
@@ -190,15 +213,6 @@ public class WeatherSecondFragment extends Fragment {
                             String currCondition = jsonCurrentObject.getString("condition");
                             conditionTV.setText(currCondition);
                             String currIconURL = jsonCurrentObject.getString("icon");
-
-//                            Picasso.Builder builder = new Picasso.Builder(getActivity());
-//                            builder.listener(new Picasso.Listener() {
-//                                @Override
-//                                public void onImageLoadFailed(Picasso picasso, Uri uri, Exception exception) {
-//                                    exception.printStackTrace();
-//                                }
-//                            });
-//                            builder.build().load("https://openweathermap.org/img/wn/" + currIconURL + "@4x.png").into(iconIV);
 
                             Picasso.get().load(currIconURL).into(iconIV);
 

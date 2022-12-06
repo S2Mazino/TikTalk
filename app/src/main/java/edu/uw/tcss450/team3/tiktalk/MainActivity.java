@@ -38,6 +38,7 @@ import edu.uw.tcss450.team3.tiktalk.ui.connection.ContactFragment;
 import edu.uw.tcss450.team3.tiktalk.ui.home.HomeFragment;
 import edu.uw.tcss450.team3.tiktalk.ui.home.HomeFragmentDirections;
 import edu.uw.tcss450.team3.tiktalk.ui.weather.WeatherFirstFragment;
+import edu.uw.tcss450.team3.tiktalk.ui.weather.WeatherFragment;
 import edu.uw.tcss450.team3.tiktalk.ui.weather.WeatherSecondFragment;
 
 public class MainActivity extends AppCompatActivity {
@@ -76,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
     WeatherFirstFragment weatherFirstFragment = new WeatherFirstFragment();
     ChatFragment chatFragment = new ChatFragment();
     WeatherSecondFragment weatherSecondFragment = new WeatherSecondFragment();
+    WeatherFragment weatherFragment = new WeatherFragment();
 
     AppBarConfiguration mAppBarConfiguration;
 
@@ -146,8 +148,8 @@ public class MainActivity extends AppCompatActivity {
                         getSupportFragmentManager().beginTransaction().replace(R.id.layout_container, chatFragment).commit();
                         return true;
                     case R.id.weatherIcon:
-                        // uncomment when working on the first weather fragement
-                         getSupportFragmentManager().beginTransaction().replace(R.id.layout_container, weatherFirstFragment).commit();
+                        getSupportFragmentManager().beginTransaction().replace(R.id.layout_container, weatherFragment).commit();
+                        // getSupportFragmentManager().beginTransaction().replace(R.id.layout_container, weatherFirstFragment).commit();
                         //getSupportFragmentManager().beginTransaction().replace(R.id.layout_container, weatherSecondFragment).commit();
                         return true;
                     default:
