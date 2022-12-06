@@ -18,4 +18,9 @@
         <item name="android:minHeight">48dp</item>
     </style>
 
+    <style name="BottomNavigationTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/primaryLightColor</item>
+        <item name="android:colorForeground">@color/white_smoke</item>
+    </style>
+
 </resources>
