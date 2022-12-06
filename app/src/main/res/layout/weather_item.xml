@@ -33,7 +33,6 @@
             android:id="@+id/idIVCondition"
             android:layout_below="@+id/idTVTime"
             android:layout_centerHorizontal="true"
-            android:layout_margin="5dp"
             android:src="@drawable/rainny_icon"/>
 
         <TextView

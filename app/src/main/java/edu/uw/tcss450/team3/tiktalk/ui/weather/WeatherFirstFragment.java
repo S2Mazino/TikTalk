@@ -109,8 +109,6 @@ public class WeatherFirstFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         FragmentWeatherFirstBinding binding = FragmentWeatherFirstBinding.bind(getView());
-        //getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
-
         homeRL = view.findViewById(R.id.idRLHome);
         loadingPB = view.findViewById(R.id.idPBLoading);
         cityNameTV = view.findViewById(R.id.idTVCityName);
@@ -137,19 +135,21 @@ public class WeatherFirstFragment extends Fragment {
                 .get(LocationViewModel.class);
         mModel.addLocationObserver(getViewLifecycleOwner(), location -> {
             getWeatherData(location);
+        });
 
-            searchIV.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    String zipcode = cityEdt.getText().toString();
-                    if (zipcode.isEmpty()) {
-                        Toast.makeText(getActivity(), "Please enter the zipcode", Toast.LENGTH_SHORT).show();
-                    } else {
-                        getZipcodeWeatherData(zipcode);
-                    }
+        getLatLonWeatherData(HARD_CODED_LATITUDE, HARD_CODED_LONGITUDE);
+
+
+        searchIV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String zipcode = cityEdt.getText().toString();
+                if (zipcode.isEmpty()) {
+                    Toast.makeText(getActivity(), "Please enter the zipcode", Toast.LENGTH_SHORT).show();
+                } else {
+                    getZipcodeWeatherData(zipcode);
                 }
-            });
-
+            }
         });
 
     }
@@ -276,11 +276,140 @@ public class WeatherFirstFragment extends Fragment {
 
 
     private void getWeatherData(Location location) {
-        latitude = HARD_CODED_LATITUDE;
-        longitude = HARD_CODED_LONGITUDE;
-//        latitude = String.valueOf(location.getLatitude());
-//        longitude = String.valueOf(location.getLongitude());
+        if (location == null) {
+            latitude = HARD_CODED_LATITUDE;
+            longitude = HARD_CODED_LONGITUDE;
+        } else {
+            latitude = String.valueOf(location.getLatitude());
+            longitude = String.valueOf(location.getLongitude());
+        }
+
         String weatherURL = coorWeatherURL + latitude + "/" + longitude;
+
+        System.out.println(weatherURL);
+
+        mRequestDailyQueue = Volley.newRequestQueue(getActivity());
+        mRequestHourlyQueue = Volley.newRequestQueue(getActivity());
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, weatherURL, null,
+                new Response.Listener<JSONObject>() {
+                    @SuppressLint("NotifyDataSetChanged")
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        loadingPB.setVisibility(View.GONE);
+                        homeRL.setVisibility(View.VISIBLE);
+                        hourlyForecastArrayList.clear();
+                        dailyForecastArrayList.clear();
+                        try {
+
+                            String cityName = response.getString("city");
+                            cityNameTV.setText(cityName);
+
+                            JSONObject jsonCurrentObject = response.getJSONObject("current");
+                            String currTemp = jsonCurrentObject.getString("tempF");
+                            temperatureTV.setText(currTemp + "°");
+                            String currCondition = jsonCurrentObject.getString("condition");
+                            conditionTV.setText(currCondition);
+                            String currIconValue = jsonCurrentObject.getString("iconValue");
+
+                            switch (currIconValue) {
+                                case "01d":
+                                    iconIV.setImageResource(R.drawable._01d);
+                                    break;
+                                case "02d":
+                                    iconIV.setImageResource(R.drawable._02d);
+                                    break;
+                                case "03d":
+                                    iconIV.setImageResource(R.drawable._03d);
+                                    break;
+                                case "04d":
+                                    iconIV.setImageResource(R.drawable._04d);
+                                    break;
+                                case "09d":
+                                    iconIV.setImageResource(R.drawable._09d);
+                                    break;
+                                case "10d":
+                                    iconIV.setImageResource(R.drawable._10d);
+                                    break;
+                                case "11d":
+                                    iconIV.setImageResource(R.drawable._11d);
+                                    break;
+                                case "13d":
+                                    iconIV.setImageResource(R.drawable._13d);
+                                    break;
+                                case "50d":
+                                    iconIV.setImageResource(R.drawable._50d);
+                                    break;
+                                case "01n":
+                                    iconIV.setImageResource(R.drawable._01n);
+                                    break;
+                                case "02n":
+                                    iconIV.setImageResource(R.drawable._02n);
+                                    break;
+                                case "03n":
+                                    iconIV.setImageResource(R.drawable._03n);
+                                    break;
+                                case "04n":
+                                    iconIV.setImageResource(R.drawable._04n);
+                                    break;
+                                case "09n":
+                                    iconIV.setImageResource(R.drawable._09n);
+                                    break;
+                                case "10n":
+                                    iconIV.setImageResource(R.drawable._10n);
+                                    break;
+                                case "11n":
+                                    iconIV.setImageResource(R.drawable._11n);
+                                    break;
+                                case "13n":
+                                    iconIV.setImageResource(R.drawable._13n);
+                                    break;
+                                case "50n":
+                                    iconIV.setImageResource(R.drawable._50n);
+                                    break;
+                            }
+
+                            JSONArray jsonHourlyArray = response.getJSONArray("hourly");
+                            for(int i = 0; i < jsonHourlyArray.length(); i++) {
+                                JSONObject hourlyData = jsonHourlyArray.getJSONObject(i);
+                                String time = hourlyData.getString("hours");
+                                String iconValue = hourlyData.getString("iconValue");
+                                String temperature = String.valueOf(hourlyData.getInt("tempF"));
+                                hourlyForecastArrayList.add(new WeatherRVModal(time, iconValue, temperature));
+                            }
+
+                            JSONArray jsonDailyArray = response.getJSONArray("daily");
+                            for(int i = 0; i < jsonDailyArray.length(); i++) {
+                                JSONObject dailyData = jsonDailyArray.getJSONObject(i);
+                                String day = dailyData.getString("day");
+                                String iconValue = dailyData.getString("iconValue");
+                                String maxTemp = dailyData.getString("maxTempF");
+                                String minTemp = dailyData.getString("minTempF");
+                                String temp = maxTemp + "°" + " / " + minTemp + "°";
+                                dailyForecastArrayList.add(new WeatherDailyForecastItem(day, iconValue, temp));
+                            }
+                            mWeatherHourlyAdapter.notifyDataSetChanged();
+                            mWeatherDailyAdapter.notifyDataSetChanged();
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getActivity(), "Invalid location", Toast.LENGTH_SHORT).show();
+            }
+        });
+        mRequestHourlyQueue.add(request);
+        mRequestDailyQueue.add(request);
+    }
+
+    private void getLatLonWeatherData(String latitude, String longitude) {
+
+        String weatherURL = coorWeatherURL + latitude + "/" + longitude;
+
+        System.out.println(weatherURL);
 
         mRequestDailyQueue = Volley.newRequestQueue(getActivity());
         mRequestHourlyQueue = Volley.newRequestQueue(getActivity());

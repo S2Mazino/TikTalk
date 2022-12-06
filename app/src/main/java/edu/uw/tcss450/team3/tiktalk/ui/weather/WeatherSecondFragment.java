@@ -70,6 +70,7 @@ import edu.uw.tcss450.team3.tiktalk.model.WeatherRVModal;
 
 /**
  * A simple {@link Fragment} subclass.
+ * public class WeatherSecondFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnMapClickListener
  */
 public class WeatherSecondFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnMapClickListener {
 
