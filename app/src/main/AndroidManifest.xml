@@ -80,5 +80,16 @@
 
         <!-- End Pushy Declarations -->
 
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyCgwUJjclbJSiYQ83sHRJw6mL3jBKSz-mY" />
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" /> <!--version-->
+        <meta-data
+            android:name="com.google.android.gms.vision.DEPENDENCIES"
+            android:value="barcode" /> <!--barcode,face,ocr-->
+
     </application>
 </manifest>

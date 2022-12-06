@@ -109,7 +109,7 @@ public class WeatherFirstFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         FragmentWeatherFirstBinding binding = FragmentWeatherFirstBinding.bind(getView());
-        getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+        //getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
 
         homeRL = view.findViewById(R.id.idRLHome);
         loadingPB = view.findViewById(R.id.idPBLoading);
@@ -276,9 +276,10 @@ public class WeatherFirstFragment extends Fragment {
 
 
     private void getWeatherData(Location location) {
-
-        latitude = String.valueOf(location.getLatitude());
-        longitude = String.valueOf(location.getLongitude());
+        latitude = HARD_CODED_LATITUDE;
+        longitude = HARD_CODED_LONGITUDE;
+//        latitude = String.valueOf(location.getLatitude());
+//        longitude = String.valueOf(location.getLongitude());
         String weatherURL = coorWeatherURL + latitude + "/" + longitude;
 
         mRequestDailyQueue = Volley.newRequestQueue(getActivity());
