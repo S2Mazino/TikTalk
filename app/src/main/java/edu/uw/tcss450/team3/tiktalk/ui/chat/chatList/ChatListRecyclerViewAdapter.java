@@ -1,12 +1,17 @@
 package edu.uw.tcss450.team3.tiktalk.ui.chat.chatList;
 
+import android.content.Context;
 import android.graphics.drawable.Icon;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,88 +22,22 @@ import java.util.stream.Collectors;
 
 import edu.uw.tcss450.team3.tiktalk.R;
 import edu.uw.tcss450.team3.tiktalk.databinding.FragmentChatListCardBinding;
-import edu.uw.tcss450.team3.tiktalk.ui.chat.chatRoom.ChatRoom;
+import edu.uw.tcss450.team3.tiktalk.ui.connection.Contact;
+import edu.uw.tcss450.team3.tiktalk.ui.connection.ContactListViewModel;
+import edu.uw.tcss450.team3.tiktalk.ui.connection.ContactSearchListViewModel;
 
 public class ChatListRecyclerViewAdapter extends RecyclerView.Adapter<ChatListRecyclerViewAdapter.ChatListViewHolder> {
 
-    /**
-     * Objects from this class represent an Individual row View from the List
-     * of rows in the Blog Recycler View.
-     */
-    public class ChatListViewHolder extends RecyclerView.ViewHolder {
-        public final View mView;
-        public FragmentChatListCardBinding binding;
-        private ChatRoom mChatRoom;
-        public ChatListViewHolder(View view) {
-            super(view);
-            mView = view;
-            binding = FragmentChatListCardBinding.bind(view);
-            binding.buittonMore.setOnClickListener(this::handleMoreOrLess);
-        }
-        /**
-         * When the button is clicked in the more state, expand the card to display
-         * the blog preview and switch the icon to the less state.  When the button
-         * is clicked in the less state, shrink the card and switch the icon to the
-         * more state.
-         * @param button the button that was clicked
-         */
-        private void handleMoreOrLess(final View button) {
-            mExpandedFlags.put(mChatRoom, !mExpandedFlags.get(mChatRoom));
-            displayPreview();
-        }
-        /**
-         * Helper used to determine if the preview should be displayed or not.
-         */
-        private void displayPreview() {
-            if (mExpandedFlags.get(mChatRoom)) {
-                binding.textPreview.setVisibility(View.VISIBLE);
-                binding.buittonMore.setImageIcon(
-                        Icon.createWithResource(
-                                mView.getContext(),
-                                R.drawable.ic_less_grey_24dp));
-            } else {
-                binding.textPreview.setVisibility(View.GONE);
-                binding.buittonMore.setImageIcon(
-                        Icon.createWithResource(
-                                mView.getContext(),
-                                R.drawable.ic_more_grey_24dp));
-            }
-        }
-        void setChatRoom(final ChatRoom chatRoom) {
-            mChatRoom = chatRoom;
-            binding.cardRoot.setOnClickListener(view -> {
-                Navigation.findNavController(mView).navigate(
-                        ChatListFragmentDirections
-                                .actionChatListFragmentToChatFragment(chatRoom));
-            });
-            binding.textTitle.setText(chatRoom.getTitle());
-            //binding.textPubdate.setText(blog.getPubDate());
-            //Use methods in the HTML class to format the HTML found in the text
-            final String preview =  Html.fromHtml(
-                            //blog.getTeaser(),
-                            chatRoom.getMessage(),
-                            Html.FROM_HTML_MODE_COMPACT)
-                    .toString().substring(0,100) //just a preview of the teaser
-                    + "...";
-            binding.textPreview.setText(preview);
-            displayPreview();
-        }
-    }
+    private final List<ChatRoom> mChatRoomsList;
+    private final Context mContext;
+    private ChatListViewModel mChatListViewModel;
+    private final String mJWT;
 
-    //Store all of the blogs to present
-    private final List<ChatRoom> mChatRooms;
-    //Store the expanded state for each List item, true -> expanded, false -> not
-    private final Map<ChatRoom, Boolean> mExpandedFlags;
-
-    public ChatListRecyclerViewAdapter(List<ChatRoom> items) {
-        this.mChatRooms = items;
-        mExpandedFlags = mChatRooms.stream()
-                .collect(Collectors.toMap(Function.identity(), blog -> false));
-    }
-
-    @Override
-    public int getItemCount() {
-        return mChatRooms.size();
+    public ChatListRecyclerViewAdapter(Context context, List<ChatRoom> chatrooms, String jwt) {
+        this.mContext = context;
+        this.mChatRoomsList = chatrooms;
+        mChatListViewModel = new ViewModelProvider((ViewModelStoreOwner) mContext).get(ChatListViewModel.class);
+        this.mJWT = jwt;
     }
 
     @NonNull
@@ -112,9 +51,36 @@ public class ChatListRecyclerViewAdapter extends RecyclerView.Adapter<ChatListRe
 
     @Override
     public void onBindViewHolder(@NonNull ChatListViewHolder holder, int position) {
-        holder.setChatRoom(mChatRooms.get(position));
+        holder.chatTitle.setText(mChatRoomsList.get(position).getTitle());
+
+        holder.remove.setOnClickListener(button -> {
+            //mChatListViewModel.removeChatRoom(mJWT, mChatRoomsList.get(position).getChatID());
+            mChatRoomsList.remove(mChatRoomsList.get(position));
+            notifyDataSetChanged();
+        });
     }
 
 
+    @Override
+    public int getItemCount() {
+        return mChatRoomsList.size();
+    }
+
+    /**
+     * Objects from this class represent an Individual row View from the List
+     * of rows in the Blog Recycler View.
+     */
+    public class ChatListViewHolder extends RecyclerView.ViewHolder {
+        public final View mView;
+        TextView chatTitle;
+        ImageButton remove;
+
+        public ChatListViewHolder(View view) {
+            super(view);
+            chatTitle = view.findViewById(R.id.text_chatroom_name);
+            remove = view.findViewById(R.id.button_chat_remove);
+            mView = view.getRootView();
+        }
+    }
 
 }

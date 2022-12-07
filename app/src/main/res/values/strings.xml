@@ -46,5 +46,7 @@
     <string name="change_theme">Change Theme</string>
     <string name="change_password">Change Password</string>
     <string name="send">Send</string>
+    <string name="chatroom_name">Chatroom Name</string>
+    <string name="hint_chatroom_name">Enter chatroom name</string>
 
 </resources>
