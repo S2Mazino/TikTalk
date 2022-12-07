@@ -9,11 +9,7 @@
         android:id="@+id/homeFragment"
         android:name="edu.uw.tcss450.team3.tiktalk.ui.home.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" >
-        <action
-            android:id="@+id/action_homeFragment_to_changePasswordFragment"
-            app:destination="@id/changePasswordFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_home" />
     <fragment
         android:id="@+id/changePasswordFragment"
         android:name="edu.uw.tcss450.team3.tiktalk.ui.auth.changepassword.ChangePasswordFragment"
@@ -21,7 +17,8 @@
         tools:layout="@layout/fragment_change_password_code" >
         <argument
             android:name="memberID"
-            app:argType="integer" />
+            app:argType="integer"
+            android:defaultValue="0" />
     </fragment>
     <fragment
         android:id="@+id/connectionFragment"

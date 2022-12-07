@@ -74,11 +74,11 @@ public class ChangePasswordFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         binding.buttonReset.setOnClickListener(this::attemptPasswordChange);
         mChangeModel.addResponseObserver(getViewLifecycleOwner(),
                 this::observeChangeResponse);
     }
+
 
     private void navigateBackToSignIn() {
         Navigation.findNavController(getView())
@@ -110,7 +110,7 @@ public class ChangePasswordFragment extends Fragment {
 
     private void verifyPasswordChange() {
         ChangePasswordFragmentArgs args = ChangePasswordFragmentArgs.fromBundle(getArguments());
-//        Log.d("memberID", String.valueOf(args.getMemberID()));
+        Log.d("memberID", String.valueOf(args.getMemberID()));
         mChangeModel.connectPasswordChange(args.getMemberID(), binding.editTextTextPassword2.getText().toString());
     }
 

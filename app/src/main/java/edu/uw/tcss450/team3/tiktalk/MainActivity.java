@@ -3,7 +3,10 @@ package edu.uw.tcss450.team3.tiktalk;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 
 import android.Manifest;
@@ -31,12 +34,12 @@ import com.google.android.material.navigation.NavigationBarView;
 import edu.uw.tcss450.team3.tiktalk.model.LocationViewModel;
 import edu.uw.tcss450.team3.tiktalk.model.PushyTokenViewModel;
 import edu.uw.tcss450.team3.tiktalk.model.UserInfoViewModel;
+import edu.uw.tcss450.team3.tiktalk.ui.auth.changepassword.ChangePasswordFragment;
 import edu.uw.tcss450.team3.tiktalk.ui.chat.chatRoom.ChatFragment;
 import edu.uw.tcss450.team3.tiktalk.ui.chat.chatList.ChatListFragment;
 import edu.uw.tcss450.team3.tiktalk.ui.connection.ConnectionFragment;
 import edu.uw.tcss450.team3.tiktalk.ui.connection.ContactFragment;
 import edu.uw.tcss450.team3.tiktalk.ui.home.HomeFragment;
-import edu.uw.tcss450.team3.tiktalk.ui.home.HomeFragmentDirections;
 import edu.uw.tcss450.team3.tiktalk.ui.weather.WeatherFirstFragment;
 import edu.uw.tcss450.team3.tiktalk.ui.weather.WeatherFragment;
 import edu.uw.tcss450.team3.tiktalk.ui.weather.WeatherSecondFragment;
@@ -78,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
     ChatFragment chatFragment = new ChatFragment();
     WeatherSecondFragment weatherSecondFragment = new WeatherSecondFragment();
     WeatherFragment weatherFragment = new WeatherFragment();
+    ChangePasswordFragment changePasswordFragment = new ChangePasswordFragment();
 
     AppBarConfiguration mAppBarConfiguration;
 
@@ -316,8 +320,10 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         if (id == R.id.action_change_password) {
-            HomeFragmentDirections.ActionHomeFragmentToChangePasswordFragment directions =
-                    HomeFragmentDirections.actionHomeFragmentToChangePasswordFragment(mUserInfoModel.getmMemberId());
+            Bundle bundle = new Bundle();
+            bundle.putInt("memberID", mUserInfoModel.getmMemberId());
+            changePasswordFragment.setArguments(bundle);
+            getSupportFragmentManager().beginTransaction().replace(R.id.layout_container, changePasswordFragment,null).commit();
             return true;
         }
         if (id == R.id.action_change_theme) {
