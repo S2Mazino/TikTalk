@@ -1,13 +1,10 @@
 package edu.uw.tcss450.team3.tiktalk.ui.weather;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
@@ -27,7 +24,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.android.material.textfield.TextInputEditText;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -38,24 +34,21 @@ import java.util.ArrayList;
 import edu.uw.tcss450.team3.tiktalk.R;
 import edu.uw.tcss450.team3.tiktalk.adapter.WeatherDailyAdapter;
 import edu.uw.tcss450.team3.tiktalk.adapter.WeatherHourlyAdapter;
-import edu.uw.tcss450.team3.tiktalk.databinding.FragmentWeatherFirstBinding;
-import edu.uw.tcss450.team3.tiktalk.model.LocationViewModel;
 import edu.uw.tcss450.team3.tiktalk.model.WeatherRVModal;
 
 
-public class WeatherMapFragment extends Fragment {
+public class WeatherFromMapFragment extends Fragment {
 
     private String coorWeatherURL = "https://tcss450-2022au-group3.herokuapp.com/weather/lat-lon/";
-
     private String latitude;
     private String longitude;
-    private WeatherViewModel mWeatherViewModel;
 
     private RelativeLayout homeRL;
     private ProgressBar loadingPB;
     private TextView cityNameTV, temperatureTV, conditionTV;
-    private TextInputEditText cityEdt;
-    private ImageView backIV,iconIV, searchIV;
+    private ImageView backIV,iconIV;
+
+
 
     private RecyclerView mDailyWeatherForecast;
     private RecyclerView mHourlyWeatherForecast;
@@ -66,38 +59,45 @@ public class WeatherMapFragment extends Fragment {
     private RequestQueue mRequestDailyQueue;
     private RequestQueue mRequestHourlyQueue;
     private int PERMISSION_CODE = 1;
+    private WeatherViewModel mWeatherViewModel;
 
-    public WeatherMapFragment() {
+    View rootView;
+
+    public WeatherFromMapFragment() {
         // Required empty public constructor
     }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ViewModelProvider provider = new ViewModelProvider(getActivity());
         mWeatherViewModel = provider.get(WeatherViewModel.class);
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_weather_map, container, false);
+        rootView = inflater.inflate(R.layout.fragment_weather_from_map, container, false);
+        Bundle bundle = this.getArguments();
+        latitude = bundle.getString("latitude");
+        longitude = bundle.getString("longitude");
+        return rootView;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        FragmentWeatherFirstBinding binding = FragmentWeatherFirstBinding.bind(getView());
+
         homeRL = view.findViewById(R.id.idRLHome);
         loadingPB = view.findViewById(R.id.idPBLoading);
         cityNameTV = view.findViewById(R.id.idTVCityName);
         temperatureTV = view.findViewById(R.id.idTVTemperature);
         conditionTV = view.findViewById(R.id.idTVCondition);
-        cityEdt = view.findViewById(R.id.idEdtCity);
-        backIV = view.findViewById(R.id.idIVBack);
+        backIV = view.findViewById(R.id.idIVBackToMap);
         iconIV = view.findViewById(R.id.idIVIcon);
-        searchIV = view.findViewById(R.id.idIVSearch);
 
         mHourlyWeatherForecast = view.findViewById(R.id.idRVHourlyWeather);
         hourlyForecastArrayList = new ArrayList<>();
@@ -110,6 +110,16 @@ public class WeatherMapFragment extends Fragment {
         mDailyWeatherForecast.setAdapter(mWeatherDailyAdapter);
 
         getLatLonWeatherData(latitude, longitude);
+
+        backIV.setOnClickListener(new View.OnClickListener() {
+
+            WeatherSecondFragment weatherSecondFragment = new WeatherSecondFragment();
+            @Override
+            public void onClick(View view) {
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.CurrentWeatherMap, weatherSecondFragment).commit();
+            }
+        });
+
     }
 
     private void getLatLonWeatherData(String latitude, String longitude) {
@@ -231,6 +241,4 @@ public class WeatherMapFragment extends Fragment {
         mRequestHourlyQueue.add(request);
         mRequestDailyQueue.add(request);
     }
-
-
 }

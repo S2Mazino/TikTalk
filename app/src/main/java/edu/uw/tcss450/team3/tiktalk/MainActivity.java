@@ -150,7 +150,7 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.weatherIcon:
                         getSupportFragmentManager().beginTransaction().replace(R.id.layout_container, weatherFragment).commit();
                         // getSupportFragmentManager().beginTransaction().replace(R.id.layout_container, weatherFirstFragment).commit();
-                        // getSupportFragmentManager().beginTransaction().replace(R.id.layout_container, weatherSecondFragment).commit();
+                         //getSupportFragmentManager().beginTransaction().replace(R.id.layout_container, weatherSecondFragment).commit();
                         return true;
                     default:
                         getSupportFragmentManager().beginTransaction().replace(R.id.layout_container, homeFragment).commit();

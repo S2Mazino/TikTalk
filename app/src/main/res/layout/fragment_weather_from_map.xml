@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/CurrentWeather"
+    android:id="@+id/CurrentWeatherMap"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_above="@+id/bottom_navigation"
@@ -40,43 +40,26 @@
             android:weightSum="5"
             >
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/idTILCity"
-                android:layout_margin="10dp"
-                android:layout_weight="4.5"
-                android:background="@android:color/transparent"
-                android:hint="Enter Zipcode"
-                android:padding="1dp"
-                app:hintTextColor="@color/white"
-                android:textColorHint="@color/white"
-                >
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/idEdtCity"
-                    android:background="@android:color/transparent"
-                    android:importantForAutofill="no"
-                    android:inputType="text"
-                    android:singleLine="true"
-                    android:textColor="@color/white"
-                    android:textSize="14sp"/>
-
-            </com.google.android.material.textfield.TextInputLayout>
-
             <ImageView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
                 android:layout_gravity="center"
-                android:id="@+id/idIVSearch"
+                android:id="@+id/idIVBackToMap"
                 android:layout_margin="10dp"
                 android:background="@android:color/transparent"
-                android:src="@drawable/ic_search"
+                android:src="@drawable/ic_back"
                 app:tint="@color/white"
                 />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Back to Map"
+                android:textSize="15dp"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:paddingTop="12dp"/>
         </LinearLayout>
 
         <TextView
