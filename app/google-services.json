@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1072764483203",
+    "project_id": "tiktalk-ea0fb",
+    "storage_bucket": "tiktalk-ea0fb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1072764483203:android:c01d462835e214c32acdb6",
+        "android_client_info": {
+          "package_name": "edu.uw.tcss450.team3.tiktalk"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1072764483203-tqnvn548n2ckr2dhf7r5d6qfe077jse8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCMRDtINBGmEyBaljAoKA2Db_TmGFqM3rA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1072764483203-tqnvn548n2ckr2dhf7r5d6qfe077jse8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

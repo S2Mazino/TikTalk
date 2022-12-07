@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 
 import edu.uw.tcss450.team3.tiktalk.R;
 import edu.uw.tcss450.team3.tiktalk.databinding.FragmentChatBinding;
+
 import edu.uw.tcss450.team3.tiktalk.databinding.FragmentChatListBinding;
 import edu.uw.tcss450.team3.tiktalk.databinding.FragmentContactBinding;
 import edu.uw.tcss450.team3.tiktalk.model.UserInfoViewModel;

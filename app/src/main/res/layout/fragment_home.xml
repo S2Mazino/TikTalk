@@ -52,13 +52,86 @@
                     android:textStyle="bold" />
             </RelativeLayout>
 
-            <LinearLayout
+
+            <RelativeLayout
+
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="130dp"
                 android:layout_margin="15dp"
-                android:background="@drawable/weather_forcast"
+                android:background="@drawable/greadient_bg"
                 android:orientation="vertical"
-                android:elevation="50dp"/>
+                android:elevation="50dp">
+
+                <ProgressBar
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/idPBLoading"
+                    android:layout_centerInParent="true"
+                    android:visibility="visible"
+                    />
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/idRLHome"
+                    android:visibility="gone">
+                <TextView
+                    android:id="@+id/idTVCityName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:padding="5sp"
+                    android:text="City"
+                    android:textAlignment="center"
+                    android:textColor="@color/pastel_red"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:layout_marginHorizontal="5dp"/>
+
+                <TextView
+                    android:id="@+id/idTVTemperature"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="center_horizontal"
+                    android:text="43"
+                    android:textColor="@color/white"
+                    android:textSize="40dp"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginTop="50dp"
+
+                    />
+
+                <TextView
+                    android:id="@+id/idTVCondition"
+                    android:layout_width="191dp"
+                    android:layout_height="39dp"
+                    android:layout_marginEnd="100dp"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="center"
+                    android:padding="5sp"
+                    android:text="Condition"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:layout_marginStart="80dp"
+                    android:layout_marginTop="55dp"
+                     />
+
+                <ImageView
+                    android:id="@+id/idIVIcon"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_marginBottom="10dp"
+                    android:src="@drawable/rainny_icon"
+                    android:layout_marginEnd="30dp"
+                    android:layout_marginStart="270dp"
+                    android:layout_marginTop="40dp"/>
+
+
+                </RelativeLayout>
+            </RelativeLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
