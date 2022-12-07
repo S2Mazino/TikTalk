@@ -88,8 +88,6 @@ public class WeatherFirstFragment extends Fragment {
     private int PERMISSION_CODE = 1;
 
 
-
-
     public WeatherFirstFragment(){
         // Required empty public constructor
     }
@@ -154,14 +152,7 @@ public class WeatherFirstFragment extends Fragment {
             }
         });
 
-//        // Get the lat/lon from the device access permission
-//        mModel = new ViewModelProvider(getActivity())
-//                .get(LocationViewModel.class);
-//        mModel.addLocationObserver(getViewLifecycleOwner(), location -> {
-//                getWeatherData(location);
-//        });
-
-        getLatLonWeatherData(HARD_CODED_LATITUDE, HARD_CODED_LONGITUDE);
+        //getLatLonWeatherData(HARD_CODED_LATITUDE, HARD_CODED_LONGITUDE);
 
         searchIV.setOnClickListener(new View.OnClickListener() {
             @Override

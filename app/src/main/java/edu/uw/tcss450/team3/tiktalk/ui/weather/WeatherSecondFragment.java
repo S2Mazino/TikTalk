@@ -81,32 +81,14 @@ public class WeatherSecondFragment extends Fragment implements OnMapReadyCallbac
     // Hard coded for the location --> UWT
     private static final double HARD_CODED_LATITUDE = 47.2454;
     private static final double HARD_CODED_LONGITUDE = -122.4385;
-    private static final String HARD_CODED_ZIPCODE = "98402";
 
-    private WeatherViewModel mWeatherViewModel;
-    private FragmentWeatherFirstBinding mBinding;
-
+    private double localLat;
+    private double localLon;
     private String latitude;
     private String longitude;
     private LocationViewModel mModel;
     private GoogleMap mMap;
 
-
-    private RelativeLayout homeRL;
-    private ProgressBar loadingPB;
-    private TextView cityNameTV, temperatureTV, conditionTV;
-    private TextInputEditText cityEdt;
-    private ImageView backIV, iconIV, searchIV;
-
-    private RecyclerView mDailyWeatherForecast;
-    private RecyclerView mHourlyWeatherForecast;
-    private WeatherDailyAdapter mWeatherDailyAdapter;
-    private WeatherHourlyAdapter mWeatherHourlyAdapter;
-    private ArrayList<WeatherDailyForecastItem> dailyForecastArrayList;
-    private ArrayList<WeatherRVModal> hourlyForecastArrayList;
-    private RequestQueue mRequestDailyQueue;
-    private RequestQueue mRequestHourlyQueue;
-    private int PERMISSION_CODE = 1;
 
     public WeatherSecondFragment() {
         // Required empty public constructor
@@ -144,7 +126,26 @@ public class WeatherSecondFragment extends Fragment implements OnMapReadyCallbac
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         mMap = googleMap;
-        LatLng center = new LatLng(HARD_CODED_LATITUDE, HARD_CODED_LONGITUDE);
+        LocationViewModel model = new ViewModelProvider(getActivity())
+                .get(LocationViewModel.class);
+        model.addLocationObserver(getViewLifecycleOwner(), location -> {
+            if (location != null) {
+                if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    // TODO: Consider calling
+                    //    ActivityCompat#requestPermissions
+                    // here to request the missing permissions, and then overriding
+                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                    //                                          int[] grantResults)
+                    // to handle the case where the user grants the permission. See the documentation
+                    // for ActivityCompat#requestPermissions for more details.
+                    return;
+                }
+                localLat = location.getLatitude();
+                localLon = location.getLongitude();
+            }
+        });
+        LatLng center = new LatLng(localLat, localLon);
+//        LatLng center = new LatLng(HARD_CODED_LATITUDE, HARD_CODED_LONGITUDE);
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.title("My position");
         markerOptions.position(center);
@@ -169,33 +170,6 @@ public class WeatherSecondFragment extends Fragment implements OnMapReadyCallbac
         googleMap.setMyLocationEnabled(true);
 
         mMap.setOnMapClickListener(this);
-
-
-        // Location view model doesn't work. We can't retrieve the location
-//        LocationViewModel model = new ViewModelProvider(getActivity())
-//                .get(LocationViewModel.class);
-//        model.addLocationObserver(getViewLifecycleOwner(), location -> {
-//            if (location != null) {
-//                googleMap.getUiSettings().setZoomControlsEnabled(true);
-//                if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-//                    // TODO: Consider calling
-//                    //    ActivityCompat#requestPermissions
-//                    // here to request the missing permissions, and then overriding
-//                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-//                    //                                          int[] grantResults)
-//                    // to handle the case where the user grants the permission. See the documentation
-//                    // for ActivityCompat#requestPermissions for more details.
-//                    return;
-//                }
-//                googleMap.setMyLocationEnabled(true);
-//                final LatLng c = new LatLng(location.getLatitude(), location.getLongitude());
-//
-//                //Zoom levels are from 2.0f (zoomed out) to 21.f (zoomed in)
-//                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(c, 15.0f));
-//            }
-//        });
-//        mMap.setOnMapClickListener(this);
-
     }
 
 
@@ -218,73 +192,5 @@ public class WeatherSecondFragment extends Fragment implements OnMapReadyCallbac
                 CameraUpdateFactory.newLatLngZoom(
                         latLng, mMap.getCameraPosition().zoom));
 
-    }
-
-    private void getWeatherData(Location location) {
-
-        latitude = String.valueOf(location.getLatitude());
-        longitude = String.valueOf(location.getLongitude());
-        String weatherURL = coorWeatherURL + latitude + "/" + longitude;
-
-        mRequestDailyQueue = Volley.newRequestQueue(getActivity());
-        mRequestHourlyQueue = Volley.newRequestQueue(getActivity());
-
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, weatherURL, null,
-                new Response.Listener<JSONObject>() {
-                    @SuppressLint("NotifyDataSetChanged")
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        loadingPB.setVisibility(View.GONE);
-                        homeRL.setVisibility(View.VISIBLE);
-                        hourlyForecastArrayList.clear();
-                        dailyForecastArrayList.clear();
-                        try {
-
-                            String cityName = response.getString("city");
-                            cityNameTV.setText(cityName);
-
-                            JSONObject jsonCurrentObject = response.getJSONObject("current");
-                            String currTemp = jsonCurrentObject.getString("tempF");
-                            temperatureTV.setText(currTemp + "°");
-                            String currCondition = jsonCurrentObject.getString("condition");
-                            conditionTV.setText(currCondition);
-                            String currIconURL = jsonCurrentObject.getString("icon");
-
-                            Picasso.get().load(currIconURL).into(iconIV);
-
-                            JSONArray jsonHourlyArray = response.getJSONArray("hourly");
-                            for(int i = 0; i < jsonHourlyArray.length(); i++) {
-                                JSONObject hourlyData = jsonHourlyArray.getJSONObject(i);
-                                String time = hourlyData.getString("hours");
-                                String iconURL = hourlyData.getString("icon");
-                                String temperature = String.valueOf(hourlyData.getInt("tempF"));
-                                hourlyForecastArrayList.add(new WeatherRVModal(time, iconURL, temperature));
-                            }
-
-                            JSONArray jsonDailyArray = response.getJSONArray("daily");
-                            for(int i = 0; i < jsonDailyArray.length(); i++) {
-                                JSONObject dailyData = jsonDailyArray.getJSONObject(i);
-                                String day = dailyData.getString("day");
-                                String iconURL = dailyData.getString("icon");
-                                String maxTemp = dailyData.getString("maxTempF");
-                                String minTemp = dailyData.getString("minTempF");
-                                String temp = maxTemp + "°" + " / " + minTemp + "°";
-                                dailyForecastArrayList.add(new WeatherDailyForecastItem(day, iconURL, temp));
-                            }
-                            mWeatherHourlyAdapter.notifyDataSetChanged();
-                            mWeatherDailyAdapter.notifyDataSetChanged();
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getActivity(), "Invalid location", Toast.LENGTH_SHORT).show();
-            }
-        });
-        mRequestHourlyQueue.add(request);
-        mRequestDailyQueue.add(request);
     }
 }

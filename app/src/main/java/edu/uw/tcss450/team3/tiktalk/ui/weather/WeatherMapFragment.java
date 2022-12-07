@@ -1,60 +1,81 @@
 package edu.uw.tcss450.team3.tiktalk.ui.weather;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+import com.google.android.material.textfield.TextInputEditText;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 import edu.uw.tcss450.team3.tiktalk.R;
+import edu.uw.tcss450.team3.tiktalk.adapter.WeatherDailyAdapter;
+import edu.uw.tcss450.team3.tiktalk.adapter.WeatherHourlyAdapter;
+import edu.uw.tcss450.team3.tiktalk.databinding.FragmentWeatherFirstBinding;
+import edu.uw.tcss450.team3.tiktalk.model.LocationViewModel;
+import edu.uw.tcss450.team3.tiktalk.model.WeatherRVModal;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link WeatherMapFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class WeatherMapFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private String coorWeatherURL = "https://tcss450-2022au-group3.herokuapp.com/weather/lat-lon/";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private String latitude;
+    private String longitude;
+    private WeatherViewModel mWeatherViewModel;
+
+    private RelativeLayout homeRL;
+    private ProgressBar loadingPB;
+    private TextView cityNameTV, temperatureTV, conditionTV;
+    private TextInputEditText cityEdt;
+    private ImageView backIV,iconIV, searchIV;
+
+    private RecyclerView mDailyWeatherForecast;
+    private RecyclerView mHourlyWeatherForecast;
+    private WeatherDailyAdapter mWeatherDailyAdapter;
+    private WeatherHourlyAdapter mWeatherHourlyAdapter;
+    private ArrayList<WeatherDailyForecastItem> dailyForecastArrayList;
+    private ArrayList<WeatherRVModal> hourlyForecastArrayList;
+    private RequestQueue mRequestDailyQueue;
+    private RequestQueue mRequestHourlyQueue;
+    private int PERMISSION_CODE = 1;
 
     public WeatherMapFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment WeatherMapFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static WeatherMapFragment newInstance(String param1, String param2) {
-        WeatherMapFragment fragment = new WeatherMapFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+        ViewModelProvider provider = new ViewModelProvider(getActivity());
+        mWeatherViewModel = provider.get(WeatherViewModel.class);
     }
 
     @Override
@@ -63,4 +84,153 @@ public class WeatherMapFragment extends Fragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_weather_map, container, false);
     }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        FragmentWeatherFirstBinding binding = FragmentWeatherFirstBinding.bind(getView());
+        homeRL = view.findViewById(R.id.idRLHome);
+        loadingPB = view.findViewById(R.id.idPBLoading);
+        cityNameTV = view.findViewById(R.id.idTVCityName);
+        temperatureTV = view.findViewById(R.id.idTVTemperature);
+        conditionTV = view.findViewById(R.id.idTVCondition);
+        cityEdt = view.findViewById(R.id.idEdtCity);
+        backIV = view.findViewById(R.id.idIVBack);
+        iconIV = view.findViewById(R.id.idIVIcon);
+        searchIV = view.findViewById(R.id.idIVSearch);
+
+        mHourlyWeatherForecast = view.findViewById(R.id.idRVHourlyWeather);
+        hourlyForecastArrayList = new ArrayList<>();
+        mWeatherHourlyAdapter = new WeatherHourlyAdapter(getActivity(), hourlyForecastArrayList);
+        mHourlyWeatherForecast.setAdapter(mWeatherHourlyAdapter);
+
+        mDailyWeatherForecast = view.findViewById(R.id.idRVDailyWeather);
+        dailyForecastArrayList = new ArrayList<>();
+        mWeatherDailyAdapter = new WeatherDailyAdapter(getActivity(), dailyForecastArrayList);
+        mDailyWeatherForecast.setAdapter(mWeatherDailyAdapter);
+
+        getLatLonWeatherData(latitude, longitude);
+    }
+
+    private void getLatLonWeatherData(String latitude, String longitude) {
+
+        String weatherURL = coorWeatherURL + latitude + "/" + longitude;
+        mRequestDailyQueue = Volley.newRequestQueue(getActivity());
+        mRequestHourlyQueue = Volley.newRequestQueue(getActivity());
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, weatherURL, null,
+                new Response.Listener<JSONObject>() {
+                    @SuppressLint("NotifyDataSetChanged")
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        loadingPB.setVisibility(View.GONE);
+                        homeRL.setVisibility(View.VISIBLE);
+                        hourlyForecastArrayList.clear();
+                        dailyForecastArrayList.clear();
+                        try {
+
+                            String cityName = response.getString("city");
+                            cityNameTV.setText(cityName);
+
+                            JSONObject jsonCurrentObject = response.getJSONObject("current");
+                            String currTemp = jsonCurrentObject.getString("tempF");
+                            temperatureTV.setText(currTemp + "°");
+                            String currCondition = jsonCurrentObject.getString("condition");
+                            conditionTV.setText(currCondition);
+                            String currIconValue = jsonCurrentObject.getString("iconValue");
+
+                            switch (currIconValue) {
+                                case "01d":
+                                    iconIV.setImageResource(R.drawable._01d);
+                                    break;
+                                case "02d":
+                                    iconIV.setImageResource(R.drawable._02d);
+                                    break;
+                                case "03d":
+                                    iconIV.setImageResource(R.drawable._03d);
+                                    break;
+                                case "04d":
+                                    iconIV.setImageResource(R.drawable._04d);
+                                    break;
+                                case "09d":
+                                    iconIV.setImageResource(R.drawable._09d);
+                                    break;
+                                case "10d":
+                                    iconIV.setImageResource(R.drawable._10d);
+                                    break;
+                                case "11d":
+                                    iconIV.setImageResource(R.drawable._11d);
+                                    break;
+                                case "13d":
+                                    iconIV.setImageResource(R.drawable._13d);
+                                    break;
+                                case "50d":
+                                    iconIV.setImageResource(R.drawable._50d);
+                                    break;
+                                case "01n":
+                                    iconIV.setImageResource(R.drawable._01n);
+                                    break;
+                                case "02n":
+                                    iconIV.setImageResource(R.drawable._02n);
+                                    break;
+                                case "03n":
+                                    iconIV.setImageResource(R.drawable._03n);
+                                    break;
+                                case "04n":
+                                    iconIV.setImageResource(R.drawable._04n);
+                                    break;
+                                case "09n":
+                                    iconIV.setImageResource(R.drawable._09n);
+                                    break;
+                                case "10n":
+                                    iconIV.setImageResource(R.drawable._10n);
+                                    break;
+                                case "11n":
+                                    iconIV.setImageResource(R.drawable._11n);
+                                    break;
+                                case "13n":
+                                    iconIV.setImageResource(R.drawable._13n);
+                                    break;
+                                case "50n":
+                                    iconIV.setImageResource(R.drawable._50n);
+                                    break;
+                            }
+
+                            JSONArray jsonHourlyArray = response.getJSONArray("hourly");
+                            for(int i = 0; i < jsonHourlyArray.length(); i++) {
+                                JSONObject hourlyData = jsonHourlyArray.getJSONObject(i);
+                                String time = hourlyData.getString("hours");
+                                String iconValue = hourlyData.getString("iconValue");
+                                String temperature = String.valueOf(hourlyData.getInt("tempF"));
+                                hourlyForecastArrayList.add(new WeatherRVModal(time, iconValue, temperature));
+                            }
+
+                            JSONArray jsonDailyArray = response.getJSONArray("daily");
+                            for(int i = 0; i < jsonDailyArray.length(); i++) {
+                                JSONObject dailyData = jsonDailyArray.getJSONObject(i);
+                                String day = dailyData.getString("day");
+                                String iconValue = dailyData.getString("iconValue");
+                                String maxTemp = dailyData.getString("maxTempF");
+                                String minTemp = dailyData.getString("minTempF");
+                                String temp = maxTemp + "°" + " / " + minTemp + "°";
+                                dailyForecastArrayList.add(new WeatherDailyForecastItem(day, iconValue, temp));
+                            }
+                            mWeatherHourlyAdapter.notifyDataSetChanged();
+                            mWeatherDailyAdapter.notifyDataSetChanged();
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getActivity(), "Invalid location", Toast.LENGTH_SHORT).show();
+            }
+        });
+        mRequestHourlyQueue.add(request);
+        mRequestDailyQueue.add(request);
+    }
+
+
 }
