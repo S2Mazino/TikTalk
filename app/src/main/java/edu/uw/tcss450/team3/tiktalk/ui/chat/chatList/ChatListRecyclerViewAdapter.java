@@ -1,8 +1,6 @@
 package edu.uw.tcss450.team3.tiktalk.ui.chat.chatList;
 
 import android.content.Context;
-import android.graphics.drawable.Icon;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,19 +10,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 import edu.uw.tcss450.team3.tiktalk.R;
-import edu.uw.tcss450.team3.tiktalk.databinding.FragmentChatListCardBinding;
-import edu.uw.tcss450.team3.tiktalk.ui.connection.Contact;
-import edu.uw.tcss450.team3.tiktalk.ui.connection.ContactListViewModel;
-import edu.uw.tcss450.team3.tiktalk.ui.connection.ContactSearchListViewModel;
+import edu.uw.tcss450.team3.tiktalk.ui.chat.chatRoom.ChatRoom;
 
 public class ChatListRecyclerViewAdapter extends RecyclerView.Adapter<ChatListRecyclerViewAdapter.ChatListViewHolder> {
 

@@ -301,8 +301,6 @@ public class WeatherFirstFragment extends Fragment {
 
         String weatherURL = coorWeatherURL + latitude + "/" + longitude;
 
-        System.out.println(weatherURL);
-
         mRequestDailyQueue = Volley.newRequestQueue(getActivity());
         mRequestHourlyQueue = Volley.newRequestQueue(getActivity());
 

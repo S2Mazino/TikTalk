@@ -1,4 +1,4 @@
-package edu.uw.tcss450.team3.tiktalk.ui.chat.chatList;
+package edu.uw.tcss450.team3.tiktalk.ui.chat.chatRoom;
 
 import org.json.JSONException;
 import org.json.JSONObject;
