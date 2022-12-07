@@ -20,6 +20,7 @@ import java.nio.charset.Charset;
 import java.util.Objects;
 
 import edu.uw.tcss450.team3.tiktalk.R;
+import edu.uw.tcss450.team3.tiktalk.databinding.FragmentContactRequestBinding;
 import edu.uw.tcss450.team3.tiktalk.databinding.FragmentContactSearchBinding;
 import edu.uw.tcss450.team3.tiktalk.model.UserInfoViewModel;
 
@@ -57,21 +58,26 @@ public class ContactSearchFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         mContactSearchListModel.connectGet(mUserModel.getmJwt());
 
-        RecyclerView rv = mBinding.listSentRequest;
+        FragmentContactSearchBinding binding = FragmentContactSearchBinding.bind(getView());
 
+        binding.swipeContainer.setRefreshing(true);
+
+        RecyclerView rv = binding.listSentRequest;
 
         mContactSearchListModel.addContactSearchListObserver(getViewLifecycleOwner(), contacts -> {
-            if(!contacts.isEmpty()) {
-                rv.setAdapter(new ContactSearchRecyclerViewAdapter(getActivity(), contacts, mUserModel.getmJwt()));
-            }
+            rv.setAdapter(new ContactSearchRecyclerViewAdapter(getActivity(), contacts, mUserModel.getmJwt()));
+            binding.swipeContainer.setRefreshing(false);
+        });
+
+        binding.swipeContainer.setOnRefreshListener(() -> {
+            mContactSearchListModel.connectGet(mUserModel.getmJwt());
+        });
+
+        binding.buttonContactSend.setOnClickListener(button -> {
+            mContactSearchListModel.addSearch(mUserModel.getmJwt(), binding.editSearch.getText().toString());
         });
 
         mContactSearchListModel.addResponseObserver(getViewLifecycleOwner(), this::observeResponse);
-
-        mBinding.buttonContactSend.setOnClickListener(button -> {
-            mContactSearchListModel.addSearch(mUserModel.getmJwt(), mBinding.editSearch.getText().toString());
-        });
-
     }
 
     private void observeResponse(final JSONObject response) {

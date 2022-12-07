@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/layout_root"
@@ -8,24 +7,30 @@
     android:layout_height="match_parent"
     tools:context=".ui.connection.ContactSearchFragment">
 
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/list_sent_request"
-        android:name="edu.uw.tcss450.team3.tiktalk.ui.connection.ContactSearchFragment"
-        android:layout_width="372dp"
-        android:layout_height="664dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:orientation="vertical"
-        app:layoutManager="LinearLayoutManager"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_container"
+        android:layout_width="388dp"
+        android:layout_height="601dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.478"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_sent_request"
-        tools:context="edu.uw.tcss450.team3.tiktalk.ui.connection.ContactSearchFragment"
-        tools:listitem="@layout/fragment_contact_card">
+        app:layout_constraintTop_toBottomOf="@+id/text_sent_request">
 
-    </androidx.recyclerview.widget.RecyclerView>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/list_sent_request"
+            android:name="edu.uw.tcss450.team3.tiktalk.ui.connection.ContactSearchFragment"
+            android:layout_width="372dp"
+            android:layout_height="664dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:orientation="vertical"
+            app:layoutManager="LinearLayoutManager"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.478"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_sent_request"
+            tools:context="edu.uw.tcss450.team3.tiktalk.ui.connection.ContactSearchFragment"
+            tools:listitem="@layout/fragment_contact_card" />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <TextView
         android:id="@+id/text_sent_request"

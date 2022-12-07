@@ -80,4 +80,3 @@ public class ChatListViewModel extends AndroidViewModel {
     }
 
 }
-

@@ -53,17 +53,21 @@ public class ContactRequestFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         mContactRequestListModel.connectGet(mUserModel.getmJwt());
 
-        RecyclerView rv = mBinding.listReceivedRequest;
+        FragmentContactRequestBinding binding = FragmentContactRequestBinding.bind(getView());
+
+        binding.swipeContainer.setRefreshing(true);
+        RecyclerView rv = binding.listReceivedRequest;
 
 //        mBinding.contactAdd.setOnClickListener(button ->
 //                Navigation.findNavController(getView()).navigate(ContactFragmentDirections.actionContactFragmentToContactSearchFragment()));
 
         mContactRequestListModel.addContactRequestListObserver(getViewLifecycleOwner(), contacts -> {
-            if (!contacts.isEmpty()) {
-                rv.setAdapter(new ContactRequestRecyclerViewAdapter(getActivity(), contacts, mUserModel.getmJwt()));
-            }
+            rv.setAdapter(new ContactRequestRecyclerViewAdapter(getActivity(), contacts, mUserModel.getmJwt()));
+        binding.swipeContainer.setRefreshing(false);
         });
 
-
+        binding.swipeContainer.setOnRefreshListener(() -> {
+            mContactRequestListModel.connectGet(mUserModel.getmJwt());
+        });
     }
 }
