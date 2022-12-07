@@ -37,6 +37,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -75,7 +76,7 @@ import edu.uw.tcss450.team3.tiktalk.model.WeatherRVModal;
 public class WeatherSecondFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnMapClickListener {
 
     private String coorWeatherURL = "https://tcss450-2022au-group3.herokuapp.com/weather/lat-lon/";
-    private String zipcodeWeatherURL= "https://tcss450-2022au-group3.herokuapp.com/weather/zipcode/";
+    private String zipcodeWeatherURL = "https://tcss450-2022au-group3.herokuapp.com/weather/zipcode/";
 
     // Hard coded for the location --> UWT
     private static final double HARD_CODED_LATITUDE = 47.2454;
@@ -95,7 +96,7 @@ public class WeatherSecondFragment extends Fragment implements OnMapReadyCallbac
     private ProgressBar loadingPB;
     private TextView cityNameTV, temperatureTV, conditionTV;
     private TextInputEditText cityEdt;
-    private ImageView backIV,iconIV, searchIV;
+    private ImageView backIV, iconIV, searchIV;
 
     private RecyclerView mDailyWeatherForecast;
     private RecyclerView mHourlyWeatherForecast;
@@ -107,7 +108,7 @@ public class WeatherSecondFragment extends Fragment implements OnMapReadyCallbac
     private RequestQueue mRequestHourlyQueue;
     private int PERMISSION_CODE = 1;
 
-    public WeatherSecondFragment(){
+    public WeatherSecondFragment() {
         // Required empty public constructor
     }
 
@@ -143,34 +144,61 @@ public class WeatherSecondFragment extends Fragment implements OnMapReadyCallbac
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         mMap = googleMap;
-        LocationViewModel model = new ViewModelProvider(getActivity())
-                .get(LocationViewModel.class);
-        model.addLocationObserver(getViewLifecycleOwner(), location -> {
-            if (location != null) {
-                googleMap.getUiSettings().setZoomControlsEnabled(true);
-                if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                    // TODO: Consider calling
-                    //    ActivityCompat#requestPermissions
-                    // here to request the missing permissions, and then overriding
-                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                    //                                          int[] grantResults)
-                    // to handle the case where the user grants the permission. See the documentation
-                    // for ActivityCompat#requestPermissions for more details.
-                    return;
-                }
-                googleMap.setMyLocationEnabled(true);
-                final LatLng c = new LatLng(location.getLatitude(), location.getLongitude());
+        LatLng center = new LatLng(HARD_CODED_LATITUDE, HARD_CODED_LONGITUDE);
+        MarkerOptions markerOptions = new MarkerOptions();
+        markerOptions.title("My position");
+        markerOptions.position(center);
+        googleMap.addMarker(markerOptions);
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(center, 15.0f);
+        googleMap.animateCamera(cameraUpdate);
+        googleMap.getUiSettings().setZoomControlsEnabled(true);
+        googleMap.getUiSettings().setCompassEnabled(true);
+        googleMap.getUiSettings().setAllGesturesEnabled(true);
+        googleMap.getUiSettings().setScrollGesturesEnabled(true);
+        googleMap.getUiSettings().setRotateGesturesEnabled(false);
+        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        googleMap.setMyLocationEnabled(true);
 
-                latitude = String.valueOf(location.getLatitude());
-                longitude = String.valueOf(location.getLongitude());
-
-                //Zoom levels are from 2.0f (zoomed out) to 21.f (zoomed in)
-                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(c, 15.0f));
-            }
-        });
         mMap.setOnMapClickListener(this);
 
+
+        // Location view model doesn't work. We can't retrieve the location
+//        LocationViewModel model = new ViewModelProvider(getActivity())
+//                .get(LocationViewModel.class);
+//        model.addLocationObserver(getViewLifecycleOwner(), location -> {
+//            if (location != null) {
+//                googleMap.getUiSettings().setZoomControlsEnabled(true);
+//                if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+//                    // TODO: Consider calling
+//                    //    ActivityCompat#requestPermissions
+//                    // here to request the missing permissions, and then overriding
+//                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+//                    //                                          int[] grantResults)
+//                    // to handle the case where the user grants the permission. See the documentation
+//                    // for ActivityCompat#requestPermissions for more details.
+//                    return;
+//                }
+//                googleMap.setMyLocationEnabled(true);
+//                final LatLng c = new LatLng(location.getLatitude(), location.getLongitude());
+//
+//                //Zoom levels are from 2.0f (zoomed out) to 21.f (zoomed in)
+//                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(c, 15.0f));
+//            }
+//        });
+//        mMap.setOnMapClickListener(this);
+
     }
+
+
 
     @Override
     public void onMapClick(@NonNull LatLng latLng) {
@@ -178,6 +206,14 @@ public class WeatherSecondFragment extends Fragment implements OnMapReadyCallbac
         Marker marker = mMap.addMarker(new MarkerOptions()
                 .position(latLng)
                 .title("New Marker"));
+
+        // Get latitude and logitude from the marker
+        String[] latlong =  latLng.toString().substring(10,latLng.toString().length() - 1).split(",");
+        latitude = String.valueOf(Double.parseDouble(latlong[0]));
+        longitude = String.valueOf(Double.parseDouble(latlong[1]));
+
+        System.out.println("Lat: " + latitude);
+        System.out.println("Lon: " + longitude);
         mMap.animateCamera(
                 CameraUpdateFactory.newLatLngZoom(
                         latLng, mMap.getCameraPosition().zoom));
