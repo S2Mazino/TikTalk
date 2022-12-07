@@ -1,6 +1,8 @@
 package edu.uw.tcss450.team3.tiktalk.ui.weather;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
@@ -17,6 +19,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -28,6 +31,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.material.textfield.TextInputEditText;
 import com.squareup.picasso.Picasso;
 
@@ -83,8 +88,6 @@ public class WeatherFirstFragment extends Fragment {
     private int PERMISSION_CODE = 1;
 
 
-
-
     public WeatherFirstFragment(){
         // Required empty public constructor
     }
@@ -129,16 +132,27 @@ public class WeatherFirstFragment extends Fragment {
         mWeatherDailyAdapter = new WeatherDailyAdapter(getActivity(), dailyForecastArrayList);
         mDailyWeatherForecast.setAdapter(mWeatherDailyAdapter);
 
-
-        // Get the lat/lon from the device access permission
-        mModel = new ViewModelProvider(getActivity())
+        LocationViewModel model = new ViewModelProvider(getActivity())
                 .get(LocationViewModel.class);
-        mModel.addLocationObserver(getViewLifecycleOwner(), location -> {
-            getWeatherData(location);
+        model.addLocationObserver(getViewLifecycleOwner(), location -> {
+            if (location != null) {
+                if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    // TODO: Consider calling
+                    //    ActivityCompat#requestPermissions
+                    // here to request the missing permissions, and then overriding
+                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                    //                                          int[] grantResults)
+                    // to handle the case where the user grants the permission. See the documentation
+                    // for ActivityCompat#requestPermissions for more details.
+                    return;
+                }
+                latitude = String.valueOf(location.getLatitude());
+                longitude = String.valueOf(location.getLongitude());
+                getWeatherData(location);
+            }
         });
 
-        getLatLonWeatherData(HARD_CODED_LATITUDE, HARD_CODED_LONGITUDE);
-
+        //getLatLonWeatherData(HARD_CODED_LATITUDE, HARD_CODED_LONGITUDE);
 
         searchIV.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -148,6 +162,7 @@ public class WeatherFirstFragment extends Fragment {
                     Toast.makeText(getActivity(), "Please enter the zipcode", Toast.LENGTH_SHORT).show();
                 } else {
                     getZipcodeWeatherData(zipcode);
+                    cityEdt.setText("");
                 }
             }
         });

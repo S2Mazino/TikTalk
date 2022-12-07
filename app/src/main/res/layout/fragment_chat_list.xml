@@ -10,20 +10,45 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list_root"
         android:name="edu.uw.tcss450.team3.tiktalk.ui.chat.chatRoom.ChatFragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="396dp"
+        android:layout_height="664dp"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:orientation="vertical"
         app:layoutManager="LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_search_chatroom"
         app:layout_constraintVertical_bias="0.0"
         tools:context="edu.uw.tcss450.team3.tiktalk.ui.chat.chatList.ChatListFragment"
         tools:listitem="@layout/fragment_chat_list_card" />
+
+    <EditText
+        android:id="@+id/text_search_chatroom"
+        android:layout_width="297dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="@string/hint_chatroom_name"
+        app:layout_constraintEnd_toStartOf="@+id/button_add_chatroom"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/button_add_chatroom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="Button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
     <!--    <androidx.constraintlayout.widget.ConstraintLayout-->
 <!--        android:id="@+id/layout_wait"-->
 <!--        android:layout_width="match_parent"-->

@@ -22,8 +22,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import edu.uw.tcss450.team3.tiktalk.ui.chat.chatRoom.ChatRoom;
-
 public class ChatListViewModel extends AndroidViewModel {
 
     private MutableLiveData<List<ChatRoom>> mChatRoomList;

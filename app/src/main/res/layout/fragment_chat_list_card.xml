@@ -8,6 +8,7 @@
     android:layout_height="wrap_content"
     android:layout_margin="5dp"
     app:cardCornerRadius="5dp">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_inner"
         android:layout_width="match_parent"
@@ -16,67 +17,24 @@
         app:layout_constraintTop_toTopOf="@+id/text_title">
 
         <TextView
-            android:id="@+id/text_pubdate"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:background="@color/colorPrimary"
-            android:paddingLeft="8dp"
-            android:paddingTop="8dp"
-            android:paddingRight="8dp"
-            android:textAppearance="?attr/textAppearanceListItem"
-            android:textColor="@color/colorOffWhite"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:id="@+id/text_chatroom_name"
+            android:layout_width="192dp"
+            android:layout_height="37dp"
+            android:text="@string/chatroom_name"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-        <TextView
-            android:id="@+id/text_title"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp"
-            android:paddingBottom="8dp"
-            android:textAppearance="?attr/textAppearanceListItem"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@+id/buitton_more"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_pubdate" />
-        <TextView
-            android:id="@+id/text_preview"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp"
-            android:paddingBottom="8dp"
-            android:textAppearance="?attr/textAppearanceListItem"
-            android:visibility="visible"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/buitton_more" />
-        <ImageButton
-            android:id="@+id/buitton_more"
-            style="@style/Widget.AppCompat.ImageButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:background="@android:drawable/screen_background_light_transparent"
-            app:layout_constraintBottom_toBottomOf="@+id/text_title"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:srcCompat="@drawable/ic_more_grey_24dp" />
-        <Button
-            android:id="@+id/button_full_post"
-            style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:text="@string/action_link"
-            android:textColor="@color/colorAccent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_preview"
-            tools:visibility="visible" />
 
+        <ImageButton
+            android:id="@+id/button_chat_remove"
+            android:layout_width="66dp"
+            android:layout_height="66dp"
+            android:background="@null"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:srcCompat="@drawable/ic_contact_remove_24dp"
+            tools:layout_editor_absoluteY="0dp"
+            app:tint="#FF0000" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </androidx.cardview.widget.CardView>
