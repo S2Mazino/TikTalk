@@ -144,8 +144,8 @@ public class MainActivity extends AppCompatActivity {
                         getSupportFragmentManager().beginTransaction().replace(R.id.layout_container, connectionFragment).commit();
                         return true;
                     case R.id.chatIcon:
-                        // getSupportFragmentManager().beginTransaction().replace(R.id.layout_container, chatFragment).commit();
-                        getSupportFragmentManager().beginTransaction().replace(R.id.layout_container, chatFragment).commit();
+                        getSupportFragmentManager().beginTransaction().replace(R.id.layout_container, chatListFragment).commit();
+                        //getSupportFragmentManager().beginTransaction().replace(R.id.layout_container, chatFragment).commit();
                         return true;
                     case R.id.weatherIcon:
                         getSupportFragmentManager().beginTransaction().replace(R.id.layout_container, weatherFragment).commit();
