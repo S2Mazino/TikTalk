@@ -15,14 +15,19 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
+import edu.uw.tcss450.team3.tiktalk.R;
 import edu.uw.tcss450.team3.tiktalk.ui.chat.chatRoom.ChatRoom;
+import edu.uw.tcss450.team3.tiktalk.ui.connection.Contact;
 
 public class ChatListViewModel extends AndroidViewModel {
 
@@ -42,20 +47,8 @@ public class ChatListViewModel extends AndroidViewModel {
         mChatRoomList.observe(owner, observer);
     }
 
-    private void handleError(final VolleyError error){
-        //you should add much better error handling in a production release.
-        //i.e. YOUR PROJECT
-        Log.e("CONNECTION ERROR", error.getLocalizedMessage());
-        throw new IllegalStateException(error.getMessage());
-    }
-
-    private void handleResult(final JSONObject result) {
-
-    }
-
     public void connectGet(String jwt) {
-        String url =
-                "https://cfb3-tcss450-labs-2021sp.herokuapp.com/phish/blog/get";
+        String url = getApplication().getResources().getString(R.string.base_url) + "chats";
         Request request = new JsonObjectRequest(
                 Request.Method.GET,
                 url,
@@ -66,7 +59,7 @@ public class ChatListViewModel extends AndroidViewModel {
             public Map<String, String> getHeaders() {
                 Map<String, String> headers = new HashMap<>();
                 // add headers <key,value>
-                headers.put("Authorization", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImNmYjMxQGZha2UuZW1haWwuY29tIiwibWVtYmVyaWQiOjI4OCwiaWF0IjoxNjY2NTU3ODQ2LCJleHAiOjE2NzUxOTc4NDZ9.f7IVbAzJbX72vjRUbadIksMzNm6xkPi1l_R_C4O9zb4");
+                headers.put("Authorization", jwt);
                 return headers;
             }
         };
@@ -78,5 +71,52 @@ public class ChatListViewModel extends AndroidViewModel {
         Volley.newRequestQueue(getApplication().getApplicationContext())
                 .add(request);
     }
+
+    private void handleError(final VolleyError error){
+        //you should add much better error handling in a production release.
+        //i.e. YOUR PROJECT
+        if(!Objects.isNull(error.networkResponse)){
+            Log.e("CONNECTION ERROR", error.getLocalizedMessage());
+        }
+
+        //throw new IllegalStateException(error.getMessage());
+    }
+
+    private void handleResult(final JSONObject response) {
+        List<ChatRoom> list;
+        if (!response.has("rowCount")) {
+            throw new IllegalStateException("Unexpected response in ChatroomListViewModel: " + response);
+        }
+        try {
+            list = new ArrayList<>();
+            JSONArray chatrooms = response.getJSONArray("rows");
+            for(int i = 0; i < chatrooms.length(); i++) {
+                JSONObject chatroom = chatrooms.getJSONObject(i);
+                ChatRoom cChatroom = new ChatRoom(
+                        chatroom.getString("name"),
+                        chatroom.getInt("chatid")
+                );
+                if (!list.contains(cChatroom)) {
+                    // don't add a duplicate
+                    list.add(0, cChatroom);
+                } else {
+                    // this shouldn't happen but could with the asynchronous
+                    // nature of the application
+                    Log.wtf("Chatroom already received",
+                            "Or duplicate id:" + cChatroom.getChatID());
+                }
+
+            }
+            //inform observers of the change (setValue)
+            //getOrCreateMapEntry(response.getInt("chatId")).setValue(list);
+            mChatRoomList.setValue(list);
+        }catch (JSONException e) {
+            Log.e("JSON PARSE ERROR", "Found in handle Success ChatListViewModel");
+            Log.e("JSON PARSE ERROR", "Error: " + e.getMessage());
+        }
+
+    }
+
+
 
 }
