@@ -35,12 +35,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import edu.uw.tcss450.team3.tiktalk.R;
+import edu.uw.tcss450.team3.tiktalk.databinding.FragmentContactRequestBinding;
 import edu.uw.tcss450.team3.tiktalk.databinding.FragmentHomeBinding;
 import edu.uw.tcss450.team3.tiktalk.databinding.FragmentSignInBinding;
 import edu.uw.tcss450.team3.tiktalk.model.LocationViewModel;
 import edu.uw.tcss450.team3.tiktalk.model.UserInfoViewModel;
 import edu.uw.tcss450.team3.tiktalk.model.WeatherRVModal;
 import edu.uw.tcss450.team3.tiktalk.ui.auth.signin.SignInFragmentDirections;
+import edu.uw.tcss450.team3.tiktalk.ui.connection.ContactRequestListViewModel;
 import edu.uw.tcss450.team3.tiktalk.ui.weather.WeatherDailyForecastItem;
 
 /*
@@ -63,14 +65,26 @@ public class HomeFragment extends Fragment {
     private RelativeLayout homeRL;
     private ProgressBar loadingPB;
 
+    // Hard coded for the location --> UWT
+    private static final String HARD_CODED_LATITUDE = "47.2454";
+    private static final String HARD_CODED_LONGITUDE = "-122.4385";
+    private static final String HARD_CODED_ZIPCODE = "98402";
+
+    // Notification
+    private HomeRequestNotificationViewModel homeRequestNotificationViewModel;
+    private HomeSentNotificationPendingViewModel homeSentNotificationPendingViewModel;
+
     public HomeFragment() {
         // Required empty public constructor
     }
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ViewModelProvider provider = new ViewModelProvider(getActivity());
+        mUserModel = provider.get(UserInfoViewModel.class);
+        homeRequestNotificationViewModel = provider.get(HomeRequestNotificationViewModel.class);
+        homeSentNotificationPendingViewModel = provider.get(HomeSentNotificationPendingViewModel.class);
     }
 
     @Override
@@ -117,6 +131,110 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        // Show the weather forecast at UWT in the case that Google play service doesn't work
+        getLatLonWeatherData(HARD_CODED_LATITUDE, HARD_CODED_LONGITUDE);
+
+        // Notification section
+        homeRequestNotificationViewModel.connectGet(mUserModel.getmJwt());
+        homeRequestNotificationViewModel = new ViewModelProvider(getActivity()).get(HomeRequestNotificationViewModel.class);
+        String requestNumber = homeRequestNotificationViewModel.getRequestNumber();
+        binding.friendRequestPending.setText(requestNumber);
+
+        homeSentNotificationPendingViewModel.connectGet(mUserModel.getmJwt());
+        homeSentNotificationPendingViewModel = new ViewModelProvider(getActivity()).get(HomeSentNotificationPendingViewModel.class);
+        String sentRequestNumber = homeSentNotificationPendingViewModel.getRequestNumber();
+        binding.sentRequestPending.setText(sentRequestNumber);
+    }
+
+    private void getLatLonWeatherData(String hardCodedLatitude, String hardCodedLongitude) {
+        mRequestWeatherQueue = Volley.newRequestQueue(getActivity());
+        String weatherURL = coorWeatherURL + hardCodedLatitude + "/" + hardCodedLongitude;
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, weatherURL, null,
+                new Response.Listener<JSONObject>() {
+                    @SuppressLint("NotifyDataSetChanged")
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        loadingPB.setVisibility(View.GONE);
+                        homeRL.setVisibility(View.VISIBLE);
+                        try {
+                            String cityName = response.getString("city");
+                            cityNameTV.setText(cityName);
+
+                            JSONObject jsonCurrentObject = response.getJSONObject("current");
+                            String currTemp = jsonCurrentObject.getString("tempF");
+                            temperatureTV.setText(currTemp + "°");
+                            String currCondition = jsonCurrentObject.getString("condition");
+                            conditionTV.setText(currCondition);
+                            String currIconValue = jsonCurrentObject.getString("iconValue");
+
+                            switch (currIconValue) {
+                                case "01d":
+                                    iconIV.setImageResource(R.drawable._01d);
+                                    break;
+                                case "02d":
+                                    iconIV.setImageResource(R.drawable._02d);
+                                    break;
+                                case "03d":
+                                    iconIV.setImageResource(R.drawable._03d);
+                                    break;
+                                case "04d":
+                                    iconIV.setImageResource(R.drawable._04d);
+                                    break;
+                                case "09d":
+                                    iconIV.setImageResource(R.drawable._09d);
+                                    break;
+                                case "10d":
+                                    iconIV.setImageResource(R.drawable._10d);
+                                    break;
+                                case "11d":
+                                    iconIV.setImageResource(R.drawable._11d);
+                                    break;
+                                case "13d":
+                                    iconIV.setImageResource(R.drawable._13d);
+                                    break;
+                                case "50d":
+                                    iconIV.setImageResource(R.drawable._50d);
+                                    break;
+                                case "01n":
+                                    iconIV.setImageResource(R.drawable._01n);
+                                    break;
+                                case "02n":
+                                    iconIV.setImageResource(R.drawable._02n);
+                                    break;
+                                case "03n":
+                                    iconIV.setImageResource(R.drawable._03n);
+                                    break;
+                                case "04n":
+                                    iconIV.setImageResource(R.drawable._04n);
+                                    break;
+                                case "09n":
+                                    iconIV.setImageResource(R.drawable._09n);
+                                    break;
+                                case "10n":
+                                    iconIV.setImageResource(R.drawable._10n);
+                                    break;
+                                case "11n":
+                                    iconIV.setImageResource(R.drawable._11n);
+                                    break;
+                                case "13n":
+                                    iconIV.setImageResource(R.drawable._13n);
+                                    break;
+                                case "50n":
+                                    iconIV.setImageResource(R.drawable._50n);
+                                    break;
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getActivity(), "Invalid location", Toast.LENGTH_SHORT).show();
+            }
+        });
+        mRequestWeatherQueue.add(request);
     }
 
     private void getWeatherData(Location location) {
@@ -135,8 +253,6 @@ public class HomeFragment extends Fragment {
                         try {
                             String cityName = response.getString("city");
                             cityNameTV.setText(cityName);
-
-                            System.out.println(cityName);
 
                             JSONObject jsonCurrentObject = response.getJSONObject("current");
                             String currTemp = jsonCurrentObject.getString("tempF");

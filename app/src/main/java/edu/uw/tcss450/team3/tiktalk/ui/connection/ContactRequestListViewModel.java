@@ -126,9 +126,6 @@ public class ContactRequestListViewModel extends AndroidViewModel {
 
     private void handleResult(final JSONObject response) {
         List<Contact> list;
-        if (!response.has("rowCount")) {
-            throw new IllegalStateException("Unexpected response in ContactListViewModel: " + response);
-        }
         try {
             list = new ArrayList<>();
             JSONArray contacts = response.getJSONArray("rows");
