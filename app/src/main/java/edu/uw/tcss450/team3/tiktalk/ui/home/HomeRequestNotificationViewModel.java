@@ -11,6 +11,7 @@ import androidx.lifecycle.Observer;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
@@ -47,8 +48,10 @@ public class HomeRequestNotificationViewModel extends AndroidViewModel {
         mContactRequestList.observe(owner, observer);
     }
 
+    private RequestQueue mRequestQueue;
     public void connectGet(final String jwt) {
         String url = getApplication().getResources().getString(R.string.base_url) + "contacts/" + "request";
+        mRequestQueue = Volley.newRequestQueue(getApplication());
         Request request = new JsonObjectRequest(
                 Request.Method.GET,
                 url,
@@ -68,12 +71,11 @@ public class HomeRequestNotificationViewModel extends AndroidViewModel {
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         //Instantiate the RequestQueue and add the request to the queue
-        Volley.newRequestQueue(getApplication().getApplicationContext())
-                .add(request);
+        //Volley.newRequestQueue(getApplication().getApplicationContext()).add(request);
+        mRequestQueue.add(request);
     }
 
     private void handleResult(final JSONObject response) {
-        List<Contact> list;
         try {
             if (!response.has("rowCount")) {
                 requestNumber = "0";

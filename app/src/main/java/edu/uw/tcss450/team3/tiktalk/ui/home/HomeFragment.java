@@ -13,11 +13,14 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -34,6 +37,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Objects;
+
 import edu.uw.tcss450.team3.tiktalk.R;
 import edu.uw.tcss450.team3.tiktalk.databinding.FragmentContactRequestBinding;
 import edu.uw.tcss450.team3.tiktalk.databinding.FragmentHomeBinding;
@@ -42,13 +47,15 @@ import edu.uw.tcss450.team3.tiktalk.model.LocationViewModel;
 import edu.uw.tcss450.team3.tiktalk.model.UserInfoViewModel;
 import edu.uw.tcss450.team3.tiktalk.model.WeatherRVModal;
 import edu.uw.tcss450.team3.tiktalk.ui.auth.signin.SignInFragmentDirections;
+import edu.uw.tcss450.team3.tiktalk.ui.connection.ContactRequestFragment;
 import edu.uw.tcss450.team3.tiktalk.ui.connection.ContactRequestListViewModel;
+import edu.uw.tcss450.team3.tiktalk.ui.connection.ContactSearchFragment;
 import edu.uw.tcss450.team3.tiktalk.ui.weather.WeatherDailyForecastItem;
 
 /*
  * A simple {@link Fragment} subclass.
  */
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements View.OnClickListener{
 
 
     private FragmentHomeBinding binding;
@@ -64,6 +71,11 @@ public class HomeFragment extends Fragment {
     private RequestQueue mRequestWeatherQueue;
     private RelativeLayout homeRL;
     private ProgressBar loadingPB;
+    private RelativeLayout homeRL2;
+    private ProgressBar loadingPB2;
+    private LinearLayout friendRequest;
+    private LinearLayout sentRequest;
+    private LinearLayout newChat;
 
     // Hard coded for the location --> UWT
     private static final String HARD_CODED_LATITUDE = "47.2454";
@@ -73,6 +85,7 @@ public class HomeFragment extends Fragment {
     // Notification
     private HomeRequestNotificationViewModel homeRequestNotificationViewModel;
     private HomeSentNotificationPendingViewModel homeSentNotificationPendingViewModel;
+    SwipeRefreshLayout swipeRefreshLayout;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -109,6 +122,28 @@ public class HomeFragment extends Fragment {
         iconIV = view.findViewById(R.id.idIVIcon);
         homeRL = view.findViewById(R.id.idRLHome);
         loadingPB = view.findViewById(R.id.idPBLoading);
+        homeRL2 = view.findViewById(R.id.idRLHome2);
+        loadingPB2 = view.findViewById(R.id.idPBLoading2);
+        friendRequest = view.findViewById(R.id.firstNoti);
+        sentRequest = view.findViewById(R.id.secondNoti);
+        newChat = view.findViewById(R.id.thirdNoti);
+        swipeRefreshLayout = view.findViewById(R.id.swipe_to_refresh);
+
+
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                swipeRefreshLayout.setRefreshing(true);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        swipeRefreshLayout.setRefreshing(false);
+                        homeNotification();
+                    }
+                }, 1000);
+            }
+        });
 
 
         LocationViewModel model = new ViewModelProvider(getActivity())
@@ -134,7 +169,13 @@ public class HomeFragment extends Fragment {
         // Show the weather forecast at UWT in the case that Google play service doesn't work
         getLatLonWeatherData(HARD_CODED_LATITUDE, HARD_CODED_LONGITUDE);
 
+        homeNotification();
+    }
+
+    private void homeNotification() {
         // Notification section
+        loadingPB2.setVisibility(View.GONE);
+        homeRL2.setVisibility(View.VISIBLE);
         homeRequestNotificationViewModel.connectGet(mUserModel.getmJwt());
         homeRequestNotificationViewModel = new ViewModelProvider(getActivity()).get(HomeRequestNotificationViewModel.class);
         String requestNumber = homeRequestNotificationViewModel.getRequestNumber();
@@ -144,7 +185,9 @@ public class HomeFragment extends Fragment {
         homeSentNotificationPendingViewModel = new ViewModelProvider(getActivity()).get(HomeSentNotificationPendingViewModel.class);
         String sentRequestNumber = homeSentNotificationPendingViewModel.getRequestNumber();
         binding.sentRequestPending.setText(sentRequestNumber);
+
     }
+
 
     private void getLatLonWeatherData(String hardCodedLatitude, String hardCodedLongitude) {
         mRequestWeatherQueue = Volley.newRequestQueue(getActivity());
@@ -157,6 +200,7 @@ public class HomeFragment extends Fragment {
                     public void onResponse(JSONObject response) {
                         loadingPB.setVisibility(View.GONE);
                         homeRL.setVisibility(View.VISIBLE);
+
                         try {
                             String cityName = response.getString("city");
                             cityNameTV.setText(cityName);
@@ -330,5 +374,8 @@ public class HomeFragment extends Fragment {
         mRequestWeatherQueue.add(request);
     }
 
+    @Override
+    public void onClick(View view) {
 
+    }
 }

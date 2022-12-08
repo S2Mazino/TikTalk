@@ -71,8 +71,6 @@ public class HomeSentNotificationPendingViewModel extends AndroidViewModel {
     }
 
     private void handleResult(final JSONObject response) {
-
-        System.out.println("response" + response);
         try {
             if (!response.has("rowCount")) {
                 sentRequestNumber = "0";
@@ -87,7 +85,6 @@ public class HomeSentNotificationPendingViewModel extends AndroidViewModel {
     }
 
     public String getRequestNumber() {
-        System.out.println("Sent" + sentRequestNumber);
         return sentRequestNumber;
     }
 
