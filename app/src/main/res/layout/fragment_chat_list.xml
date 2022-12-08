@@ -3,52 +3,51 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/layout_root"
+    android:id="@+id/chat_list_layout_root"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/list_root"
-        android:name="edu.uw.tcss450.team3.tiktalk.ui.chat.chatRoom.ChatFragment"
-        android:layout_width="396dp"
-        android:layout_height="664dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:orientation="vertical"
-        app:layoutManager="LinearLayoutManager"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_search_chatroom"
-        app:layout_constraintVertical_bias="0.0"
-        tools:context="edu.uw.tcss450.team3.tiktalk.ui.chat.chatList.ChatListFragment"
-        tools:listitem="@layout/fragment_chat_list_card" />
+    android:layout_height="match_parent"
+    android:background="@drawable/greadient_bg"
+    android:padding="10dp">
 
     <EditText
         android:id="@+id/text_search_chatroom"
-        android:layout_width="297dp"
-        android:layout_height="48dp"
+        android:layout_width="273dp"
+        android:layout_height="39dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:ems="10"
         android:hint="@string/hint_chatroom_name"
         android:inputType="textPersonName"
-        app:layout_constraintEnd_toStartOf="@+id/button_add_chatroom"
+        app:layout_constraintBottom_toTopOf="@+id/chatroom_list_root"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="visible"/>
 
     <Button
         android:id="@+id/button_add_chatroom"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:text="Create"
+        android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@+id/chatroom_list_root"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/text_search_chatroom" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/chatroom_list_root"
+        android:name="edu.uw.tcss450.team3.tiktalk.ui.chat.chatRoom.ChatFragment"
+        android:layout_width="375dp"
+        android:layout_height="703dp"
+        android:layout_marginStart="20dp"
+
+        android:layout_marginEnd="21dp"
+        app:layoutManager="LinearLayoutManager"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_search_chatroom"
+        tools:context="edu.uw.tcss450.team3.tiktalk.ui.chat.chatList.ChatListFragment"
+        tools:listitem="@layout/fragment_chat_list_card" />
+
     <!--    <androidx.constraintlayout.widget.ConstraintLayout-->
 <!--        android:id="@+id/layout_wait"-->
 <!--        android:layout_width="match_parent"-->

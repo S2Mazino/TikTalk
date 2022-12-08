@@ -153,7 +153,7 @@ public class WeatherFirstFragment extends Fragment {
         });
 
         // Show the weather forecast at UWT in the case that Google play service doesn't work
-        // getLatLonWeatherData(HARD_CODED_LATITUDE, HARD_CODED_LONGITUDE);
+        getLatLonWeatherData(HARD_CODED_LATITUDE, HARD_CODED_LONGITUDE);
 
         searchIV.setOnClickListener(new View.OnClickListener() {
             @Override

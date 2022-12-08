@@ -150,8 +150,8 @@ public class WeatherSecondFragment extends Fragment implements OnMapReadyCallbac
         latitude = String.valueOf(Double.parseDouble(latlong[0]));
         longitude = String.valueOf(Double.parseDouble(latlong[1]));
 
-        System.out.println("Lat: " + latitude);
-        System.out.println("Lon: " + longitude);
+//        System.out.println("Lat: " + latitude);
+//        System.out.println("Lon: " + longitude);
 
         Bundle bundle =  new Bundle();
         bundle.putString("latitude", latitude);

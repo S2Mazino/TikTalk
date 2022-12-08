@@ -4,6 +4,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,6 +17,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import edu.uw.tcss450.team3.tiktalk.R;
 import edu.uw.tcss450.team3.tiktalk.databinding.FragmentChatBinding;
 import edu.uw.tcss450.team3.tiktalk.model.UserInfoViewModel;
+import edu.uw.tcss450.team3.tiktalk.ui.chat.chatList.ChatListFragment;
+import edu.uw.tcss450.team3.tiktalk.ui.weather.WeatherSecondFragment;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -26,6 +31,9 @@ public class ChatFragment extends Fragment {
     private ChatViewModel mChatModel;
     private UserInfoViewModel mUserModel;
     private ChatSendViewModel mSendModel;
+    private ImageView backIV;
+    EditText editText;
+    Button button;
 
     public ChatFragment() {
         // Required empty public constructor
@@ -53,6 +61,9 @@ public class ChatFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         FragmentChatBinding binding = FragmentChatBinding.bind(getView());
+        backIV = view.findViewById(R.id.idIVBackToMap);
+        editText = view.findViewById(R.id.text_search_chatroom);
+        button = view.findViewById(R.id.button_add_chatroom);
 
         //SetRefreshing shows the internal Swiper view progress bar. Show this until messages load
         binding.swipeContainer.setRefreshing(true);
@@ -94,5 +105,14 @@ public class ChatFragment extends Fragment {
 //when we get the response back from the server, clear the edittext
         mSendModel.addResponseObserver(getViewLifecycleOwner(), response ->
                 binding.editMessage.setText(""));
+
+        backIV.setOnClickListener(new View.OnClickListener() {
+
+            ChatListFragment chatListFragment = new ChatListFragment();
+            @Override
+            public void onClick(View view) {
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.chat_layout_root, chatListFragment).commit();
+            }
+        });
     }
 }

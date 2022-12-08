@@ -2,10 +2,43 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/layout_root"
+    android:id="@+id/chat_layout_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.chat.chatRoom.ChatFragment">
+    tools:context=".ui.chat.chatRoom.ChatFragment"
+    android:background="@drawable/greadient_bg">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/idLLEdt"
+        android:weightSum="5"
+        app:layout_constraintStart_toStartOf="parent"
+        >
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:layout_gravity="center"
+            android:id="@+id/idIVBackToMap"
+            android:layout_margin="10dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_back"
+            app:tint="@color/white"
+            />
+
+        <TextView
+            android:id="@+id/backtochatlist"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Back to Chat List"
+            android:textSize="15dp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:paddingTop="12dp"/>
+    </LinearLayout>
 
     <EditText
         android:id="@+id/edit_message"
@@ -18,7 +51,7 @@
         android:inputType="textPersonName"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/button_send"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@id/idLLEdt"
         android:autofillHints="" />
 
     <ImageButton
@@ -39,24 +72,25 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toTopOf="@+id/edit_message"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/idLLEdt">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_messages"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
             android:orientation="vertical"
             app:layoutManager="LinearLayoutManager"
             tools:context="edu.uw.tcss450.team3.tiktalk.ChatFragment"
-            tools:listitem="@layout/fragment_chat_message"/>
+            tools:listitem="@layout/fragment_chat_message" />
+
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
