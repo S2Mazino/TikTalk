@@ -51,7 +51,7 @@ public class ChatListRecyclerViewAdapter extends RecyclerView.Adapter<ChatListRe
         holder.chatTitle.setText(mChatRoomsList.get(position).getTitle());
 
         holder.remove.setOnClickListener(button -> {
-            //mChatListViewModel.removeChatRoom(mJWT, mChatRoomsList.get(position).getChatID());
+            mChatListViewModel.removeChatroom(mJWT, mChatRoomsList.get(position).getChatID());
             mChatRoomsList.remove(mChatRoomsList.get(position));
             notifyDataSetChanged();
         });

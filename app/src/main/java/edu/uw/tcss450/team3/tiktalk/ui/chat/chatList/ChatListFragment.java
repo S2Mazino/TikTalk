@@ -9,6 +9,7 @@ import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
@@ -70,6 +71,11 @@ public class ChatListFragment extends Fragment implements ChatListListener {
 
         mChatListViewModel.addChatListObserver(getViewLifecycleOwner(), chatList -> {
             rv.setAdapter(new ChatListRecyclerViewAdapter(getActivity(), chatList, mUserModel.getmJwt(), this));
+        });
+
+        mBinding.buttonAddChatroom.setOnClickListener(button -> {
+            mChatListViewModel.addChatroom(mUserModel.getmJwt(), mBinding.textSearchChatroom.getText().toString());
+            mBinding.textSearchChatroom.setText("");
         });
     }
 
