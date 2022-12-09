@@ -75,10 +75,8 @@ public class MainActivity extends AppCompatActivity {
     BottomNavigationView bottomNavigationView;
     HomeFragment homeFragment = new HomeFragment();
     ConnectionFragment connectionFragment = new ConnectionFragment();
-    ContactFragment contactFragment = new ContactFragment();
     ChatListFragment chatListFragment = new ChatListFragment();
     WeatherFirstFragment weatherFirstFragment = new WeatherFirstFragment();
-    ChatFragment chatFragment = new ChatFragment();
     WeatherSecondFragment weatherSecondFragment = new WeatherSecondFragment();
     WeatherFragment weatherFragment = new WeatherFragment();
     ChangePasswordFragment changePasswordFragment = new ChangePasswordFragment();

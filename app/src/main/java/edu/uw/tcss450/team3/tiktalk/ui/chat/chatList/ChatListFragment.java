@@ -9,7 +9,9 @@ import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
@@ -30,6 +32,8 @@ import edu.uw.tcss450.team3.tiktalk.databinding.FragmentChatBinding;
 import edu.uw.tcss450.team3.tiktalk.databinding.FragmentChatListBinding;
 import edu.uw.tcss450.team3.tiktalk.databinding.FragmentContactBinding;
 import edu.uw.tcss450.team3.tiktalk.model.UserInfoViewModel;
+import edu.uw.tcss450.team3.tiktalk.ui.auth.register.RegisterFragmentDirections;
+import edu.uw.tcss450.team3.tiktalk.ui.auth.signin.SignInFragmentDirections;
 import edu.uw.tcss450.team3.tiktalk.ui.chat.ChatListListener;
 import edu.uw.tcss450.team3.tiktalk.ui.chat.chatRoom.ChatFragment;
 import edu.uw.tcss450.team3.tiktalk.ui.chat.chatRoom.ChatRoom;
@@ -81,7 +85,7 @@ public class ChatListFragment extends Fragment implements ChatListListener {
 
     @Override
     public void onItemClick(ChatRoom chatRoom) {
-        ChatFragment chatFragment = new ChatFragment();
+        ChatFragment chatFragment = new ChatFragment(chatRoom.getChatID());
         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.chat_list_layout_root, chatFragment).commit();
     }
 }
