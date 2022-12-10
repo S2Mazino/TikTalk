@@ -49,11 +49,8 @@
             android:src="@drawable/ic_add_circle"
             android:layout_marginBottom="10dp"
             app:tint="@color/white"
-            android:layout_weight="0"
+            android:layout_weight="0"/>
 
-            >
-
-        </ImageView>
     </LinearLayout>
 
     <EditText
