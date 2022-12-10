@@ -195,7 +195,7 @@ public class ChatViewModel extends AndroidViewModel {
                 );
                 if (!list.contains(cMessage)) {
                     // don't add a duplicate
-                    list.add(0, cMessage);
+                    list.add(cMessage);
                 } else {
                     // this shouldn't happen but could with the asynchronous
                     // nature of the application

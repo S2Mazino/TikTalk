@@ -37,7 +37,7 @@
         android:id="@+id/chatroom_list_root"
         android:name="edu.uw.tcss450.team3.tiktalk.ui.chat.chatRoom.ChatFragment"
         android:layout_width="375dp"
-        android:layout_height="703dp"
+        android:layout_height="650dp"
         android:layout_marginStart="20dp"
 
         android:layout_marginEnd="21dp"

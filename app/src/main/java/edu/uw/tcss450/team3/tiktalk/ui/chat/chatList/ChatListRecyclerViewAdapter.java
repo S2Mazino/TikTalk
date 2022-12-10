@@ -1,5 +1,6 @@
 package edu.uw.tcss450.team3.tiktalk.ui.chat.chatList;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,7 +48,7 @@ public class ChatListRecyclerViewAdapter extends RecyclerView.Adapter<ChatListRe
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ChatListViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ChatListViewHolder holder, @SuppressLint("RecyclerView") int position) {
         holder.chatTitle.setText(mChatRoomsList.get(position).getTitle());
 
         holder.remove.setOnClickListener(button -> {
@@ -80,7 +81,6 @@ public class ChatListRecyclerViewAdapter extends RecyclerView.Adapter<ChatListRe
         TextView chatTitle;
         ImageButton remove;
         CardView cardView;
-
 
         public ChatListViewHolder(View view) {
             super(view);

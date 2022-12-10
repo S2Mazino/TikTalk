@@ -107,8 +107,12 @@ public class ChatFragment extends Fragment {
                     binding.editMessage.getText().toString());
         });
 //when we get the response back from the server, clear the edittext
-        mSendModel.addResponseObserver(getViewLifecycleOwner(), response ->
-                binding.editMessage.setText(""));
+        mSendModel.addResponseObserver(getViewLifecycleOwner(), response -> {
+                    binding.editMessage.setText("");
+                mChatModel.getFirstMessages(mChatID, mUserModel.getmJwt());
+                rv.getAdapter().notifyDataSetChanged();
+        });
+
 
         backIV.setOnClickListener(new View.OnClickListener() {
 

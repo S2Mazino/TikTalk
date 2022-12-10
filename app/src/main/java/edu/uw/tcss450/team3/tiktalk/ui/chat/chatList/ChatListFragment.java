@@ -87,5 +87,6 @@ public class ChatListFragment extends Fragment implements ChatListListener {
     public void onItemClick(ChatRoom chatRoom) {
         ChatFragment chatFragment = new ChatFragment(chatRoom.getChatID());
         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.chat_list_layout_root, chatFragment).commit();
+
     }
 }
