@@ -119,6 +119,7 @@ public class ChatFragment extends Fragment {
             ChatListFragment chatListFragment = new ChatListFragment();
             @Override
             public void onClick(View view) {
+                //getActivity().getSupportFragmentManager().popBackStackImmediate();
                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.chat_layout_root, chatListFragment).commit();
             }
         });
