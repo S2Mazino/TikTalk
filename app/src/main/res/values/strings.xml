@@ -38,6 +38,7 @@
     <string name="hint_sent_request">Sent Request</string>
     <string name="hint_received_request">Pending Request</string>
     <string name="hint_search">Enter Email</string>
+    <string name="hint_contacts">Contacts</string>
 
     <string name="switch_sign_in">Stay Signed in</string>
     <string name="keys_shared_prefs">My Auth App Shared Prefs</string>

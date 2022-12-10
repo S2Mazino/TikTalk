@@ -33,6 +33,9 @@
         <argument
             android:name="chatID"
             app:argType="integer" />
+        <action
+            android:id="@+id/action_chatFragment_to_addContactsToChatFragment"
+            app:destination="@id/addContactsToChatFragment" />
     </fragment>
     <fragment
         android:id="@+id/weatherFirstFragment"
@@ -60,4 +63,12 @@
         android:id="@+id/contactFragment"
         android:name="edu.uw.tcss450.team3.tiktalk.ui.connection.ContactFragment"
         android:label="ContactFragment" />
+    <fragment
+        android:id="@+id/addContactsToChatFragment"
+        android:name="edu.uw.tcss450.team3.tiktalk.ui.chat.chatRoom.AddContactsToChatFragment"
+        android:label="AddContactsToChatFragment" >
+        <argument
+            android:name="chatID"
+            app:argType="integer" />
+    </fragment>
 </navigation>

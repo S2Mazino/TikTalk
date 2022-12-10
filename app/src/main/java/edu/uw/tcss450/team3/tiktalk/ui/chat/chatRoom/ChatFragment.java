@@ -34,6 +34,7 @@ public class ChatFragment extends Fragment {
     private UserInfoViewModel mUserModel;
     private ChatSendViewModel mSendModel;
     private ImageView backIV;
+    private ImageView addUser;
     EditText editText;
     Button button;
     private int mChatID;
@@ -68,6 +69,7 @@ public class ChatFragment extends Fragment {
         backIV = view.findViewById(R.id.idIVBackToMap);
         editText = view.findViewById(R.id.text_search_chatroom);
         button = view.findViewById(R.id.button_add_chatroom);
+        addUser = view.findViewById(R.id.addUserToChat);
 
         //SetRefreshing shows the internal Swiper view progress bar. Show this until messages load
         binding.swipeContainer.setRefreshing(true);
@@ -121,6 +123,15 @@ public class ChatFragment extends Fragment {
             public void onClick(View view) {
                 //getActivity().getSupportFragmentManager().popBackStackImmediate();
                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.chat_layout_root, chatListFragment).commit();
+            }
+        });
+
+        addUser.setOnClickListener(new View.OnClickListener() {
+            AddContactsToChatFragment addContactsToChatFragment = new AddContactsToChatFragment();
+
+            @Override
+            public void onClick(View view) {
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.chat_layout_root, addContactsToChatFragment).commit();
             }
         });
     }
