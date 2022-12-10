@@ -35,6 +35,7 @@ import edu.uw.tcss450.team3.tiktalk.model.UserInfoViewModel;
 import edu.uw.tcss450.team3.tiktalk.ui.auth.register.RegisterFragmentDirections;
 import edu.uw.tcss450.team3.tiktalk.ui.auth.signin.SignInFragmentDirections;
 import edu.uw.tcss450.team3.tiktalk.ui.chat.ChatListListener;
+import edu.uw.tcss450.team3.tiktalk.ui.chat.chatRoom.AddContactsToChatFragment;
 import edu.uw.tcss450.team3.tiktalk.ui.chat.chatRoom.ChatFragment;
 import edu.uw.tcss450.team3.tiktalk.ui.chat.chatRoom.ChatRoom;
 import edu.uw.tcss450.team3.tiktalk.ui.connection.ContactListViewModel;

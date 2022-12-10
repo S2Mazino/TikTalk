@@ -71,8 +71,8 @@ public class AddContactsToChatViewModel extends AndroidViewModel {
                 .add(request);
     }
 
-    public void removeUser(final String jwt, int friendID) {
-        String url = getApplication().getResources().getString(R.string.base_url) + "contacts/" + friendID;
+    public void removeUser(final String jwt, int chatID, final String email) {
+        String url = getApplication().getResources().getString(R.string.base_url) + "contacts/" + chatID + email;
         Request request = new JsonObjectRequest(
                 Request.Method.DELETE,
                 url,
@@ -96,16 +96,17 @@ public class AddContactsToChatViewModel extends AndroidViewModel {
                 .add(request);
     }
 
-    public void addUser(final String jwt, final int friendID) {
-        String url = getApplication().getResources().getString(R.string.base_url) + "contacts/" + "accept/";
+    public void addUser(final String jwt, int chatID, final String email) {
+        String url = getApplication().getResources().getString(R.string.base_url) + "chats/" + "addUser";
         JSONObject body = new JSONObject();
         try {
-            body.put("memberid", friendID);
+            body.put("chatid", chatID);
+            body.put("email", email);
         } catch (JSONException e) {
             e.printStackTrace();
         }
         Request request = new JsonObjectRequest(
-                Request.Method.PUT,
+                Request.Method.POST,
                 url,
                 body,
                 null, //do nothing with the response
@@ -139,7 +140,7 @@ public class AddContactsToChatViewModel extends AndroidViewModel {
                         contact.getString("lastname"),
                         contact.getString("nickname"),
                         contact.getString("email"),
-                        contact.getInt("memberid_a")
+                        contact.getInt("memberid_b")
                 );
                 if (!list.contains(cContact)) {
                     // don't add a duplicate

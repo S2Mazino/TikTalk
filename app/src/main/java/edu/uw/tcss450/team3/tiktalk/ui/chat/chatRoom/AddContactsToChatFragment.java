@@ -22,9 +22,10 @@ public class AddContactsToChatFragment extends Fragment {
     private UserInfoViewModel mUserModel;
     private AddContactsToChatViewModel mAddContactModel;
     private FragmentAddContactsToChatBinding mBinding;
+    private int mChatID;
 
-    public AddContactsToChatFragment() {
-
+    public AddContactsToChatFragment(int chatID) {
+        this.mChatID = chatID;
     }
 
     @Override
@@ -50,7 +51,7 @@ public class AddContactsToChatFragment extends Fragment {
         RecyclerView rv = mBinding.listContacts;
         mAddContactModel.addUserContactListObserver(getViewLifecycleOwner(), contacts -> {
             if(!contacts.isEmpty()) {
-                rv.setAdapter(new ChatUsersRecyclerViewAdapter(getActivity(), contacts, mUserModel.getmJwt()));
+                rv.setAdapter(new ChatUsersRecyclerViewAdapter(getActivity(), contacts, mUserModel.getmJwt(), mChatID));
             }
         });
     }

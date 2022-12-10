@@ -127,7 +127,7 @@ public class ChatFragment extends Fragment {
         });
 
         addUser.setOnClickListener(new View.OnClickListener() {
-            AddContactsToChatFragment addContactsToChatFragment = new AddContactsToChatFragment();
+            AddContactsToChatFragment addContactsToChatFragment = new AddContactsToChatFragment(mChatID);
 
             @Override
             public void onClick(View view) {

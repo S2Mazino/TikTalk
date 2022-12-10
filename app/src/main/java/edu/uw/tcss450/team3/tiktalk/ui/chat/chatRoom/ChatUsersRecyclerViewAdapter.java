@@ -1,6 +1,7 @@
 package edu.uw.tcss450.team3.tiktalk.ui.chat.chatRoom;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,12 +26,14 @@ public class ChatUsersRecyclerViewAdapter extends RecyclerView.Adapter<ChatUsers
     private final Context mContext;
     private final AddContactsToChatViewModel mAddContactListViewModel;
     private final String mJWT;
+    private int mChatID;
 
-    public ChatUsersRecyclerViewAdapter(Context context, List<Contact> contacts,String jwt) {
+    public ChatUsersRecyclerViewAdapter(Context context, List<Contact> contacts,String jwt, int chatID) {
         this.mContext = context;
         this.mContactList = contacts;
         mAddContactListViewModel = new ViewModelProvider((ViewModelStoreOwner) mContext).get(AddContactsToChatViewModel.class);
         this.mJWT = jwt;
+        this.mChatID = chatID;
     }
 
     @NonNull
@@ -51,15 +54,14 @@ public class ChatUsersRecyclerViewAdapter extends RecyclerView.Adapter<ChatUsers
 
         holder.remove.setOnClickListener(button -> {
             //Log.d("JSON onclick",  "Your ID: " + mContactList.get(position).getMemberID());
-            mAddContactListViewModel.removeUser(mJWT, mContactList.get(position).getMemberID());
-            mContactList.remove(mContactList.get(position));
+            mAddContactListViewModel.removeUser(mJWT, mChatID, mContactList.get(position).getEmail());
             notifyDataSetChanged();
         });
 
         holder.add.setOnClickListener(button -> {
             //Log.d("JSON onclick",  "Your ID: " + mContactList.get(position).getMemberID());
-            mAddContactListViewModel.addUser(mJWT, mContactList.get(position).getMemberID());
-            mContactList.remove(mContactList.get(position));
+            Log.d("chatID", String.valueOf(mChatID));
+            mAddContactListViewModel.addUser(mJWT, mChatID, mContactList.get(position).getEmail());
             notifyDataSetChanged();
         });
     }
