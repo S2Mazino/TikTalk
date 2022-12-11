@@ -70,7 +70,9 @@
         tools:layout="@layout/fragment_change_password_code" >
         <action
             android:id="@+id/action_changePasswordFragment_to_signInFragment"
-            app:destination="@id/signInFragment" />
+            app:destination="@id/signInFragment"
+            app:popUpTo="@id/signInFragment"
+            app:popUpToInclusive="true" />
         <argument
             android:name="memberID"
             app:argType="integer"
