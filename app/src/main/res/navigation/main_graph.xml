@@ -70,5 +70,9 @@
         <argument
             android:name="chatID"
             app:argType="integer" />
+        <action
+            android:id="@+id/action_addContactsToChatFragment_to_chatFragment"
+            app:destination="@id/chatFragment"
+            app:popUpTo="@id/chatFragment"/>
     </fragment>
 </navigation>

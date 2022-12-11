@@ -4,6 +4,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -128,8 +129,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
         sentRequest = view.findViewById(R.id.secondNoti);
         newChat = view.findViewById(R.id.thirdNoti);
         swipeRefreshLayout = view.findViewById(R.id.swipe_to_refresh);
-
-
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
