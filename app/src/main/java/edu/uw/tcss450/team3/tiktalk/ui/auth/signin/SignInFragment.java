@@ -88,8 +88,8 @@ public class SignInFragment extends Fragment {
                 this::observeResponse);
 
         SignInFragmentArgs args = SignInFragmentArgs.fromBundle(getArguments());
-        binding.editEmail.setText(args.getEmail().equals("default") ? "team3tiktalk@gmail.com" : args.getEmail());
-        binding.editPassword.setText(args.getPassword().equals("default") ? "Team3tiktalk!" : args.getPassword());
+        binding.editEmail.setText(args.getEmail().equals("default") ? "" : args.getEmail());
+        binding.editPassword.setText(args.getPassword().equals("default") ? "" : args.getPassword());
     }
 
     private void attemptSignIn(final View button) {
