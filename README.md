@@ -1,6 +1,15 @@
 # The 'TikTalk' Chat and Weather Application
 
     The 'TikTalk' Chat and Weather Application is the TCSS 450 - Mobile Application Development project, in Autumn 2022, at the University of Washington Tacoma. We developed a chat and weather application named 'TikTalk.' There are two major parts to the project: the android project (client side) and the web-service project (server side.) We implemented the Register, Sign-in, Home/Landing, Connection, Chat, and Weather pages on the client side. We implemented the Register, Sign-in, Weather API, Messages, Chats, Contacts, Pushy Register, Reset Code, and Reset Password services on the server side.
+    
+## Project repositories
+
+Android/Client side:
+[https://github.com/A-Kannika/Team-3-TCSS-450]
+
+Back-end/Server side:
+[https://github.com/A-Kannika/tiktalk-app-web-service]
+
 
 ## Project implementation
   
