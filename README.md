@@ -40,15 +40,15 @@
     - We designed and created our app icon to use through the app and show as the app icon on the mobile screen.
 
 ### Demo
-<img width="700" alt="Screen Shot 2022-12-22 at 6 03 19 PM" src="https://user-images.githubusercontent.com/49578771/209262972-726c0151-38d5-40ca-9b24-a356d4a3f204.png">
+<p align="center"><img width="700" alt="Screen Shot 2022-12-22 at 6 03 19 PM" src="https://user-images.githubusercontent.com/49578771/209262972-726c0151-38d5-40ca-9b24-a356d4a3f204.png"></p>
 
-<img width="700" alt="Screen Shot 2022-12-22 at 6 53 49 PM" src="https://user-images.githubusercontent.com/49578771/209262994-50ee7236-c2b8-4255-afd4-40a0a709223a.png">
+<p align="center"><img width="700" alt="Screen Shot 2022-12-22 at 6 53 49 PM" src="https://user-images.githubusercontent.com/49578771/209262994-50ee7236-c2b8-4255-afd4-40a0a709223a.png"></p>
 
-<img width="700" alt="Screen Shot 2022-12-22 at 6 54 21 PM" src="https://user-images.githubusercontent.com/49578771/209263003-d3a01871-372b-4171-b2e5-adceabac35a3.png">
+<p align="center"><img width="700" alt="Screen Shot 2022-12-22 at 6 54 21 PM" src="https://user-images.githubusercontent.com/49578771/209263003-d3a01871-372b-4171-b2e5-adceabac35a3.png"></p>
 
-<img width="700" alt="Screen Shot 2022-12-22 at 6 54 53 PM" src="https://user-images.githubusercontent.com/49578771/209263030-1cac24f6-19cf-4eb2-bb06-aa7cf1d7582e.png">
+<p align="center"><img width="700" alt="Screen Shot 2022-12-22 at 6 54 53 PM" src="https://user-images.githubusercontent.com/49578771/209263030-1cac24f6-19cf-4eb2-bb06-aa7cf1d7582e.png"></p>
 
-<img width="700" alt="Screen Shot 2022-12-22 at 6 55 40 PM" src="https://user-images.githubusercontent.com/49578771/209263037-993050bd-27cd-46ed-ac18-6effc6f1695d.png">
+<p align="center"><img width="700" alt="Screen Shot 2022-12-22 at 6 55 40 PM" src="https://user-images.githubusercontent.com/49578771/209263037-993050bd-27cd-46ed-ac18-6effc6f1695d.png"></p>
 
-<img width="700" alt="Screen Shot 2022-12-22 at 6 56 41 PM" src="https://user-images.githubusercontent.com/49578771/209263061-fe581df6-87e7-44d9-afdb-87eb6994f3b2.png">
+<p align="center"><img width="700" alt="Screen Shot 2022-12-22 at 6 56 41 PM" src="https://user-images.githubusercontent.com/49578771/209263061-fe581df6-87e7-44d9-afdb-87eb6994f3b2.png"></p>
 
