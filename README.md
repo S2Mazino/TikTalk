@@ -61,3 +61,11 @@ Back-end/Server side:
 
 <p align="center"><img width="700" alt="Screen Shot 2022-12-22 at 6 56 41 PM" src="https://user-images.githubusercontent.com/49578771/209263061-fe581df6-87e7-44d9-afdb-87eb6994f3b2.png"></p>
 
+
+### Guest Login
+Username: guest1@test.com
+Password: Test123!
+
+Username: guest2@test.com
+Password: Test123!
+
