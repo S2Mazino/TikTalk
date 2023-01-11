@@ -8,7 +8,7 @@ Android/Client side:
 [https://github.com/S2Mazino/TikTalk]
 
 Back-end/Server side:
-[https://github.com/A-Kannika/tiktalk-app-web-service]
+[https://github.com/S2Mazino/tiktalk-app-web-service]
 
 
 ## Project implementation
