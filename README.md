@@ -5,7 +5,7 @@
 ## Project repositories
 
 Android/Client side:
-[https://github.com/A-Kannika/Team-3-TCSS-450]
+[https://github.com/S2Mazino/TikTalk]
 
 Back-end/Server side:
 [https://github.com/A-Kannika/tiktalk-app-web-service]
